@@ -12,7 +12,7 @@ A software based modular synthesizer that can recreate microtones.
       * Change "JUCE Modules" to the modules folder within the downloaded JUCE folder using the ```...``` button.
         * Example: ```C:\Path\To\Folder\juce-*\modules```
       * Close the ```Global Paths...``` window.
-4. Choose Visual Studio 2019 as ```Selected exporter```, download it from [here](https://visualstudio.microsoft.com/vs/ "Visual Studio 2019 Download Page") if necessary, and click on the logo.  <img src="https://user-images.githubusercontent.com/68195709/139920230-ff2ca47c-8c65-49bf-adfc-e58c5a05546d.png" alt="drawing" width="25"/>
+    * Choose Visual Studio 2019 (download [link](https://visualstudio.microsoft.com/vs/ "Visual Studio 2019 Download Page")) as ```Selected exporter``` and click on the logo.  <img src="https://user-images.githubusercontent.com/68195709/139920230-ff2ca47c-8c65-49bf-adfc-e58c5a05546d.png" alt="drawing" width="25"/>
 5. Once Visual Studio 2019 is open, click <img src="https://user-images.githubusercontent.com/68195709/139921166-bfed9fe9-3452-4e62-b50f-7916a08391a6.png" alt="drawing" width="150"/> and the application will start.
 
 
