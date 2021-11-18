@@ -46,7 +46,6 @@
 
 
 #pragma once
-
 //==============================================================================
 struct SineWaveSound   : public juce::SynthesiserSound
 {
@@ -194,18 +193,28 @@ public:
         : synthAudioSource  (keyboardState),
           keyboardComponent (keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard)
     {
-        addAndMakeVisible (keyboardComponent);
-        setAudioChannels (0, 2);
-
+     
         header.setColour(juce::TextButton::buttonColourId, juce::Colours::cornflowerblue);
         header.setButtonText("Header");
         addAndMakeVisible(header);
+
+        lowerWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::black);
+        addAndMakeVisible(lowerWindow);
+
+        upperWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::black);
+        addAndMakeVisible(upperWindow);
+
+        keyboardWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
+        addAndMakeVisible(keyboardWindow);
+
+        addAndMakeVisible(keyboardComponent);
+        setAudioChannels(0, 2);
 
         footer.setColour(juce::TextButton::buttonColourId, juce::Colours::cornflowerblue);
         footer.setButtonText("Footer");
         addAndMakeVisible(footer);
 
-        sidebar.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
+        sidebar.setColour(juce::TextButton::buttonColourId, juce::Colours::black);
        // sidebar.setButtonText("Sidebar");
         addAndMakeVisible(sidebar);
 
@@ -231,7 +240,7 @@ public:
         addAndMakeVisible(sideItemB);
         addAndMakeVisible(sideItemC);
 
-        setSize (800, 800);
+        setSize (1200, 800);
         startTimer (400);
     }
 
@@ -257,19 +266,39 @@ public:
         sideItemB.setBounds(sideBarArea.removeFromTop(sideItemHeight).reduced(sideItemMargin));
         sideItemC.setBounds(sideBarArea.removeFromTop(sideItemHeight).reduced(sideItemMargin));
 
-        auto contentItemHeight = 24;
-        orangeContent.setBounds(area.removeFromTop(contentItemHeight));
-        limeContent.setBounds(area.removeFromTop(contentItemHeight));
-        grapefruitContent.setBounds(area.removeFromTop(contentItemHeight));
-        lemonContent.setBounds(area.removeFromTop(contentItemHeight));
+        // Set Lower Window
+        auto lowerWindowArea = area.removeFromBottom(getHeight() / 3);//.reduced(windowMargin);
+        lowerWindow.setBounds(lowerWindowArea);
 
-        auto keyboardHeight = 250;
+        // Set Upper Window
+        auto upperWindowArea = area.removeFromTop(getHeight() / 3 * 2);//.reduced(windowMargin);
+        upperWindow.setBounds(upperWindowArea);
+
+        // Set Keyboard Window
+        auto keyboardWindowHeight = upperWindowArea.getHeight() / 2;
+        auto keyboardWindowWidth = upperWindowArea.getWidth() * (6.0 / 7.0);
+        auto keyboardWindowMargin = 10;
+        auto keyboardWindowArea = upperWindowArea.removeFromBottom(keyboardWindowHeight).removeFromRight(keyboardWindowWidth).reduced(keyboardWindowMargin);
+        keyboardWindow.setBounds(keyboardWindowArea);
+
+        // Set Keyboard
+        auto keyboardMargin = 10;
+        auto keyboardWidthDelta = 0.2 * keyboardWindowArea.getWidth();
+        auto keyboardHeightDelta = 0.1 * keyboardWindowArea.getHeight();
+        auto keyboardArea = keyboardWindowArea.reduced(keyboardWidthDelta, keyboardHeightDelta);//.removeFromLeft(keyboardWidth);
+        keyboardComponent.setBounds(keyboardArea);
+        
+        keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 8);
+        keyboardComponent.setAvailableRange(72, 84);
+
+
+       /* auto keyboardHeight = 250;
         auto keyboardWidth = 640;
         auto keyboardArea = area.removeFromBottom(keyboardHeight).removeFromLeft(keyboardWidth);
         keyboardComponent.setBounds(keyboardArea);
-      //  keyboardComponent.setBounds(area.removeFromLeft(keyboardWidth));
+        keyboardComponent.setBounds(area.removeFromLeft(keyboardWidth));
         keyboardComponent.setKeyWidth(80);
-        keyboardComponent.setAvailableRange(72, 84);
+        keyboardComponent.setAvailableRange(72, 84);*/
     }
 
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override
@@ -304,6 +333,10 @@ private:
     juce::TextButton sideItemA; // [3]
     juce::TextButton sideItemB; // [4]
     juce::TextButton sideItemC; // [5]
+    
+    juce::TextButton keyboardWindow;
+    juce::TextButton lowerWindow;
+    juce::TextButton upperWindow;
 
     juce::TextButton limeContent;
     juce::TextButton grapefruitContent;
