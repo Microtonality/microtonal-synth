@@ -197,7 +197,41 @@ public:
         addAndMakeVisible (keyboardComponent);
         setAudioChannels (0, 2);
 
-        setSize (340, 160);
+        header.setColour(juce::TextButton::buttonColourId, juce::Colours::cornflowerblue);
+        header.setButtonText("Header");
+        addAndMakeVisible(header);
+
+        footer.setColour(juce::TextButton::buttonColourId, juce::Colours::cornflowerblue);
+        footer.setButtonText("Footer");
+        addAndMakeVisible(footer);
+
+        sidebar.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
+       // sidebar.setButtonText("Sidebar");
+        addAndMakeVisible(sidebar);
+
+        limeContent.setColour(juce::TextButton::buttonColourId, juce::Colours::lime);
+        addAndMakeVisible(limeContent);
+
+        grapefruitContent.setColour(juce::TextButton::buttonColourId, juce::Colours::yellowgreen);
+        addAndMakeVisible(grapefruitContent);
+
+        lemonContent.setColour(juce::TextButton::buttonColourId, juce::Colours::yellow);
+        addAndMakeVisible(lemonContent);
+
+        orangeContent.setColour(juce::TextButton::buttonColourId, juce::Colours::orange);
+        addAndMakeVisible(orangeContent);
+
+        sideItemA.setColour(juce::TextButton::buttonColourId, juce::Colours::maroon);
+        sideItemB.setColour(juce::TextButton::buttonColourId, juce::Colours::maroon);
+        sideItemC.setColour(juce::TextButton::buttonColourId, juce::Colours::maroon);
+        sideItemA.setButtonText("Item A");
+        sideItemB.setButtonText("Item B");
+        sideItemC.setButtonText("Item C");
+        addAndMakeVisible(sideItemA);
+        addAndMakeVisible(sideItemB);
+        addAndMakeVisible(sideItemC);
+
+        setSize (800, 800);
         startTimer (400);
     }
 
@@ -208,8 +242,33 @@ public:
 
     void resized() override
     {
-        keyboardComponent.setBounds (10, 10, getWidth() - 20, getHeight() - 20);
-        keyboardComponent.setKeyWidth(40);
+        auto area = getLocalBounds();
+
+        auto headerFooterHeight = 36;
+        header.setBounds(area.removeFromTop(headerFooterHeight));
+        footer.setBounds(area.removeFromBottom(headerFooterHeight));
+
+        auto sideBarArea = area.removeFromLeft(juce::jmax(80, area.getWidth() / 4));
+        sidebar.setBounds(sideBarArea);
+
+        auto sideItemHeight = 40;
+        auto sideItemMargin = 5;
+        sideItemA.setBounds(sideBarArea.removeFromTop(sideItemHeight).reduced(sideItemMargin));
+        sideItemB.setBounds(sideBarArea.removeFromTop(sideItemHeight).reduced(sideItemMargin));
+        sideItemC.setBounds(sideBarArea.removeFromTop(sideItemHeight).reduced(sideItemMargin));
+
+        auto contentItemHeight = 24;
+        orangeContent.setBounds(area.removeFromTop(contentItemHeight));
+        limeContent.setBounds(area.removeFromTop(contentItemHeight));
+        grapefruitContent.setBounds(area.removeFromTop(contentItemHeight));
+        lemonContent.setBounds(area.removeFromTop(contentItemHeight));
+
+        auto keyboardHeight = 250;
+        auto keyboardWidth = 640;
+        auto keyboardArea = area.removeFromBottom(keyboardHeight).removeFromLeft(keyboardWidth);
+        keyboardComponent.setBounds(keyboardArea);
+      //  keyboardComponent.setBounds(area.removeFromLeft(keyboardWidth));
+        keyboardComponent.setKeyWidth(80);
         keyboardComponent.setAvailableRange(72, 84);
     }
 
@@ -239,6 +298,18 @@ private:
     juce::MidiKeyboardState keyboardState;
     SynthAudioSource synthAudioSource;
     juce::MidiKeyboardComponent keyboardComponent;
+    juce::TextButton header;
+    juce::TextButton sidebar;
+
+    juce::TextButton sideItemA; // [3]
+    juce::TextButton sideItemB; // [4]
+    juce::TextButton sideItemC; // [5]
+
+    juce::TextButton limeContent;
+    juce::TextButton grapefruitContent;
+    juce::TextButton lemonContent;
+    juce::TextButton orangeContent;
+    juce::TextButton footer;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
