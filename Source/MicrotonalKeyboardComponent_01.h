@@ -207,6 +207,17 @@ public:
         keyboardWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
         addAndMakeVisible(keyboardWindow);
 
+        baseFreqInput.setFont(juce::Font(16.0f, juce::Font::bold));
+        baseFreqInput.setText("440Hz");
+        addAndMakeVisible(baseFreqInput);
+
+        baseFreqLabel.setFont(juce::Font(16.0f, juce::Font::bold));
+        baseFreqLabel.setText("Base Frequency", juce::dontSendNotification);
+        baseFreqLabel.attachToComponent(&baseFreqInput, true);
+        baseFreqLabel.setColour(juce::Label::textColourId, juce::Colours::lightgreen);
+        baseFreqLabel.setJustificationType(juce::Justification::centred);
+        addAndMakeVisible(baseFreqLabel);
+
         addAndMakeVisible(keyboardComponent);
         setAudioChannels(0, 2);
 
@@ -218,17 +229,7 @@ public:
        // sidebar.setButtonText("Sidebar");
         addAndMakeVisible(sidebar);
 
-        limeContent.setColour(juce::TextButton::buttonColourId, juce::Colours::lime);
-        addAndMakeVisible(limeContent);
-
-        grapefruitContent.setColour(juce::TextButton::buttonColourId, juce::Colours::yellowgreen);
-        addAndMakeVisible(grapefruitContent);
-
-        lemonContent.setColour(juce::TextButton::buttonColourId, juce::Colours::yellow);
-        addAndMakeVisible(lemonContent);
-
-        orangeContent.setColour(juce::TextButton::buttonColourId, juce::Colours::orange);
-        addAndMakeVisible(orangeContent);
+        
 
         sideItemA.setColour(juce::TextButton::buttonColourId, juce::Colours::maroon);
         sideItemB.setColour(juce::TextButton::buttonColourId, juce::Colours::maroon);
@@ -287,8 +288,11 @@ public:
         auto keyboardHeightDelta = 0.1 * keyboardWindowArea.getHeight();
         auto keyboardArea = keyboardWindowArea.reduced(keyboardWidthDelta, keyboardHeightDelta);//.removeFromLeft(keyboardWidth);
         keyboardComponent.setBounds(keyboardArea);
+
+        // Set basefreq 
+        baseFreqInput.setBounds(upperWindowArea.getWidth() / 4, upperWindowArea.getHeight() * (95.0 / 100), 50, 20);
         
-        keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 8);
+        keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 8.0);
         keyboardComponent.setAvailableRange(72, 84);
 
 
@@ -338,10 +342,9 @@ private:
     juce::TextButton lowerWindow;
     juce::TextButton upperWindow;
 
-    juce::TextButton limeContent;
-    juce::TextButton grapefruitContent;
-    juce::TextButton lemonContent;
-    juce::TextButton orangeContent;
+    juce::Label baseFreqLabel;
+    juce::TextEditor baseFreqInput;
+
     juce::TextButton footer;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
