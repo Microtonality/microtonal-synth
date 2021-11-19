@@ -209,14 +209,14 @@ public:
 
         baseFreqInput.setFont(juce::Font(16.0f, juce::Font::bold));
         baseFreqInput.setText("440Hz");
-        addAndMakeVisible(baseFreqInput);
+       // addAndMakeVisible(baseFreqInput);
 
         baseFreqLabel.setFont(juce::Font(16.0f, juce::Font::bold));
         baseFreqLabel.setText("Base Frequency", juce::dontSendNotification);
         baseFreqLabel.attachToComponent(&baseFreqInput, true);
         baseFreqLabel.setColour(juce::Label::textColourId, juce::Colours::lightgreen);
         baseFreqLabel.setJustificationType(juce::Justification::centred);
-        addAndMakeVisible(baseFreqLabel);
+       // addAndMakeVisible(baseFreqLabel);
 
         addAndMakeVisible(keyboardComponent);
         setAudioChannels(0, 2);
