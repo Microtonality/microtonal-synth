@@ -72,7 +72,8 @@ struct SineWaveVoice   : public juce::SynthesiserVoice
         level = velocity * 0.15;
         tailOff = 0.0;
 
-        auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz (midiNoteNumber);
+        //auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz (midiNoteNumber);
+        auto cyclesPerSecond = 440 * std::pow(2.0, (midiNoteNumber - 69) / 12.0); //change this for key mapping
         auto cyclesPerSample = cyclesPerSecond / getSampleRate();
 
         angleDelta = cyclesPerSample * 2.0 * juce::MathConstants<double>::pi;
@@ -103,7 +104,32 @@ struct SineWaveVoice   : public juce::SynthesiserVoice
             {
                 while (--numSamples >= 0)
                 {
-                    auto currentSample = (float) (std::sin (currentAngle) * level * tailOff);
+                    //Triangle wave
+					// auto soundval = 2 * fmod(currentAngle, 2 * juce::MathConstants<double>::pi) / juce::MathConstants<double>::pi - 2;
+     //                if (soundval > 0) {
+     //                    soundval = soundval * -1.0;
+     //                }
+     //                soundval += 1;
+
+                    // Sawtooth wave
+                    // auto soundval = fmod(currentAngle, 2 * juce::MathConstants<double>::pi) / juce::MathConstants<double>::pi - 1;
+
+                    //Square wave
+                    auto soundval = fmod(currentAngle, 2 *
+                    juce::MathConstants<double>::pi) /
+                    juce::MathConstants<double>::pi - 1;;
+                    if (soundval > 0.0) {
+                        soundval = 1.0;
+                    }
+                    else {
+                        soundval = -1.0;
+                    }
+
+                    auto currentSample = (float)
+                    (soundval * level * tailOff);
+
+                    //Sine wave
+					//auto currentSample = (float) (std::sin (currentAngle) * level * tailOff);
 
                     for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
                         outputBuffer.addSample (i, startSample, currentSample);
@@ -126,7 +152,32 @@ struct SineWaveVoice   : public juce::SynthesiserVoice
             {
                 while (--numSamples >= 0) // [6]
                 {
-                    auto currentSample = (float) (std::sin (currentAngle) * level);
+                    //Triangle wave
+                    // auto soundval = 2 * fmod(currentAngle, 2 * juce::MathConstants<double>::pi) / juce::MathConstants<double>::pi - 2;
+     //                if (soundval > 0) {
+     //                    soundval = soundval * -1.0;
+     //                }
+     //                soundval += 1;
+
+                    // Sawtooth wave
+                    // auto soundval = fmod(currentAngle, 2 * juce::MathConstants<double>::pi) / juce::MathConstants<double>::pi - 1;
+
+                    //Square wave
+                    auto soundval = fmod(currentAngle, 2 *
+                    juce::MathConstants<double>::pi) /
+                    juce::MathConstants<double>::pi - 1;;
+                    if (soundval > 0.0) {
+                        soundval = 1.0;
+                    }
+                    else {
+                        soundval = -1.0;
+                    }
+
+                    auto currentSample = (float)
+                    (soundval * level);
+
+                    //Sine wave
+                    //auto currentSample = (float) (std::sin (currentAngle) * level);
 
                     for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
                         outputBuffer.addSample (i, startSample, currentSample);
