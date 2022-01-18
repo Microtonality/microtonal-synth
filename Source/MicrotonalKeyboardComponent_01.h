@@ -103,6 +103,7 @@ struct SineWaveVoice   : public juce::SynthesiserVoice
 
     void renderNextBlock (juce::AudioSampleBuffer& outputBuffer, int startSample, int numSamples) override
     {
+        auto amplitude = 0.5;
         if (angleDelta != 0.0)
         {
             if (tailOff > 0.0) // [7]
@@ -131,10 +132,10 @@ struct SineWaveVoice   : public juce::SynthesiserVoice
                     }
 
                     auto currentSample = (float)
-                    (soundval * level * tailOff);
+                    (soundval * level * tailOff * amplitude);
 
                     //Sine wave
-					//auto currentSample = (float) (std::sin (currentAngle) * level * tailOff);
+					//auto currentSample = (float) (std::sin (currentAngle) * level * tailOff * amplitude);
 
                     for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
                         outputBuffer.addSample (i, startSample, currentSample);
@@ -179,10 +180,10 @@ struct SineWaveVoice   : public juce::SynthesiserVoice
                     }
 
                     auto currentSample = (float)
-                    (soundval * level);
+                    (soundval * level * amplitude);
 
                     //Sine wave
-                    //auto currentSample = (float) (std::sin (currentAngle) * level);
+                    //auto currentSample = (float) (std::sin (currentAngle) * level * amplitude);
 
                     for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
                         outputBuffer.addSample (i, startSample, currentSample);
