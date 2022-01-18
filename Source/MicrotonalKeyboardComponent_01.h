@@ -258,9 +258,25 @@ public:
         keyboardWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
         addAndMakeVisible(keyboardWindow);
 
-        baseFreqInput.setFont(juce::Font(16.0f, juce::Font::bold));
+        baseFreqInput.setFont(juce::Font(18.0f, juce::Font::bold));
         baseFreqInput.setText("440Hz");
        // addAndMakeVisible(baseFreqInput);
+
+        divisionInput.setFont(juce::Font(20.0f, juce::Font::bold));
+        divisionInput.setText("12", juce::dontSendNotification);
+        divisionInput.setColour(juce::Label::textColourId, juce::Colours::orange);
+        divisionInput.setJustificationType(juce::Justification::centred);
+        divisionInput.setEditable(true);
+        divisionInput.setColour(juce::Label::backgroundColourId, juce::Colours::darkblue);
+        divisionInput.onTextChange = [this] { divisionInput.setText(divisionInput.getText().toUpperCase(), juce::sendNotification); };
+        addAndMakeVisible(divisionInput);
+
+        divisionLabel.setFont(juce::Font(20.0f, juce::Font::bold));
+        divisionLabel.setText("Divisions", juce::dontSendNotification);
+        divisionLabel.attachToComponent(&divisionInput, true);
+        divisionLabel.setColour(juce::Label::textColourId, juce::Colours::lightgreen);
+        divisionLabel.setJustificationType(juce::Justification::centred);
+        addAndMakeVisible(divisionLabel);
 
         baseFreqLabel.setFont(juce::Font(16.0f, juce::Font::bold));
         baseFreqLabel.setText("Base Frequency", juce::dontSendNotification);
@@ -326,6 +342,11 @@ public:
         auto upperWindowArea = area.removeFromTop(getHeight() / 3 * 2);//.reduced(windowMargin);
         upperWindow.setBounds(upperWindowArea);
 
+        //set division label
+        auto divisionHeight = 50;
+        auto divisionWidth = 50;
+        divisionInput.setBounds(upperWindow.getX() + 100, upperWindow.getY() + 40, divisionWidth, divisionHeight);
+
         // Set Keyboard Window
         auto keyboardWindowHeight = upperWindowArea.getHeight() / 2;
         auto keyboardWindowWidth = upperWindowArea.getWidth() * (6.0 / 7.0);
@@ -381,6 +402,7 @@ private:
     //==========================================================================
     juce::MidiKeyboardState keyboardState;
     SynthAudioSource synthAudioSource;
+
     juce::MidiKeyboardComponent keyboardComponent;
     juce::TextButton header;
     juce::TextButton sidebar;
@@ -394,7 +416,9 @@ private:
     juce::TextButton upperWindow;
 
     juce::Label baseFreqLabel;
+    juce::Label divisionLabel;
     juce::TextEditor baseFreqInput;
+    juce::Label divisionInput;
 
     juce::TextButton footer;
 
