@@ -435,6 +435,8 @@ private:
         stopTimer();
     }
 
+
+    int test = 1;
     int divisions = 12;
     double frequency = 440.0;
     //==========================================================================
