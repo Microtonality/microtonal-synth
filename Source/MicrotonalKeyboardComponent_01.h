@@ -48,6 +48,7 @@
 #pragma once
 #include <string> 
 #include <cctype> 
+#include <math.h>
 #include <iostream>
 #include <algorithm>
 using namespace std;
@@ -262,14 +263,16 @@ public:
         addAndMakeVisible(upperWindow);
 
         keyboardWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
+        keyboardWindow.setColour(juce::ComboBox::outlineColourId, juce::Colours::white);
         addAndMakeVisible(keyboardWindow);
 
         divisionInput.setFont(juce::Font(20.0f, juce::Font::bold));
         divisionInput.setText(to_string(divisions), juce::dontSendNotification);
-        divisionInput.setColour(juce::Label::textColourId, juce::Colours::orange);
+        divisionInput.setColour(juce::Label::textColourId, juce::Colours::white);
         divisionInput.setJustificationType(juce::Justification::centred);
         divisionInput.setEditable(true);
-        divisionInput.setColour(juce::Label::backgroundColourId, juce::Colours::darkblue);
+        divisionInput.setColour(juce::Label::backgroundColourId, juce::Colours::maroon);
+        divisionInput.setColour(juce::Label::outlineColourId, juce::Colours::white);
         divisionInput.onTextChange = [this] { 
 
             if (all_of(divisionInput.getText().begin(), divisionInput.getText().end(), isdigit) && divisionInput.getText().getIntValue() >= 12
@@ -285,22 +288,29 @@ public:
         divisionLabel.setFont(juce::Font(20.0f, juce::Font::bold));
         divisionLabel.setText("Divisions", juce::dontSendNotification);
         divisionLabel.attachToComponent(&divisionInput, true);
-        divisionLabel.setColour(juce::Label::textColourId, juce::Colours::lightgreen);
+        divisionLabel.setColour(juce::Label::textColourId, juce::Colours::white);
+        divisionLabel.setColour(juce::Label::backgroundColourId, juce::Colours::maroon);
+        divisionLabel.setColour(juce::Label::outlineColourId, juce::Colours::white);
+        divisionLabel.setColour(juce::Label::backgroundColourId, juce::Colours::cornflowerblue);
+        divisionLabel.setColour(juce::Label::outlineColourId, juce::Colours::white);
         divisionLabel.setJustificationType(juce::Justification::centred);
         addAndMakeVisible(divisionLabel);
 
-        baseFreqInput.setFont(juce::Font(20.0f, juce::Font::bold));
-        baseFreqInput.setText(to_string(frequency), juce::dontSendNotification);
-        baseFreqInput.setColour(juce::Label::textColourId, juce::Colours::orange);
+        baseFreqInput.setFont(juce::Font(18.0f, juce::Font::bold));
+        baseFreqInput.setText(to_string((int)frequency), juce::dontSendNotification);
+        baseFreqInput.setColour(juce::Label::textColourId, juce::Colours::white);
+        baseFreqInput.setColour(juce::Label::outlineColourId, juce::Colours::white);
+        baseFreqInput.setColour(juce::Label::backgroundColourId, juce::Colours::maroon);
         baseFreqInput.setJustificationType(juce::Justification::centred);
         baseFreqInput.setEditable(true);
-        baseFreqInput.setColour(juce::Label::backgroundColourId, juce::Colours::darkblue);
         addAndMakeVisible(baseFreqInput);
 
         baseFreqLabel.setFont(juce::Font(20.0f, juce::Font::bold));
-        baseFreqLabel.setText("Base Frequency", juce::dontSendNotification);
+        baseFreqLabel.setText("Frequency", juce::dontSendNotification);
         baseFreqLabel.attachToComponent(&baseFreqInput, true);
-        baseFreqLabel.setColour(juce::Label::textColourId, juce::Colours::lightgreen);
+        baseFreqLabel.setColour(juce::Label::textColourId, juce::Colours::white);
+        baseFreqLabel.setColour(juce::Label::backgroundColourId, juce::Colours::cornflowerblue);
+        baseFreqLabel.setColour(juce::Label::outlineColourId, juce::Colours::white);
         baseFreqLabel.setJustificationType(juce::Justification::centred);
         addAndMakeVisible(baseFreqLabel);
 
@@ -361,22 +371,24 @@ public:
         auto upperWindowArea = area.removeFromTop(getHeight() / 3 * 2);//.reduced(windowMargin);
         upperWindow.setBounds(upperWindowArea);
 
-        // Set division label
-        auto divisionHeight = upperWindow.getHeight() / 10;//juce::jmin(50, upperWindow.getHeight() / 5);
-        auto divisionWidth = upperWindow.getWidth() / 10;//juce::jmin(50, upperWindow.getWidth() / 5);
-        divisionInput.setBounds(upperWindow.getX() + 100, upperWindow.getY() + 40, divisionWidth, divisionHeight);
-
-        // Set frequency label
-        auto frequencyHeight = upperWindow.getHeight() / 10;
-        auto frequencyWidth = upperWindow.getWidth() / 10;
-        baseFreqInput.setBounds(divisionInput.getX(), divisionInput.getY(), 50, 50);//baseFreqInput.setBounds(upperWindow.getX() + 200, upperWindow.getY() + 80, frequencyWidth, frequencyHeight);
-
         // Set Keyboard Window
         auto keyboardWindowHeight = upperWindowArea.getHeight() / 2;
         auto keyboardWindowWidth = upperWindowArea.getWidth() * (6.0 / 7.0);
         auto keyboardWindowMargin = 10;
         auto keyboardWindowArea = upperWindowArea.removeFromBottom(keyboardWindowHeight).removeFromRight(keyboardWindowWidth).reduced(keyboardWindowMargin);
         keyboardWindow.setBounds(keyboardWindowArea);
+
+        // Set division label
+        auto divisionHeight = keyboardWindow.getHeight() / 4;
+        auto divisionWidth = keyboardWindow.getWidth() / 10;
+        divisionInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() / 2 - divisionHeight, divisionWidth, divisionHeight);//divisionInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY(), divisionWidth, divisionHeight);
+        divisionLabel.setBounds(upperWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() / 2 - divisionHeight, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, divisionHeight);
+
+        // Set frequency label
+        auto frequencyHeight = divisionHeight;
+        auto frequencyWidth = divisionWidth;
+        baseFreqInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() / 2, frequencyWidth, frequencyHeight);//baseFreqInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() - frequencyHeight, frequencyWidth, frequencyHeight);//baseFreqInput.setBounds(upperWindow.getX() + 200, upperWindow.getY() + 80, frequencyWidth, frequencyHeight);
+        baseFreqLabel.setBounds(upperWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() / 2, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
 
         // Set Keyboard
         auto keyboardMargin = 10;
@@ -386,7 +398,7 @@ public:
         keyboardComponent.setBounds(keyboardArea);
 
         // Set basefreq 
-        baseFreqInput.setBounds(upperWindowArea.getWidth() / 4, upperWindowArea.getHeight() * (95.0 / 100), 50, 20);
+       // baseFreqInput.setBounds(upperWindowArea.getWidth() / 4, upperWindowArea.getHeight() * (95.0 / 100), 50, 20);
         
         keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 8.0);
         keyboardComponent.setAvailableRange(72, 84);
@@ -424,7 +436,7 @@ private:
     }
 
     int divisions = 12;
-    double frequency = 440;
+    double frequency = 440.0;
     //==========================================================================
     juce::MidiKeyboardState keyboardState;
     SynthAudioSource synthAudioSource;
