@@ -244,7 +244,8 @@ private:
 
 //==============================================================================
 class MainContentComponent   : public juce::AudioAppComponent,
-                               private juce::Timer
+                               private juce::Timer,
+                               public Button::Listener
 {
 public:
     MainContentComponent()
@@ -313,6 +314,11 @@ public:
         baseFreqLabel.setColour(juce::Label::outlineColourId, juce::Colours::white);
         baseFreqLabel.setJustificationType(juce::Justification::centred);
         addAndMakeVisible(baseFreqLabel);
+
+        generateFrequencies.setColour(juce::TextButton::buttonColourId, juce::Colours::maroon);
+        generateFrequencies.setButtonText("Generate");
+        generateFrequencies.addListener(this);
+        addAndMakeVisible(generateFrequencies);
 
         addAndMakeVisible(keyboardComponent);
         setAudioChannels(0, 2);
@@ -403,7 +409,7 @@ public:
         keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 8.0);
         keyboardComponent.setAvailableRange(72, 84);
 
-
+        generateFrequencies.setBounds(upperWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() * 3 / 4, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
        /* auto keyboardHeight = 250;
         auto keyboardWidth = 640;
         auto keyboardArea = area.removeFromBottom(keyboardHeight).removeFromLeft(keyboardWidth);
@@ -428,6 +434,26 @@ public:
         synthAudioSource.releaseResources();
     }
 
+    void buttonClicked(Button* btn) override 
+    {
+        const juce::String btnText = btn->getButtonText();
+        const juce::String generateBtnText = "Generate";
+
+        if (btnText == generateBtnText) genFreqFunc();
+    }
+
+    void genFreqFunc() {
+        double total_divisions = divisionInput.getText().getDoubleValue();
+        double base_freq = baseFreqInput.getText().getDoubleValue();
+        vector<double> frequencies;    // Dynamic array to store frequencies
+        for (int i = 0; i <= total_divisions; i++) {
+            double step_calc = (i / total_divisions);
+            frequencies.push_back(base_freq * pow(2, step_calc));
+        }
+        for (auto i : frequencies) {
+            DBG(i);
+        }
+    }
 private:
     void timerCallback() override
     {
@@ -460,6 +486,7 @@ private:
     juce::Label baseFreqInput;
     juce::Label divisionInput;
 
+    juce::TextButton generateFrequencies;
 
     juce::TextButton footer;
 
