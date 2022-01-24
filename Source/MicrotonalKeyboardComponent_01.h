@@ -256,15 +256,21 @@ public:
                                     juce::Colour(87,87,87),   // sidebar button background
                                     juce::Colour(120,120,120), // input background color
                                     juce::Colour(19,243,67) // input outline and text color
-                                    }; 
+                                    };
+        enum coloursEnum {
+            backgroundColor,
+            sidebarBtnBackgroundColor,
+            inputBackgroundColor,
+            inputOutlineTextColor
+        };
         header.setColour(juce::TextButton::buttonColourId, juce::Colours::cornflowerblue);
         header.setButtonText("Header");
         //addAndMakeVisible(header);
 
-        lowerWindow.setColour(juce::TextButton::buttonColourId, colours[0]);
+        lowerWindow.setColour(juce::TextButton::buttonColourId, colours[backgroundColor]);
         addAndMakeVisible(lowerWindow);
 
-        upperWindow.setColour(juce::TextButton::buttonColourId, colours[0]);
+        upperWindow.setColour(juce::TextButton::buttonColourId, colours[backgroundColor]);
         addAndMakeVisible(upperWindow);
 
         keyboardWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
@@ -276,8 +282,8 @@ public:
         divisionInput.setColour(juce::Label::textColourId, juce::Colours::black);
         divisionInput.setJustificationType(juce::Justification::centred);
         divisionInput.setEditable(true);
-        divisionInput.setColour(juce::Label::backgroundColourId, colours[2]);
-        divisionInput.setColour(juce::Label::outlineColourId, colours[3]);
+        divisionInput.setColour(juce::Label::backgroundColourId, colours[inputBackgroundColor]);
+        divisionInput.setColour(juce::Label::outlineColourId, colours[inputOutlineTextColor]);
         divisionInput.onTextChange = [this] { 
 
             if (all_of(divisionInput.getText().begin(), divisionInput.getText().end(), isdigit) && divisionInput.getText().getIntValue() >= 12
@@ -294,16 +300,16 @@ public:
         divisionLabel.setText("Notes per octave:", juce::dontSendNotification);
         divisionLabel.attachToComponent(&divisionInput, true);
         divisionLabel.setColour(juce::Label::textColourId, colours[3]);
-        divisionLabel.setColour(juce::Label::backgroundColourId, colours[0]);
-        divisionLabel.setColour(juce::Label::outlineColourId, colours[0]);
+        divisionLabel.setColour(juce::Label::backgroundColourId, colours[backgroundColor]);
+        divisionLabel.setColour(juce::Label::outlineColourId, colours[backgroundColor]);
         divisionLabel.setJustificationType(juce::Justification::centred);
         addAndMakeVisible(divisionLabel);
 
         baseFreqInput.setFont(juce::Font(18.0f, juce::Font::bold));
         baseFreqInput.setText(to_string((int)frequency), juce::dontSendNotification);
         baseFreqInput.setColour(juce::Label::textColourId, juce::Colours::black);
-        baseFreqInput.setColour(juce::Label::outlineColourId, colours[3]);
-        baseFreqInput.setColour(juce::Label::backgroundColourId, colours[2]);
+        baseFreqInput.setColour(juce::Label::outlineColourId, colours[inputOutlineTextColor]);
+        baseFreqInput.setColour(juce::Label::backgroundColourId, colours[inputBackgroundColor]);
         baseFreqInput.setJustificationType(juce::Justification::centred);
         baseFreqInput.setEditable(true);
         addAndMakeVisible(baseFreqInput);
@@ -311,21 +317,19 @@ public:
         baseFreqLabel.setFont(juce::Font(20.0f, juce::Font::bold));
         baseFreqLabel.setText("Base Frequency:", juce::dontSendNotification);
         baseFreqLabel.attachToComponent(&baseFreqInput, true);
-        baseFreqLabel.setColour(juce::Label::textColourId, colours[3]);
-        baseFreqLabel.setColour(juce::Label::backgroundColourId, colours[0]);
-        baseFreqLabel.setColour(juce::Label::outlineColourId, colours[0]);
+        baseFreqLabel.setColour(juce::Label::textColourId, colours[inputOutlineTextColor]);
+        baseFreqLabel.setColour(juce::Label::backgroundColourId, colours[backgroundColor]);
+        baseFreqLabel.setColour(juce::Label::outlineColourId, colours[backgroundColor]);
         baseFreqLabel.setJustificationType(juce::Justification::centred);
         addAndMakeVisible(baseFreqLabel);
 
-        generateFrequencies.setColour(juce::TextButton::buttonColourId, colours[2]);
-        generateFrequencies.setColour(juce::TextButton::textColourOffId, colours[3]);
+        generateFrequencies.setColour(juce::TextButton::buttonColourId, colours[inputBackgroundColor]);
+        generateFrequencies.setColour(juce::TextButton::textColourOffId, colours[inputOutlineTextColor]);
         generateFrequencies.setButtonText("Generate");
         generateFrequencies.addListener(this);
         addAndMakeVisible(generateFrequencies);
 
-        first.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
-        first.setColour(juce::TextButton::textColourOffId, juce::Colours::white);
-        addAndMakeVisible(first);
+        
 
         addAndMakeVisible(keyboardComponent);
         setAudioChannels(0, 2);
@@ -334,17 +338,17 @@ public:
         footer.setButtonText("Footer");
         //addAndMakeVisible(footer);
 
-        sidebar.setColour(juce::TextButton::buttonColourId, colours[0]);
+        sidebar.setColour(juce::TextButton::buttonColourId, colours[backgroundColor]);
        // sidebar.setButtonText("Sidebar");
         addAndMakeVisible(sidebar);
 
         
 
-        sideItemA.setColour(juce::TextButton::buttonColourId, colours[1]);
+        sideItemA.setColour(juce::TextButton::buttonColourId, colours[sidebarBtnBackgroundColor]);
         sideItemA.setColour(juce::TextButton::textColourOffId, juce::Colours::orange);
-        sideItemB.setColour(juce::TextButton::buttonColourId, colours[1]);
+        sideItemB.setColour(juce::TextButton::buttonColourId, colours[sidebarBtnBackgroundColor]);
         sideItemB.setColour(juce::TextButton::textColourOffId, juce::Colours::orange);
-        sideItemC.setColour(juce::TextButton::buttonColourId, colours[1]);
+        sideItemC.setColour(juce::TextButton::buttonColourId, colours[sidebarBtnBackgroundColor]);
         sideItemC.setColour(juce::TextButton::textColourOffId, juce::Colours::orange);
         sideItemA.setButtonText("Item A");
         sideItemB.setButtonText("Item B");
@@ -420,7 +424,9 @@ public:
         keyboardComponent.setAvailableRange(72, 84);
 
         generateFrequencies.setBounds(upperWindow.getX(), upperWindow.getY() + keyboardWindow.getHeight() * 3 / 4, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
-        first.setBounds(upperWindow.getX() + 2 * generateFrequencies.getWidth(), upperWindow.getY() + keyboardWindow.getHeight() * 3 / 4, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
+        for (int i = 0; i < 12; i++) {
+            frequencyBoxes[i].setBounds(upperWindow.getX() +  1.5 * generateFrequencies.getWidth() + (72 * i), upperWindow.getY() + keyboardWindow.getHeight() * 3 / 4, 70, frequencyHeight);
+        }
         /* auto keyboardHeight = 250;
         auto keyboardWidth = 640;
         auto keyboardArea = area.removeFromBottom(keyboardHeight).removeFromLeft(keyboardWidth);
@@ -461,8 +467,11 @@ public:
             double step_calc = (i / total_divisions);
             frequencies.push_back(base_freq * pow(2, step_calc));
         }
-        for (auto i : frequencies) {
-            DBG(i);
+        for (int i = 0; i < total_divisions; i++) {
+            frequencyBoxes[i].setButtonText(to_string(frequencies[i]));
+            frequencyBoxes[i].setColour(juce::TextButton::buttonColourId, juce::Colours::white);
+            frequencyBoxes[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
+            addAndMakeVisible(frequencyBoxes[i]);
         }
         
 
@@ -500,8 +509,8 @@ private:
     juce::Label divisionInput;
 
     juce::TextButton generateFrequencies;
-    juce::TextButton first;
-    vector<juce::TextButton> frequencyBoxes;
+    
+    juce::TextButton frequencyBoxes[24];
 
     juce::TextButton footer;
 
