@@ -423,9 +423,11 @@ public:
         keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 8.0);
         keyboardComponent.setAvailableRange(72, 84);
 
+        int boxWidth = 40;
+        int maxDivisions = 24;
         generateFrequencies.setBounds(upperWindow.getX(), upperWindow.getY() + keyboardWindow.getHeight() * 3 / 4, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
-        for (int i = 0; i < 12; i++) {
-            frequencyBoxes[i].setBounds(upperWindow.getX() +  1.5 * generateFrequencies.getWidth() + (72 * i), upperWindow.getY() + keyboardWindow.getHeight() * 3 / 4, 70, frequencyHeight);
+        for (int i = 0; i < maxDivisions; i++) {
+            frequencyBoxes[i].setBounds(upperWindow.getX() + 1.5 * generateFrequencies.getWidth() + ((boxWidth + 2) * i), upperWindow.getY() + keyboardWindow.getHeight() * 3 / 4, boxWidth, keyboardWindow.getHeight() / 5);
         }
         /* auto keyboardHeight = 250;
         auto keyboardWidth = 640;
@@ -458,7 +460,6 @@ public:
 
         if (btnText == generateBtnText) genFreqFunc();
     }
-
     void genFreqFunc() {
         double total_divisions = divisionInput.getText().getDoubleValue();
         double base_freq = baseFreqInput.getText().getDoubleValue();
@@ -468,10 +469,21 @@ public:
             frequencies.push_back(base_freq * pow(2, step_calc));
         }
         for (int i = 0; i < total_divisions; i++) {
-            frequencyBoxes[i].setButtonText(to_string(frequencies[i]));
+            frequencyBoxes[i].setButtonText(to_string(frequencies[i]).substr(0, to_string(frequencies[i]).find(".")));
             frequencyBoxes[i].setColour(juce::TextButton::buttonColourId, juce::Colours::white);
             frequencyBoxes[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
             addAndMakeVisible(frequencyBoxes[i]);
+        }
+        for (int i = total_divisions; i < 24; i++) {
+            try
+            {
+                frequencyBoxes[i].setVisible(false);
+            }
+            catch (const std::exception&)
+            {
+
+            }
+                
         }
         
 
