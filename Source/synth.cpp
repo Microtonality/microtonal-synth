@@ -120,7 +120,7 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
                 }
                 return (soundval);}, 512);
         }
-        osc->multiplier = i + 1;
+        osc->multiplier = 1.0;//i + 1;
     }
 
     gainParameter = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter(IDs::paramGain));
