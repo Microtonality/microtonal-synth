@@ -265,6 +265,7 @@ public:
         };
 
 
+
         upperWindow.setColour(juce::TextButton::buttonColourId, colours[backgroundColor]);
         addAndMakeVisible(upperWindow);
 
@@ -412,12 +413,30 @@ public:
         synthAudioSource.releaseResources();
     }
 
-    void buttonClicked(Button* btn) override 
+    void buttonClicked(Button* btn) override
     {
-        const juce::String btnText = btn->getButtonText();
-        const juce::String generateBtnText = "Generate";
-
-        if (btnText == generateBtnText) genFreqFunc();
+        for (int i = 0; i < 24; i++) {
+            if (btn == &generateFrequencies) { genFreqFunc(); return; }
+            else if (btn == &frequencyBoxes[i]) {
+                freqBoxIndex = i;
+                return;
+            }
+            else if (btn == &noteButtons[i]) {
+                if (freqBoxIndex == -1) return;
+                if (selectedFrequencies[i] != NULL) {
+                    for (int j = 0; j < frequencies.size(); j++) {
+                        if (frequencies[j] == selectedFrequencies[i]) {
+                            frequencyBoxes[j].setColour(juce::TextButton::buttonColourId, juce::Colours::white);
+                        }
+                    }
+                }
+                selectedFrequencies[i] = frequencies[freqBoxIndex];
+                noteButtons[i].setColour(juce::TextButton::buttonColourId, freqColors[i]);
+                frequencyBoxes[freqBoxIndex].setColour(juce::TextButton::buttonColourId, freqColors[i]);
+                freqBoxIndex = -1;
+                return;
+            }
+        }
     }
     void genFreqFunc() {
         double total_divisions = divisionInput.getText().getDoubleValue();
@@ -431,14 +450,21 @@ public:
             frequencyBoxes[i].setButtonText(to_string(frequencies[i]).substr(0, to_string(frequencies[i]).find(".")));
             frequencyBoxes[i].setColour(juce::TextButton::buttonColourId, juce::Colours::white);
             frequencyBoxes[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
+            frequencyBoxes[i].addListener(this);
             addAndMakeVisible(frequencyBoxes[i]);
         }
         for (int i = 0; i < 12; i++) {
+            selectedFrequencies[i] = NULL;
+            noteButtons[i].setColour(juce::TextButton::buttonColourId, freqColors[i]);
+            noteButtons[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
             noteButtons[i].setBounds(keyboardComponent.getKeyStartPosition(startKey) + keyboardComponent.getX() + (56 * i), keyboardComponent.getY() - 35, 30, 30);
-            noteButtons[i].setButtonText("");
+            noteButtons[i].addListener(this);
         }
         for (int i = total_divisions; i < 24; i++) {
-            try{ frequencyBoxes[i].setVisible(false); }
+            try{ 
+                frequencyBoxes[i].setVisible(false); 
+                frequencyBoxes[i].removeListener(this);
+            }
             catch (const std::exception&){}
         }
     }
@@ -466,8 +492,24 @@ private:
     juce::Label divisionLabel;
     juce::Label baseFreqInput;
     juce::Label divisionInput;
-
+    int freqBoxIndex = -1, selectedFrequencyIndex = 0;
     vector<double> frequencies;
+
+    juce::Array<juce::Colour> freqColors{
+        juce::Colour(254,0,0),
+        juce::Colour(232,79,0),
+        juce::Colour(254,153,1),
+        juce::Colour(255,204,0),
+        juce::Colour(190,233,0),
+        juce::Colour(102,204,0),
+        juce::Colour(0,153,0),
+        juce::Colour(10,180,195),
+        juce::Colour(0,81,212),
+        juce::Colour(103,0,153),
+        juce::Colour(153,0,153),
+        juce::Colour(204,0,152)
+    };
+
     double selectedFrequencies[12];
     juce::TextButton generateFrequencies;
     int startKey = 72;
