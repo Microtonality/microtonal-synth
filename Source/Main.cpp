@@ -43,7 +43,7 @@ private:
            #else
             setResizable (true, false);
             setResizeLimits (600, 500, 10000, 10000);
-            centreWithSize (getWidth(), getHeight());
+            centreWithSize (1450, 500);
            #endif
 
             setVisible (true);

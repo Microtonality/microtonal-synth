@@ -252,28 +252,34 @@ public:
         : synthAudioSource  (keyboardState),
           keyboardComponent (keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard)
     {
-     
-        header.setColour(juce::TextButton::buttonColourId, juce::Colours::cornflowerblue);
-        header.setButtonText("Header");
-        addAndMakeVisible(header);
+        juce::Array<juce::Colour> colours{ juce::Colour(49,49,49),   // background color
+                                    juce::Colour(87,87,87),   // sidebar button background
+                                    juce::Colour(120,120,120), // input background color
+                                    juce::Colour(19,243,67) // input outline and text color
+                                    };
+        enum coloursEnum {
+            backgroundColor,
+            sidebarBtnBackgroundColor,
+            inputBackgroundColor,
+            inputOutlineTextColor
+        };
 
-        lowerWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::black);
-        addAndMakeVisible(lowerWindow);
 
-        upperWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::black);
+
+        upperWindow.setColour(juce::TextButton::buttonColourId, colours[backgroundColor]);
         addAndMakeVisible(upperWindow);
 
         keyboardWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
-        keyboardWindow.setColour(juce::ComboBox::outlineColourId, juce::Colours::white);
+        keyboardWindow.setColour(juce::ComboBox::outlineColourId, juce::Colours::blue);
         addAndMakeVisible(keyboardWindow);
 
         divisionInput.setFont(juce::Font(20.0f, juce::Font::bold));
         divisionInput.setText(to_string(divisions), juce::dontSendNotification);
-        divisionInput.setColour(juce::Label::textColourId, juce::Colours::white);
+        divisionInput.setColour(juce::Label::textColourId, juce::Colours::black);
         divisionInput.setJustificationType(juce::Justification::centred);
         divisionInput.setEditable(true);
-        divisionInput.setColour(juce::Label::backgroundColourId, juce::Colours::maroon);
-        divisionInput.setColour(juce::Label::outlineColourId, juce::Colours::white);
+        divisionInput.setColour(juce::Label::backgroundColourId, colours[inputBackgroundColor]);
+        divisionInput.setColour(juce::Label::outlineColourId, colours[inputOutlineTextColor]);
         divisionInput.onTextChange = [this] { 
 
             if (all_of(divisionInput.getText().begin(), divisionInput.getText().end(), isdigit) && divisionInput.getText().getIntValue() >= 12
@@ -287,62 +293,47 @@ public:
         addAndMakeVisible(divisionInput);
 
         divisionLabel.setFont(juce::Font(20.0f, juce::Font::bold));
-        divisionLabel.setText("Divisions", juce::dontSendNotification);
+        divisionLabel.setText("Notes per octave:", juce::dontSendNotification);
         divisionLabel.attachToComponent(&divisionInput, true);
-        divisionLabel.setColour(juce::Label::textColourId, juce::Colours::white);
-        divisionLabel.setColour(juce::Label::backgroundColourId, juce::Colours::maroon);
-        divisionLabel.setColour(juce::Label::outlineColourId, juce::Colours::white);
-        divisionLabel.setColour(juce::Label::backgroundColourId, juce::Colours::cornflowerblue);
-        divisionLabel.setColour(juce::Label::outlineColourId, juce::Colours::white);
+        divisionLabel.setColour(juce::Label::textColourId, colours[3]);
+        divisionLabel.setColour(juce::Label::backgroundColourId, colours[backgroundColor]);
+        divisionLabel.setColour(juce::Label::outlineColourId, colours[backgroundColor]);
         divisionLabel.setJustificationType(juce::Justification::centred);
         addAndMakeVisible(divisionLabel);
 
         baseFreqInput.setFont(juce::Font(18.0f, juce::Font::bold));
         baseFreqInput.setText(to_string((int)frequency), juce::dontSendNotification);
-        baseFreqInput.setColour(juce::Label::textColourId, juce::Colours::white);
-        baseFreqInput.setColour(juce::Label::outlineColourId, juce::Colours::white);
-        baseFreqInput.setColour(juce::Label::backgroundColourId, juce::Colours::maroon);
+        baseFreqInput.setColour(juce::Label::textColourId, juce::Colours::black);
+        baseFreqInput.setColour(juce::Label::outlineColourId, colours[inputOutlineTextColor]);
+        baseFreqInput.setColour(juce::Label::backgroundColourId, colours[inputBackgroundColor]);
         baseFreqInput.setJustificationType(juce::Justification::centred);
         baseFreqInput.setEditable(true);
         addAndMakeVisible(baseFreqInput);
 
         baseFreqLabel.setFont(juce::Font(20.0f, juce::Font::bold));
-        baseFreqLabel.setText("Frequency", juce::dontSendNotification);
+        baseFreqLabel.setText("Base Frequency:", juce::dontSendNotification);
         baseFreqLabel.attachToComponent(&baseFreqInput, true);
-        baseFreqLabel.setColour(juce::Label::textColourId, juce::Colours::white);
-        baseFreqLabel.setColour(juce::Label::backgroundColourId, juce::Colours::cornflowerblue);
-        baseFreqLabel.setColour(juce::Label::outlineColourId, juce::Colours::white);
+        baseFreqLabel.setColour(juce::Label::textColourId, colours[inputOutlineTextColor]);
+        baseFreqLabel.setColour(juce::Label::backgroundColourId, colours[backgroundColor]);
+        baseFreqLabel.setColour(juce::Label::outlineColourId, colours[backgroundColor]);
         baseFreqLabel.setJustificationType(juce::Justification::centred);
         addAndMakeVisible(baseFreqLabel);
 
-        generateFrequencies.setColour(juce::TextButton::buttonColourId, juce::Colours::maroon);
+        generateFrequencies.setColour(juce::TextButton::buttonColourId, colours[inputBackgroundColor]);
+        generateFrequencies.setColour(juce::TextButton::textColourOffId, colours[inputOutlineTextColor]);
         generateFrequencies.setButtonText("Generate");
         generateFrequencies.addListener(this);
         addAndMakeVisible(generateFrequencies);
 
-        addAndMakeVisible(keyboardComponent);
-        setAudioChannels(0, 2);
-
-        footer.setColour(juce::TextButton::buttonColourId, juce::Colours::cornflowerblue);
-        footer.setButtonText("Footer");
-        addAndMakeVisible(footer);
-
-        sidebar.setColour(juce::TextButton::buttonColourId, juce::Colours::black);
-       // sidebar.setButtonText("Sidebar");
-        addAndMakeVisible(sidebar);
-
         
 
-        sideItemA.setColour(juce::TextButton::buttonColourId, juce::Colours::maroon);
-        sideItemB.setColour(juce::TextButton::buttonColourId, juce::Colours::maroon);
-        sideItemC.setColour(juce::TextButton::buttonColourId, juce::Colours::maroon);
-        sideItemA.setButtonText("Item A");
-        sideItemB.setButtonText("Item B");
-        sideItemC.setButtonText("Item C");
-        addAndMakeVisible(sideItemA);
-        addAndMakeVisible(sideItemB);
-        addAndMakeVisible(sideItemC);
-
+        addAndMakeVisible(keyboardComponent);
+        setAudioChannels(0, 2);
+        for (auto& btn : noteButtons) {
+            btn.setColour(juce::TextButton::buttonColourId, juce::Colours::blue);
+            addAndMakeVisible(btn);
+        }
+        
         setSize (1200, 800);
         startTimer (400);
     }
@@ -355,31 +346,19 @@ public:
     void resized() override
     {
         auto area = getLocalBounds();
-
         auto headerFooterHeight = 36;
-        header.setBounds(area.removeFromTop(headerFooterHeight));
-        footer.setBounds(area.removeFromBottom(headerFooterHeight));
 
-        auto sideBarArea = area.removeFromLeft(juce::jmax(80, area.getWidth() / 4));
-        sidebar.setBounds(sideBarArea);
 
         auto sideItemHeight = 40;
         auto sideItemMargin = 5;
-        sideItemA.setBounds(sideBarArea.removeFromTop(sideItemHeight).reduced(sideItemMargin));
-        sideItemB.setBounds(sideBarArea.removeFromTop(sideItemHeight).reduced(sideItemMargin));
-        sideItemC.setBounds(sideBarArea.removeFromTop(sideItemHeight).reduced(sideItemMargin));
-
-        // Set Lower Window
-        auto lowerWindowArea = area.removeFromBottom(getHeight() / 3);//.reduced(windowMargin);
-        lowerWindow.setBounds(lowerWindowArea);
 
         // Set Upper Window
-        auto upperWindowArea = area.removeFromTop(getHeight() / 3 * 2);//.reduced(windowMargin);
+        auto upperWindowArea = area.removeFromTop(getHeight());//.reduced(windowMargin);
         upperWindow.setBounds(upperWindowArea);
 
         // Set Keyboard Window
         auto keyboardWindowHeight = upperWindowArea.getHeight() / 2;
-        auto keyboardWindowWidth = upperWindowArea.getWidth() * (6.0 / 7.0);
+        auto keyboardWindowWidth = upperWindowArea.getWidth() * (6.0/7.0);
         auto keyboardWindowMargin = 10;
         auto keyboardWindowArea = upperWindowArea.removeFromBottom(keyboardWindowHeight).removeFromRight(keyboardWindowWidth).reduced(keyboardWindowMargin);
         keyboardWindow.setBounds(keyboardWindowArea);
@@ -387,14 +366,14 @@ public:
         // Set division label
         auto divisionHeight = keyboardWindow.getHeight() / 4;
         auto divisionWidth = keyboardWindow.getWidth() / 10;
-        divisionInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() / 2 - divisionHeight, divisionWidth, divisionHeight);//divisionInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY(), divisionWidth, divisionHeight);
-        divisionLabel.setBounds(upperWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() / 2 - divisionHeight, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, divisionHeight);
+        divisionInput.setBounds(keyboardWindow.getX(), upperWindow.getY() + keyboardWindow.getHeight() / 2 - divisionHeight, divisionWidth, divisionHeight);//divisionInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY(), divisionWidth, divisionHeight);
+        divisionLabel.setBounds(upperWindow.getX(), upperWindow.getY() + keyboardWindow.getHeight() / 2 - divisionHeight, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, divisionHeight);
 
         // Set frequency label
         auto frequencyHeight = divisionHeight;
         auto frequencyWidth = divisionWidth;
-        baseFreqInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() / 2, frequencyWidth, frequencyHeight);//baseFreqInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() - frequencyHeight, frequencyWidth, frequencyHeight);//baseFreqInput.setBounds(upperWindow.getX() + 200, upperWindow.getY() + 80, frequencyWidth, frequencyHeight);
-        baseFreqLabel.setBounds(upperWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() / 2, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
+        baseFreqInput.setBounds(keyboardWindow.getX(), upperWindow.getY(), frequencyWidth, frequencyHeight);//baseFreqInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() - frequencyHeight, frequencyWidth, frequencyHeight);//baseFreqInput.setBounds(upperWindow.getX() + 200, upperWindow.getY() + 80, frequencyWidth, frequencyHeight);
+        baseFreqLabel.setBounds(upperWindow.getX(), upperWindow.getY(), upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
 
         // Set Keyboard
         auto keyboardMargin = 10;
@@ -403,20 +382,20 @@ public:
         auto keyboardArea = keyboardWindowArea.reduced(keyboardWidthDelta, keyboardHeightDelta);//.removeFromLeft(keyboardWidth);
         keyboardComponent.setBounds(keyboardArea);
 
+
         // Set basefreq 
        // baseFreqInput.setBounds(upperWindowArea.getWidth() / 4, upperWindowArea.getHeight() * (95.0 / 100), 50, 20);
+
         
         keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 8.0);
-        keyboardComponent.setAvailableRange(72, 84);
+        keyboardComponent.setAvailableRange(72, 83);
 
-        generateFrequencies.setBounds(upperWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() * 3 / 4, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
-       /* auto keyboardHeight = 250;
-        auto keyboardWidth = 640;
-        auto keyboardArea = area.removeFromBottom(keyboardHeight).removeFromLeft(keyboardWidth);
-        keyboardComponent.setBounds(keyboardArea);
-        keyboardComponent.setBounds(area.removeFromLeft(keyboardWidth));
-        keyboardComponent.setKeyWidth(80);
-        keyboardComponent.setAvailableRange(72, 84);*/
+        int boxWidth = 40;
+        int maxDivisions = 24;
+        generateFrequencies.setBounds(upperWindow.getX(), upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + 10, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
+        for (int i = 0; i < maxDivisions; i++) {
+            frequencyBoxes[i].setBounds(upperWindow.getX() + 1.5 * generateFrequencies.getWidth() + ((boxWidth + 2) * i), upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + 10, boxWidth, keyboardWindow.getHeight() / 5);
+        }
     }
 
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override
@@ -434,24 +413,59 @@ public:
         synthAudioSource.releaseResources();
     }
 
-    void buttonClicked(Button* btn) override 
+    void buttonClicked(Button* btn) override
     {
-        const juce::String btnText = btn->getButtonText();
-        const juce::String generateBtnText = "Generate";
-
-        if (btnText == generateBtnText) genFreqFunc();
+        for (int i = 0; i < 24; i++) {
+            if (btn == &generateFrequencies) { genFreqFunc(); return; }
+            else if (btn == &frequencyBoxes[i]) {
+                freqBoxIndex = i;
+                return;
+            }
+            else if (btn == &noteButtons[i]) {
+                if (freqBoxIndex == -1) return;
+                if (selectedFrequencies[i] != NULL) {
+                    for (int j = 0; j < frequencies.size(); j++) {
+                        if (frequencies[j] == selectedFrequencies[i]) {
+                            frequencyBoxes[j].setColour(juce::TextButton::buttonColourId, juce::Colours::white);
+                        }
+                    }
+                }
+                selectedFrequencies[i] = frequencies[freqBoxIndex];
+                noteButtons[i].setColour(juce::TextButton::buttonColourId, freqColors[i]);
+                frequencyBoxes[freqBoxIndex].setColour(juce::TextButton::buttonColourId, freqColors[i]);
+                freqBoxIndex = -1;
+                return;
+            }
+        }
     }
-
     void genFreqFunc() {
         double total_divisions = divisionInput.getText().getDoubleValue();
         double base_freq = baseFreqInput.getText().getDoubleValue();
-        vector<double> frequencies;    // Dynamic array to store frequencies
+        frequencies.clear(); // Dynamic array to store frequencies
         for (int i = 0; i <= total_divisions; i++) {
             double step_calc = (i / total_divisions);
             frequencies.push_back(base_freq * pow(2, step_calc));
         }
-        for (auto i : frequencies) {
-            DBG(i);
+        for (int i = 0; i < total_divisions; i++) {
+            frequencyBoxes[i].setButtonText(to_string(frequencies[i]).substr(0, to_string(frequencies[i]).find(".")));
+            frequencyBoxes[i].setColour(juce::TextButton::buttonColourId, juce::Colours::white);
+            frequencyBoxes[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
+            frequencyBoxes[i].addListener(this);
+            addAndMakeVisible(frequencyBoxes[i]);
+        }
+        for (int i = 0; i < 12; i++) {
+            selectedFrequencies[i] = NULL;
+            noteButtons[i].setColour(juce::TextButton::buttonColourId, freqColors[i]);
+            noteButtons[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
+            noteButtons[i].setBounds(keyboardComponent.getKeyStartPosition(startKey) + keyboardComponent.getX() + (56 * i), keyboardComponent.getY() - 35, 30, 30);
+            noteButtons[i].addListener(this);
+        }
+        for (int i = total_divisions; i < 24; i++) {
+            try{ 
+                frequencyBoxes[i].setVisible(false); 
+                frequencyBoxes[i].removeListener(this);
+            }
+            catch (const std::exception&){}
         }
     }
 private:
@@ -470,25 +484,37 @@ private:
     SynthAudioSource synthAudioSource;
 
     juce::MidiKeyboardComponent keyboardComponent;
-    juce::TextButton header;
-    juce::TextButton sidebar;
-
-    juce::TextButton sideItemA; // [3]
-    juce::TextButton sideItemB; // [4]
-    juce::TextButton sideItemC; // [5]
-    
+ 
     juce::TextButton keyboardWindow;
-    juce::TextButton lowerWindow;
     juce::TextButton upperWindow;
 
     juce::Label baseFreqLabel;
     juce::Label divisionLabel;
     juce::Label baseFreqInput;
     juce::Label divisionInput;
+    int freqBoxIndex = -1, selectedFrequencyIndex = 0;
+    vector<double> frequencies;
 
+    juce::Array<juce::Colour> freqColors{
+        juce::Colour(254,0,0),
+        juce::Colour(232,79,0),
+        juce::Colour(254,153,1),
+        juce::Colour(255,204,0),
+        juce::Colour(190,233,0),
+        juce::Colour(102,204,0),
+        juce::Colour(0,153,0),
+        juce::Colour(10,180,195),
+        juce::Colour(0,81,212),
+        juce::Colour(103,0,153),
+        juce::Colour(153,0,153),
+        juce::Colour(204,0,152)
+    };
+
+    double selectedFrequencies[12];
     juce::TextButton generateFrequencies;
-
-    juce::TextButton footer;
+    int startKey = 72;
+    juce::TextButton frequencyBoxes[24];
+    juce::TextButton noteButtons[12];
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
