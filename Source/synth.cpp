@@ -94,7 +94,32 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
         auto& osc = oscillators.back();
         osc->gain = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("osc" + juce::String(i)));
         osc->detune = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("detune" + juce::String(i)));
-        osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
+        //osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
+		if (i%3==0){
+            osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
+        }
+        else if (i % 3 == 1) {
+            osc->osc.get<0>().initialise([](auto arg) {
+            return juce::jmap((double)arg,
+                (double)(-juce::MathConstants<double>::pi),
+                (double)(juce::MathConstants<double>::pi),
+                (double)(-1.0),
+                (double)(1.0));}, 512);
+        }else {
+            osc->osc.get<0>().initialise([](auto arg) {
+                auto soundval = juce::jmap((double)arg,
+                    (double)(-juce::MathConstants<double>::pi),
+                    (double)(juce::MathConstants<double>::pi),
+                    (double)(-1.0),
+                    (double)(1.0));
+                if (soundval > (double)0.0) {
+                    soundval = (double)1.0;
+                }
+                else {
+                    soundval = (double)-1.0;
+                }
+                return (soundval);}, 512);
+        }
         osc->multiplier = i + 1;
     }
 
