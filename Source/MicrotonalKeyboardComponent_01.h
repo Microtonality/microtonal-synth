@@ -54,7 +54,8 @@
 using namespace std;
 
 
-double total_divisions, base_freq;
+double total_divisions, base_freq, selectedFrequencies[12];
+
 
 //==============================================================================
 struct SineWaveSound   : public juce::SynthesiserSound
@@ -82,8 +83,11 @@ struct SineWaveVoice   : public juce::SynthesiserVoice
         level = velocity * 0.15;
         tailOff = 0.0;
         
-        //auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz (midiNoteNumber);
-        auto cyclesPerSecond = base_freq * std::pow(2.0, (midiNoteNumber - 69) / total_divisions); //change this for key mapping
+        // auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz (midiNoteNumber);
+        double cyclesPerSecond;
+        if(selectedFrequencies[midiNoteNumber - 72] == NULL) cyclesPerSecond = base_freq * std::pow(2.0, (midiNoteNumber - 69) / total_divisions); //change this for key mapping
+        else  cyclesPerSecond = selectedFrequencies[midiNoteNumber - 72]; //change this for key mapping
+
         auto cyclesPerSample = cyclesPerSecond / getSampleRate();
 
         angleDelta = cyclesPerSample * 2.0 * juce::MathConstants<double>::pi;
@@ -529,7 +533,6 @@ private:
         juce::Colour(204,0,152)
     };
 
-    double selectedFrequencies[12];
     juce::TextButton generateFrequencies;
     int startKey = 72;
     juce::TextButton frequencyBoxes[24];
