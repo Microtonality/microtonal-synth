@@ -7,7 +7,7 @@
 */
 
 #include <JuceHeader.h>
-#include "MicrotonalKeyboardComponent_01.h"
+#include "MicrotonalKeyboardComponent.h"
 
 class Application    : public juce::JUCEApplication
 {

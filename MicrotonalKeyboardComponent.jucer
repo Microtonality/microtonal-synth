@@ -6,9 +6,9 @@
               id="NOgwAQ" jucerFormatVersion="1">
   <MAINGROUP id="koAVpN" name="MicrotonalKeyboardComponent">
     <GROUP id="{D2B62FF7-DDF7-5C79-92CA-D538D90C2BE3}" name="Source">
-      <FILE id="KDu7Oc" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
-      <FILE id="vnJzdH" name="MicrotonalKeyboardComponent_01.h" compile="0"
-            resource="0" file="Source/MicrotonalKeyboardComponent_01.h"/>
+      <FILE id="KDu7Oc" name="MicrotonalKeyboardComponent.cpp" compile="1" resource="0" file="Source/MicrotonalKeyboardComponent.cpp"/>
+      <FILE id="vnJzdH" name="MicrotonalKeyboardComponent.h" compile="0"
+            resource="0" file="Source/MicrotonalKeyboardComponent.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>
