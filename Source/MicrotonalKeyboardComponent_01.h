@@ -52,6 +52,10 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
+
+
+double total_divisions, base_freq;
+
 //==============================================================================
 struct SineWaveSound   : public juce::SynthesiserSound
 {
@@ -79,7 +83,7 @@ struct SineWaveVoice   : public juce::SynthesiserVoice
         tailOff = 0.0;
         
         //auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz (midiNoteNumber);
-        auto cyclesPerSecond = 440 * std::pow(2.0, (midiNoteNumber - 69) / 12.0); //change this for key mapping
+        auto cyclesPerSecond = base_freq * std::pow(2.0, (midiNoteNumber - 69) / total_divisions); //change this for key mapping
         auto cyclesPerSample = cyclesPerSecond / getSampleRate();
 
         angleDelta = cyclesPerSample * 2.0 * juce::MathConstants<double>::pi;
@@ -454,8 +458,8 @@ public:
         }
     }
     void genFreqFunc() {
-        double total_divisions = divisionInput.getText().getDoubleValue();
-        double base_freq = baseFreqInput.getText().getDoubleValue();
+        total_divisions = divisionInput.getText().getDoubleValue();
+        base_freq = baseFreqInput.getText().getDoubleValue();
         frequencies.clear(); // Dynamic array to store frequencies
         for (int i = 0; i <= total_divisions; i++) {
             double step_calc = (i / total_divisions);
@@ -508,6 +512,7 @@ private:
     juce::Label divisionInput;
     int freqBoxIndex = -1, selectedFrequencyIndex = 0;
     vector<double> frequencies;
+
 
     juce::Array<juce::Colour> freqColors{
         juce::Colour(254,0,0),
