@@ -77,7 +77,7 @@ struct SineWaveVoice   : public juce::SynthesiserVoice
         currentAngle = 0.0;
         level = velocity * 0.15;
         tailOff = 0.0;
-
+        
         //auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz (midiNoteNumber);
         auto cyclesPerSecond = 440 * std::pow(2.0, (midiNoteNumber - 69) / 12.0); //change this for key mapping
         auto cyclesPerSample = cyclesPerSecond / getSampleRate();
@@ -264,7 +264,7 @@ public:
             inputOutlineTextColor
         };
 
-
+        
 
         upperWindow.setColour(juce::TextButton::buttonColourId, colours[backgroundColor]);
         addAndMakeVisible(upperWindow);
@@ -342,7 +342,7 @@ public:
     {
         shutdownAudio();
     }
-
+    
     void resized() override
     {
         auto area = getLocalBounds();
@@ -388,14 +388,29 @@ public:
 
         
         keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 8.0);
-        keyboardComponent.setAvailableRange(72, 83);
+        keyboardComponent.setAvailableRange(72, 84);
 
-        int boxWidth = 40;
+        int boxWidth = divisionInput.getWidth() / 3;
         int maxDivisions = 24;
         generateFrequencies.setBounds(upperWindow.getX(), upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + 10, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
         for (int i = 0; i < maxDivisions; i++) {
-            frequencyBoxes[i].setBounds(upperWindow.getX() + 1.5 * generateFrequencies.getWidth() + ((boxWidth + 2) * i), upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + 10, boxWidth, keyboardWindow.getHeight() / 5);
+            int X = upperWindow.getX() + 1.5 * generateFrequencies.getWidth() + ((boxWidth + 2) * i), 
+                Y = upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + (generateFrequencies.getHeight() / 3),
+                width = boxWidth, 
+                height = boxWidth;
+            frequencyBoxes[i].setBounds(X, Y, width, height);
         }
+
+        for (int i = 0; i < 12; i++) {
+            int boxWidth = (divisionInput.getWidth() / 3) + 2;
+            int X = keyboardComponent.getKeyStartPosition(startKey) + keyboardComponent.getX() + ((keyboardComponent.getKeyWidth() / 5) * 3 * i),
+                Y = keyboardComponent.getY() - 35,
+                width = (boxWidth / 3) * 2,
+                height = width;
+                noteButtons[i].setBounds(X, Y, width, height);
+
+        }
+
     }
 
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override
@@ -457,7 +472,6 @@ public:
             selectedFrequencies[i] = NULL;
             noteButtons[i].setColour(juce::TextButton::buttonColourId, freqColors[i]);
             noteButtons[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
-            noteButtons[i].setBounds(keyboardComponent.getKeyStartPosition(startKey) + keyboardComponent.getX() + (56 * i), keyboardComponent.getY() - 35, 30, 30);
             noteButtons[i].addListener(this);
         }
         for (int i = total_divisions; i < 24; i++) {
