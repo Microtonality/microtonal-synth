@@ -291,7 +291,7 @@ public:
         divisionInput.onTextChange = [this] { 
 
             if (all_of(divisionInput.getText().begin(), divisionInput.getText().end(), isdigit) && divisionInput.getText().getIntValue() >= 12
-                && divisionInput.getText().getIntValue() <= 32) {
+                && divisionInput.getText().getIntValue() <= 24) {
                 divisionInput.setText(divisionInput.getText(), juce::sendNotification);
                 divisions = divisionInput.getText().getIntValue();
             }
