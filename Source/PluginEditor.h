@@ -41,6 +41,8 @@ public:
     //==============================================================================
     double getTailLengthSeconds() const override;
 
+    juce::AudioProcessorEditor* createEditor() override;
+
 private:
     juce::AudioProcessorValueTreeState treeState;
 
@@ -56,3 +58,4 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MicrotonalSynthAudioProcessorEditor)
 };
+
