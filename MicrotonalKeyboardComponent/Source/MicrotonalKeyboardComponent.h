@@ -54,7 +54,7 @@
 using namespace std;
 
 
-double total_divisions, base_freq, selectedFrequencies[12];
+double total_divisions = 12.0, base_freq = 440.0, selectedFrequencies[12];
 
 
 //==============================================================================
@@ -332,6 +332,11 @@ public:
         generateFrequencies.setButtonText("Generate");
         generateFrequencies.addListener(this);
         addAndMakeVisible(generateFrequencies);
+        saveToXMLBtn.setColour(juce::TextButton::buttonColourId, colours[inputBackgroundColor]);
+        saveToXMLBtn.setColour(juce::TextButton::textColourOffId, colours[inputOutlineTextColor]);
+        saveToXMLBtn.setButtonText("Save Config");
+        saveToXMLBtn.addListener(this);
+        addAndMakeVisible(saveToXMLBtn);
 
         
 
@@ -401,6 +406,8 @@ public:
         int boxWidth = divisionInput.getWidth() / 3;
         int maxDivisions = 24;
         generateFrequencies.setBounds(upperWindow.getX(), upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + 10, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
+        saveToXMLBtn.setBounds(upperWindow.getX(), upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + generateFrequencies.getHeight() + 10, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
+
         for (int i = 0; i < maxDivisions; i++) {
             int X = upperWindow.getX() + 1.5 * generateFrequencies.getWidth() + ((boxWidth + 2) * i), 
                 Y = upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + (generateFrequencies.getHeight() / 3),
@@ -464,6 +471,9 @@ public:
                 freqBoxIndex = -1;
                 return;
             }
+            else if (btn == &saveToXMLBtn) {
+                DBG(writeValuesToXML());
+            }
         }
     }
     void genFreqFunc() {
@@ -494,6 +504,26 @@ public:
             }
             catch (const std::exception&){}
         }
+    }
+
+    string writeValuesToXML() {
+        string writeToXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        writeToXML = writeToXML + "<microtonalConfig>\n";
+
+        writeToXML = writeToXML + "\t<baseFrequency>" + to_string(base_freq) +  "</baseFrequency>\n";
+        writeToXML = writeToXML + "\t<totalDivisions>" + to_string(total_divisions) + "</totalDivisions>\n";
+        writeToXML = writeToXML + "\t<selectedFrequencies>\n";
+        for (int i = 0; i < 12; i++) {
+            if (selectedFrequencies[i] == NULL) continue;
+
+            writeToXML = writeToXML + "\t\t<frequency index=\"" + to_string(i) + "\">" + to_string(selectedFrequencies[i]) + "</frequency>\n";
+        }
+        writeToXML = writeToXML + "\t</selectedFrequencies>\n";
+
+
+        writeToXML = writeToXML + "</microtonalConfig>";
+
+        return writeToXML;
     }
 private:
     void timerCallback() override
@@ -539,6 +569,8 @@ private:
     };
 
     juce::TextButton generateFrequencies;
+    juce::TextButton saveToXMLBtn;
+
     int startKey = 72;
     juce::TextButton frequencyBoxes[24];
     juce::TextButton noteButtons[12];
