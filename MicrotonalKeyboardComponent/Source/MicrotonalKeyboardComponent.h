@@ -497,6 +497,7 @@ public:
             }
             else if (btn == &saveToXMLBtn) {
                 DBG(writeValuesToXML());
+		return;
             }
         }
     }
