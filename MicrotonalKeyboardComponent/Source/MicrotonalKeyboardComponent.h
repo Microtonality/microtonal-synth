@@ -285,7 +285,7 @@ public:
         addAndMakeVisible(keyboardWindow);
 
         divisionInput.setFont(juce::Font(20.0f, juce::Font::bold));
-        divisionInput.setText(to_string(divisions), juce::dontSendNotification);
+        divisionInput.setText(to_string((int)total_divisions), juce::dontSendNotification);
         divisionInput.setColour(juce::Label::textColourId, juce::Colours::black);
         divisionInput.setJustificationType(juce::Justification::centred);
         divisionInput.setEditable(true);
@@ -313,7 +313,7 @@ public:
         addAndMakeVisible(divisionLabel);
 
         baseFreqInput.setFont(juce::Font(18.0f, juce::Font::bold));
-        baseFreqInput.setText(to_string((int)frequency), juce::dontSendNotification);
+        baseFreqInput.setText(to_string((int)base_freq), juce::dontSendNotification);
         baseFreqInput.setColour(juce::Label::textColourId, juce::Colours::black);
         baseFreqInput.setColour(juce::Label::outlineColourId, colours[inputOutlineTextColor]);
         baseFreqInput.setColour(juce::Label::backgroundColourId, colours[inputBackgroundColor]);
@@ -428,6 +428,7 @@ public:
                 noteButtons[i].setBounds(X, Y, width, height);
 
         }
+        //writeValuesToXML();
         loadConfig();
 
     }
@@ -436,10 +437,28 @@ public:
         doc.LoadFile("config.xml");
         const char* baseFrequencyString = doc.FirstChildElement("microtonalConfig")->FirstChildElement("baseFrequency")->GetText();
         const char* divisionsString = doc.FirstChildElement("microtonalConfig")->FirstChildElement("totalDivisions")->GetText();
+        try {
+            XMLElement* levelElement = doc.FirstChildElement("microtonalConfig")->FirstChildElement("selectedFrequencies");
+            for (XMLElement* child = levelElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+            {
+                int index = stoi(child->Attribute("index"));
+                double freq = stod(child->GetText());
+                selectedFrequencies[index] = freq;
+            }
+        }
+        catch (const std::exception&)
+        {
+            DBG("No selected frequencies.");
+        }
+        
 
-        DBG(baseFrequencyString);
-        DBG(divisionsString);
+        base_freq = stod(baseFrequencyString);
+        total_divisions = stod(divisionsString);
 
+        baseFreqInput.setText(to_string(base_freq), juce::dontSendNotification);
+        divisionInput.setText(to_string((int)total_divisions), juce::dontSendNotification);
+
+        genFreqFunc();
     }
     void paint(juce::Graphics& g) override {
         for (int i = 0; i < frequencies.size(); i++) {
@@ -448,17 +467,16 @@ public:
                 if (frequencies[i] == selectedFrequencies[j]) {
                     juce::Line<float> line(
                         juce::Point<float>(
-                            frequencyBoxes[i].getX() + (frequencyBoxes[i].getWidth() / 2), 
+                            frequencyBoxes[i].getX() + (frequencyBoxes[i].getWidth() / 2),
                             frequencyBoxes[i].getY() + frequencyBoxes[i].getHeight()
-                        ), 
+                            ),
                         juce::Point<float>(
                             noteButtons[j].getX() + (noteButtons[j].getWidth() / 2),
                             noteButtons[j].getY())
                     );
                     g.setColour(freqColors[j]);
                     g.drawLine(line, 3.0f);
-                    
-                    
+                    frequencyBoxes[i].setColour(juce::TextButton::buttonColourId, freqColors[j]);
                 }
             }
         }
@@ -488,7 +506,7 @@ public:
                 return;
             }
             else if (btn == &noteButtons[i]) {
-                if (freqBoxIndex == -1) return;
+                //if (freqBoxIndex == -1) return;
                 if (selectedFrequencies[i] != NULL) {
                     for (int j = 0; j < frequencies.size(); j++) {
                         if (frequencies[j] == selectedFrequencies[i]) {
@@ -503,8 +521,8 @@ public:
                     if (selectedFrequencies[k] == selectedFrequencies[i]) selectedFrequencies[k] = NULL;
                 }
                 noteButtons[i].setColour(juce::TextButton::buttonColourId, freqColors[i]);
-                frequencyBoxes[freqBoxIndex].setColour(juce::TextButton::buttonColourId, freqColors[i]);
-                freqBoxIndex = -1;
+                //frequencyBoxes[freqBoxIndex].setColour(juce::TextButton::buttonColourId, freqColors[i]);
+                //freqBoxIndex = -1;
                 repaint();
                 return;
             }
@@ -530,7 +548,7 @@ public:
             addAndMakeVisible(frequencyBoxes[i]);
         }
         for (int i = 0; i < 12; i++) {
-            selectedFrequencies[i] = NULL;
+            //selectedFrequencies[i] = NULL;
             noteButtons[i].setColour(juce::TextButton::buttonColourId, freqColors[i]);
             noteButtons[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
             noteButtons[i].addListener(this);
