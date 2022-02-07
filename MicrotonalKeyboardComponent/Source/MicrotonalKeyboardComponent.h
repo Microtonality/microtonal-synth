@@ -51,8 +51,11 @@
 #include <math.h>
 #include <iostream>
 #include <algorithm>
+#include <fstream>
+#include "TinyXML2/tinyxml2.h"
+#include "TinyXML2/tinyxml2.cpp"
 using namespace std;
-
+using namespace tinyxml2;
 
 double total_divisions = 12.0, base_freq = 440.0, selectedFrequencies[12];
 
@@ -425,9 +428,19 @@ public:
                 noteButtons[i].setBounds(X, Y, width, height);
 
         }
+        loadConfig();
 
     }
+    void loadConfig() {
+        XMLDocument doc;
+        doc.LoadFile("config.xml");
+        const char* baseFrequencyString = doc.FirstChildElement("microtonalConfig")->FirstChildElement("baseFrequency")->GetText();
+        const char* divisionsString = doc.FirstChildElement("microtonalConfig")->FirstChildElement("totalDivisions")->GetText();
 
+        DBG(baseFrequencyString);
+        DBG(divisionsString);
+
+    }
     void paint(juce::Graphics& g) override {
         for (int i = 0; i < frequencies.size(); i++) {
             for (int j = 0; j < 12; j++) {
@@ -533,6 +546,12 @@ public:
     }
 
     string writeValuesToXML() {
+        ofstream outf{ "config.xml" };
+        if (!outf)
+        {
+            // Print an error and exit
+            return "Uh oh, Sample.txt could not be opened for writing!\n";
+        }
         string writeToXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         writeToXML = writeToXML + "<microtonalConfig>\n";
 
@@ -548,7 +567,7 @@ public:
 
 
         writeToXML = writeToXML + "</microtonalConfig>";
-
+        outf << writeToXML;
         return writeToXML;
     }
 private:
