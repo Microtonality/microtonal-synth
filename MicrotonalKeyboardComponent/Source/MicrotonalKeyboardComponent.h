@@ -352,6 +352,8 @@ public:
         
         setSize (1200, 800);
         startTimer (400);
+
+        loadConfig();
     }
 
     ~MainContentComponent() override
@@ -457,8 +459,20 @@ public:
 
         baseFreqInput.setText(to_string(base_freq), juce::dontSendNotification);
         divisionInput.setText(to_string((int)total_divisions), juce::dontSendNotification);
-
         genFreqFunc();
+        for (int j = 0; j < 12; j++) {
+            for (int i = 0; i < frequencies.size(); i++){
+                if (roundoff(frequencies[i],6) == roundoff(selectedFrequencies[j], 6)) {
+                    frequencyBoxes[i].triggerClick();
+                    noteButtons[j].triggerClick();
+                }
+            }
+        }
+    }
+    float roundoff(float value, unsigned char prec)
+    {
+        float pow_10 = pow(10.0f, (float)prec);
+        return round(value * pow_10) / pow_10;
     }
     void paint(juce::Graphics& g) override {
         for (int i = 0; i < frequencies.size(); i++) {
@@ -500,7 +514,13 @@ public:
     void buttonClicked(Button* btn) override
     {
         for (int i = 0; i < 24; i++) {
-            if (btn == &generateFrequencies) { genFreqFunc(); return; }
+            if (btn == &generateFrequencies) {
+                for (int i = 0; i < 12; i++) {
+                    selectedFrequencies[i] = NULL;
+                }
+                genFreqFunc(); 
+                return; 
+            }
             else if (btn == &frequencyBoxes[i]) {
                 freqBoxIndex = i;
                 return;
@@ -521,8 +541,8 @@ public:
                     if (selectedFrequencies[k] == selectedFrequencies[i]) selectedFrequencies[k] = NULL;
                 }
                 noteButtons[i].setColour(juce::TextButton::buttonColourId, freqColors[i]);
-                //frequencyBoxes[freqBoxIndex].setColour(juce::TextButton::buttonColourId, freqColors[i]);
-                //freqBoxIndex = -1;
+                frequencyBoxes[freqBoxIndex].setColour(juce::TextButton::buttonColourId, freqColors[i]);
+                freqBoxIndex = -1;
                 repaint();
                 return;
             }
