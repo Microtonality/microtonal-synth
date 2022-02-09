@@ -43,11 +43,54 @@
       </View>
       <View flex-grow="2" id="Other Modules">
         <View id="Oscillators" background-color="FFABABAB">
-          <Slider parameter="osc0" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
-          <Slider parameter="detune0" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
-          <Slider parameter="osc1" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
-          <Slider parameter="detune1" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
-          <Slider parameter="osc2" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="osc0" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="detune0" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="osc1" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="detune1" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="osc2" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="detune2" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="osc3" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="detune3" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
         </View>
         <View flex-grow="0.3" id="Selection" flex-direction="column">
           <ComboBox combo-text="FF090808" combo-menu-text="FF757575" id="Instrument Selection"
