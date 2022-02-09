@@ -14,6 +14,7 @@
 #include <string> 
 #include <cctype> 
 using namespace std;
+
 //==============================================================================
 extern double total_divisions, base_freq, selectedFrequencies[12];
 
@@ -206,6 +207,14 @@ public:
 
     void genFreqFunc();
 
+    string writeValuesToXML();
+
+    void loadConfig();
+
+    float roundoff(float value, unsigned char prec);
+
+    void paint(juce::Graphics& g) override;
+
 private:
     void timerCallback() override;
     int test = 1;
@@ -243,6 +252,8 @@ private:
     };
 
     juce::TextButton generateFrequencies;
+    juce::TextButton saveToXMLBtn;
+
     int startKey = 72;
     juce::TextButton frequencyBoxes[24];
     juce::TextButton noteButtons[12];

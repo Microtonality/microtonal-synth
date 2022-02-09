@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microtonalConfig>
+	<baseFrequency>440.000000</baseFrequency>
+	<totalDivisions>24.000000</totalDivisions>
+	<selectedFrequencies>
+		<frequency index="0">440.000000</frequency>
+		<frequency index="1">479.823402</frequency>
+		<frequency index="2">493.883301</frequency>
+		<frequency index="3">523.251131</frequency>
+		<frequency index="4">554.365262</frequency>
+		<frequency index="6">587.329536</frequency>
+		<frequency index="7">659.255114</frequency>
+		<frequency index="8">698.456463</frequency>
+		<frequency index="9">739.988845</frequency>
+		<frequency index="10">761.672174</frequency>
+		<frequency index="11">783.990872</frequency>
+	</selectedFrequencies>
+</microtonalConfig>
