@@ -24,6 +24,8 @@ MicrotonalWindow::MicrotonalWindow(juce::String name) : DocumentWindow(name,
 {
     setContentOwned(new MainContentComponent(), true);
     centreWithSize(1200, 800);
+    setResizable(true, true);
+    setResizeLimits(800, 600, 1800, 1200);
     setVisible(true);
 }
 
