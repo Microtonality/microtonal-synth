@@ -30,6 +30,20 @@ double total_divisions, base_freq, selectedFrequencies[12];
 //    {
 //};
 //==============================================================================
+MicrotonalWindow::MicrotonalWindow(juce::String name) : DocumentWindow(name,
+    juce::Colours::dimgrey,
+    DocumentWindow::closeButton)
+{
+    centreWithSize(1200, 800);
+    setVisible(true);
+}
+
+void MicrotonalWindow::closeButtonPressed()
+{
+    // juce::JUCEApplication::getInstance()->systemRequestedQuit();
+    delete this;
+}
+
 juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 {
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
@@ -87,6 +101,12 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
 
     for (int i = 0; i < 16; ++i)
         synthesiser.addVoice(new Synth::Voice(treeState));
+}
+
+MicrotonalSynthAudioProcessorEditor::~MicrotonalSynthAudioProcessorEditor()
+{
+    if (window)
+        delete window;
 }
 void MicrotonalSynthAudioProcessorEditor::prepareToPlay(double sampleRate, int blockSize)
 {
@@ -374,7 +394,6 @@ private:
     juce::Synthesiser synth;
 };
 
-//==============================================================================
 class MainContentComponent : public juce::AudioAppComponent,
     private juce::Timer,
     public juce::Button::Listener
@@ -711,14 +730,14 @@ private:
 
 
 
-juce::AudioProcessorEditor* MicrotonalSynthAudioProcessorEditor::createEditor()
-{
-    // MAGIC GUI: we create our custom builder instance here, that will be available for all factories we add
-    auto builder = std::make_unique<foleys::MagicGUIBuilder>(magicState);
-    builder->registerJUCEFactories();
-
-    builder->registerFactory("MainContentComponentItem", &MainContentComponentItem::factory);
-
-    return new foleys::MagicPluginEditor(magicState, std::move(builder));
-}
+//juce::AudioProcessorEditor* MicrotonalSynthAudioProcessorEditor::createEditor()
+//{
+//    // MAGIC GUI: we create our custom builder instance here, that will be available for all factories we add
+//    auto builder = std::make_unique<foleys::MagicGUIBuilder>(magicState);
+//    builder->registerJUCEFactories();
+//
+//    builder->registerFactory("MainContentComponentItem", &MainContentComponentItem::factory);
+//
+//    return new foleys::MagicPluginEditor(magicState, std::move(builder));
+//}
 

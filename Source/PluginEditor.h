@@ -20,22 +20,13 @@ class PresetListBox;
 class MicrotonalWindow : public juce::DocumentWindow
 {
 public:
-    MicrotonalWindow(juce::String name) : DocumentWindow(name,
-        juce::Colours::grey,
-        DocumentWindow::closeButton)
-    {
-        centreWithSize(1200, 800);
-        setVisible(true);
-    }
-    void closeButtonPressed() override
-    {
-        // juce::JUCEApplication::getInstance()->systemRequestedQuit();
-        delete this;
-    }
+    MicrotonalWindow(juce::String name);
+    void closeButtonPressed() override;
 
     //   void resized() override;
 
 private:
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MicrotonalWindow)
 
 };
@@ -45,7 +36,7 @@ class MicrotonalSynthAudioProcessorEditor  : public foleys::MagicProcessor
 public:
     //==============================================================================
     MicrotonalSynthAudioProcessorEditor();
-
+    ~MicrotonalSynthAudioProcessorEditor();
     //==============================================================================
     void prepareToPlay(double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
@@ -65,7 +56,7 @@ public:
     //==============================================================================
     double getTailLengthSeconds() const override;
 
-    juce::AudioProcessorEditor* createEditor() override;
+   // juce::AudioProcessorEditor* createEditor() override;
 
     void openWindow();
 
