@@ -71,6 +71,10 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     {
         savePresetInternal();
     });
+    magicState.addTrigger("open-window", [this]
+    {
+        openWindow();
+    });
 
     magicState.setApplicationSettingsFile(juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory)
         .getChildFile(ProjectInfo::companyName)
@@ -94,6 +98,11 @@ void MicrotonalSynthAudioProcessorEditor::prepareToPlay(double sampleRate, int b
     outputMeter->setupSource(getTotalNumOutputChannels(), sampleRate, 500);
     oscilloscope->prepareToPlay(sampleRate, blockSize);
     analyser->prepareToPlay(sampleRate, blockSize);
+}
+
+void MicrotonalSynthAudioProcessorEditor::openWindow()
+{
+    window = new MicrotonalWindow("Configure Microtonal Mapping");
 }
 
 void MicrotonalSynthAudioProcessorEditor::releaseResources()
@@ -129,6 +138,8 @@ void MicrotonalSynthAudioProcessorEditor::processBlock(juce::AudioBuffer<float>&
     oscilloscope->pushSamples(buffer);
     analyser->pushSamples(buffer);
 }
+
+//==============================================================================
 
 //==============================================================================
 void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
@@ -698,6 +709,68 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponentItem)
 };
 
+class MicrotonalButton : public foleys::GuiItem
+{
+public:
+    FOLEYS_DECLARE_GUI_FACTORY(MicrotonalButton)
+
+    static const juce::Identifier pText;
+    static const juce::Identifier pOnClick;
+
+    MicrotonalButton(foleys::MagicGUIBuilder& builder, const juce::ValueTree& node) : GuiItem(builder, node)
+    {
+        setColourTranslation(
+            {
+                { "button-color", juce::TextButton::buttonColourId },
+                { "button-on-color", juce::TextButton::buttonOnColourId },
+                { "button-off-text", juce::TextButton::textColourOffId },
+                { "button-on-text", juce::TextButton::textColourOnId }
+            });
+
+        addAndMakeVisible(button);
+    }
+
+    void update() override
+    {
+        attachment.reset();
+
+        auto parameter = configNode.getProperty(foleys::IDs::parameter, juce::String()).toString();
+        if (parameter.isNotEmpty())
+            attachment = getMagicState().createAttachment(parameter, button);
+
+        button.setClickingTogglesState(parameter.isNotEmpty());
+        button.setButtonText(magicBuilder.getStyleProperty(pText, configNode));
+
+        auto triggerID = getProperty(pOnClick).toString();
+        if (triggerID.isNotEmpty())
+            button.onClick = getMagicState().getTrigger(triggerID);
+    }
+
+    std::vector<foleys::SettableProperty> getSettableProperties() const override
+    {
+        std::vector<foleys::SettableProperty> props;
+
+        props.push_back({ configNode, foleys::IDs::parameter, foleys::SettableProperty::Choice, {}, magicBuilder.createParameterMenuLambda() });
+        props.push_back({ configNode, pText, foleys::SettableProperty::Text, {}, {} });
+        props.push_back({ configNode, pOnClick, foleys::SettableProperty::Choice, {}, magicBuilder.createTriggerMenuLambda() });
+
+        return props;
+    }
+
+    juce::Component* getWrappedComponent() override
+    {
+        return &button;
+    }
+
+private:
+    juce::TextButton button;
+    std::unique_ptr<juce::ButtonParameterAttachment> attachment;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MicrotonalButton)
+};
+const juce::Identifier MicrotonalButton::pText{ "text" };
+const juce::Identifier MicrotonalButton::pOnClick{ "onClick" };
+
 juce::AudioProcessorEditor* MicrotonalSynthAudioProcessorEditor::createEditor()
 {
     // MAGIC GUI: we create our custom builder instance here, that will be available for all factories we add
@@ -705,6 +778,7 @@ juce::AudioProcessorEditor* MicrotonalSynthAudioProcessorEditor::createEditor()
     builder->registerJUCEFactories();
 
     builder->registerFactory("MainContentComponentItem", &MainContentComponentItem::factory);
+    builder->registerFactory("MicrotonalConfigButton", &MicrotonalButton::factory);
 
     return new foleys::MagicPluginEditor(magicState, std::move(builder));
 }

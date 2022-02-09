@@ -54,11 +54,7 @@ public:
     //foleys::MagicProcessorState magicState;
     //juce::AudioProcessorEditor* MicrotonalSynthAudioProcessor::createEditor() override;
     void MicrotonalSynthAudioProcessor::initialiseBuilder(foleys::MagicGUIBuilder& builder);
-    //==============================================================================
 
-    //==============================================================================
-    // Main windows
-    //===============================================================================
 private:
     //==============================================================================
     int divisions;
