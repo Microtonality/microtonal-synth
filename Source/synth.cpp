@@ -44,7 +44,7 @@ void Synth::addOvertoneParameters(juce::AudioProcessorValueTreeState::ParameterL
     for (int i = 0; i < Synth::numOscillators; ++i)
     {
         group->addChild(std::make_unique<juce::AudioParameterFloat>("osc" + juce::String(i), "Oscillator " + juce::String(i), juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.0f));
-        group->addChild(std::make_unique<juce::AudioParameterFloat>("detune" + juce::String(i), "Detune " + juce::String(i), juce::NormalisableRange<float>(-0.5f, 0.5f, 0.01f), 0.0f));
+        group->addChild(std::make_unique<juce::AudioParameterFloat>("detune" + juce::String(i), "Detune " + juce::String(i), juce::NormalisableRange<float>(0.25f, 4.0f, 0.0001f), 1.0f));
     }
 
     layout.add(std::move(group));
@@ -263,7 +263,6 @@ double Synth::Voice::getDetuneFromPitchWheel(int wheelValue) const
 void Synth::Voice::updateFrequency(BaseOscillator& oscillator, bool noteStart)
 {
     const auto freq = getFrequencyForNote(getCurrentlyPlayingNote(),
-        pitchWheelValue * maxPitchWheelSemitones
-        + oscillator.detune->get());
-    oscillator.osc.get<0>().setFrequency(float(freq * oscillator.multiplier), noteStart);
+        pitchWheelValue * maxPitchWheelSemitones);
+    oscillator.osc.get<0>().setFrequency(float(freq * oscillator.detune->get()), noteStart);
 }
