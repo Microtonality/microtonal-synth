@@ -9,7 +9,7 @@
 */
 
 #include "MicrotonalMapper.h"
-
+double total_divisions, base_freq, selectedFrequencies[12];
 //==============================================================================
 MainContentComponent::MainContentComponent()
     : synthAudioSource(keyboardState),

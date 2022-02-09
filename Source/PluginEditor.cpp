@@ -22,6 +22,7 @@ MicrotonalWindow::MicrotonalWindow(juce::String name) : DocumentWindow(name,
     juce::Colours::dimgrey,
     DocumentWindow::closeButton)
 {
+    setContentOwned(new MainContentComponent(), true);
     centreWithSize(1200, 800);
     setVisible(true);
 }

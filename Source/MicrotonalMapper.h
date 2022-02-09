@@ -9,16 +9,14 @@
 */
 
 #pragma once
-#ifndef MICROTONALMAPPER_H
-#define MICROTONALMAPPER_H
-
 #include <JuceHeader.h>
 #include <algorithm>
 #include <string> 
 #include <cctype> 
 using namespace std;
 //==============================================================================
-double total_divisions, base_freq, selectedFrequencies[12];
+extern double total_divisions, base_freq, selectedFrequencies[12];
+
 //=================================================================================================
 struct SineWaveSound : public juce::SynthesiserSound
 {
@@ -252,4 +250,3 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)
 };
 //=================================================================================================
-#endif
