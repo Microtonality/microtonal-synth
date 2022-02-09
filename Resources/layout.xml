@@ -57,7 +57,7 @@
                     caption-size="25" caption-color="FF000000" border-color="FF000000"
                     combo-background="FF122B38" combo-menu-background=""/>
           <TextButton lookAndFeel="LookAndFeel_V2" id="Microtonal Mapping" text="Microtonal Mapping"
-                      button-color="FFFFFFFF" background-color=""/>
+                      button-color="FFFFFFFF" background-color="" onClick="open-window"/>
           <TextButton lookAndFeel="LookAndFeel_V2" id="Load Configuration" text="Load Configuration"
                       button-color="FFFFFFFF" background-color="" caption=""/>
         </View>

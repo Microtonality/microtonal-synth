@@ -24,7 +24,7 @@ public:
         juce::Colours::grey,
         DocumentWindow::closeButton)
     {
-        centreWithSize(300, 200);
+        centreWithSize(1200, 800);
         setVisible(true);
     }
     void closeButtonPressed() override

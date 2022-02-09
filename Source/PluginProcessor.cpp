@@ -174,7 +174,7 @@ MicrotonalSynthAudioProcessor::MicrotonalSynthAudioProcessor()
 #endif
 {
     FOLEYS_SET_SOURCE_PATH(__FILE__);
-    magicState.setGuiValueTree(BinaryData::ProposedLayout_xml, BinaryData::ProposedLayout_xmlSize);
+    magicState.setGuiValueTree(BinaryData::layout_xml, BinaryData::layout_xmlSize);
     divisions = 12;
 }
 
