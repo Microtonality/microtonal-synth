@@ -7,6 +7,10 @@
       <FILE id="qnUMcy" name="layout.xml" compile="0" resource="1" file="Resources/layout.xml"/>
     </GROUP>
     <GROUP id="{A81970BF-123A-2D09-3768-6FC8B9923387}" name="Source">
+      <FILE id="K8QD5v" name="MicrotonalMapper.cpp" compile="1" resource="0"
+            file="Source/MicrotonalMapper.cpp"/>
+      <FILE id="qG3JN6" name="MicrotonalMapper.h" compile="0" resource="0"
+            file="Source/MicrotonalMapper.h"/>
       <FILE id="vzG7Z1" name="PresetListBox.h" compile="0" resource="0" file="Source/PresetListBox.h"/>
       <FILE id="eEgRx4" name="synth.cpp" compile="1" resource="0" file="Source/synth.cpp"/>
       <FILE id="rjefS7" name="synth.h" compile="0" resource="0" file="Source/synth.h"/>
