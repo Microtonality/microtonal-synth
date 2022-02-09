@@ -37,6 +37,8 @@
                   id="Sustain" parameter="sustain" caption="Sustain"/>
           <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
                   id="Release" parameter="release" caption="Release"/>
+          <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
+                  parameter="gain" slider-text="" caption="Gain" id="Gain"/>
         </View>
       </View>
       <View flex-grow="2" id="Other Modules">
