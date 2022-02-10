@@ -22,10 +22,12 @@ MicrotonalWindow::MicrotonalWindow(juce::String name) : DocumentWindow(name,
     juce::Colours::dimgrey,
     DocumentWindow::closeButton)
 {
+    double ratio = 1.4; // adjust as desired
     setContentOwned(new MainContentComponent(), true);
-    centreWithSize(1400, 1000);
+    centreWithSize(1400, 1000/ratio);
     setResizable(true, true);
-    setResizeLimits(800, 600, 1800, 1600);
+    setResizeLimits(800, 600/ratio, 1800, 1600/ratio);
+    getConstrainer()->setFixedAspectRatio(ratio);
     setVisible(true);
 }
 
