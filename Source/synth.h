@@ -78,6 +78,7 @@ public:
             juce::dsp::ProcessorChain<juce::dsp::Oscillator<float>, juce::dsp::Gain<float>> osc;
             juce::AudioParameterFloat* gain = nullptr;
             juce::AudioParameterFloat* detune = nullptr;
+            juce::AudioParameterChoice* wave_form = nullptr;
             double multiplier = 1.0;
 
         private:

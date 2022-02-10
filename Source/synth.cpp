@@ -45,7 +45,10 @@ void Synth::addOvertoneParameters(juce::AudioProcessorValueTreeState::ParameterL
     {
         group->addChild(std::make_unique<juce::AudioParameterFloat>("osc" + juce::String(i), "Oscillator " + juce::String(i), juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.0f));
         group->addChild(std::make_unique<juce::AudioParameterFloat>("detune" + juce::String(i), "Detune " + juce::String(i), juce::NormalisableRange<float>(0.25f, 4.0f, 0.0001f), 1.0f));
-    }
+		group->addChild(std::make_unique<juce::AudioParameterChoice>("wave_form" + juce::String(i), "wave_form" + juce::String(i),
+            juce::StringArray({ "Sine","Square","Sawtooth","Triangle"}),
+            0));
+	}
 
     layout.add(std::move(group));
 }
@@ -94,6 +97,7 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
         auto& osc = oscillators.back();
         osc->gain = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("osc" + juce::String(i)));
         osc->detune = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("detune" + juce::String(i)));
+        osc->wave_form = dynamic_cast<juce::AudioParameterChoice*>(state.getParameter("wave_form" + juce::String(i)));
         //osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
 		if (i%4==0){
             osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
