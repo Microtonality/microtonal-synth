@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<magic>
+  <Style name="default">
+    <Nodes/>
+    <Classes>
+      <plot-view border="2" background-color="black" border-color="silver" display="contents"/>
+      <nomargin margin="0" padding="0" border="0"/>
+      <group margin="5" padding="5" border="2" flex-direction="column"/>
+      <transparent background-color="transparentblack"/>
+    </Classes>
+    <Types>
+      <Slider border="0" slider-textbox="textbox-below"/>
+      <ToggleButton border="0" max-height="50" caption-size="0" text="Active"/>
+      <TextButton border="0" max-height="50" caption-size="0"/>
+      <ComboBox border="0" max-height="50" caption-size="0"/>
+      <Plot border="0" margin="0" padding="0" background-color="00000000"
+            radius="0"/>
+      <XYDragComponent border="0" margin="0" padding="0" background-color="00000000"
+                       radius="0"/>
+    </Types>
+  </Style>
+  <View id="root" resizable="1" resize-corner="1" display="flexbox" flex-direction="column"
+        lookAndFeel="LookAndFeel_V2" background-gradient="linear-gradient(0,0% ff000000,100% ffffffff)">
+    <View flex-grow="1.5" id="Main Window">
+      <View id="ADSR and Visualizer" flex-direction="column">
+        <View id="Visualizer" background-color="FFABABAB">
+          <Plot source="waveform" background-color="FF000000" plot-inactive-color="FF00EE18"
+                plot-fill-color="FFC90000" plot-color="FF40C400"/>
+        </View>
+        <View background-color="FFABABAB" id="ADSR">
+          <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
+                  parameter="attack" slider-text="" caption="Attack"/>
+          <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
+                  id="Decay" parameter="decay" caption="Decay"/>
+          <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
+                  id="Sustain" parameter="sustain" caption="Sustain"/>
+          <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
+                  id="Release" parameter="release" caption="Release"/>
+          <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
+                  parameter="gain" slider-text="" caption="Gain" id="Gain"/>
+        </View>
+      </View>
+      <View flex-grow="2" id="Other Modules">
+        <View id="Oscillators" background-color="FFABABAB">
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="osc0" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="detune0" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="osc1" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="detune1" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="osc2" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="detune2" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="osc3" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+          <View id="Wave 1" flex-direction="column">
+            <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
+                      border-color="" border="" caption="Wave Type" caption-size="18"
+                      background-gradient=""/>
+            <Slider parameter="detune3" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"/>
+          </View>
+        </View>
+        <View flex-grow="0.3" id="Selection" flex-direction="column">
+          <ComboBox combo-text="FF090808" combo-menu-text="FF757575" id="Instrument Selection"
+                    lookAndFeel="Skeuomorphic" background-color="FFABABAB" caption="Instrument Selection"
+                    caption-size="25" caption-color="FF000000" border-color="FF000000"
+                    combo-background="FF122B38" combo-menu-background=""/>
+          <ComboBox combo-text="FF090808" combo-menu-text="FF757575" id="Preset Selection"
+                    lookAndFeel="Skeuomorphic" background-color="FFABABAB" caption="Preset Selection"
+                    caption-size="25" caption-color="FF000000" border-color="FF000000"
+                    combo-background="FF122B38" combo-menu-background=""/>
+          <TextButton lookAndFeel="LookAndFeel_V2" id="Microtonal Mapping" text="Microtonal Mapping"
+                      button-color="FFFFFFFF" background-color="" onClick="open-window"/>
+          <TextButton lookAndFeel="LookAndFeel_V2" id="Load Configuration" text="Load Configuration"
+                      button-color="FFFFFFFF" background-color="" caption=""/>
+        </View>
+      </View>
+    </View>
+    <View id="Keyboard">
+      <KeyboardComponent/>
+    </View>
+  </View>
+  <Styles>
+    <Style name="default">
+      <Nodes/>
+      <Classes>
+        <plot-view border="2" background-color="black" border-color="silver" display="contents"/>
+        <nomargin margin="0" padding="0" border="0"/>
+        <group margin="5" padding="5" border="2" flex-direction="column"/>
+        <transparent background-color="transparentblack"/>
+      </Classes>
+      <Types>
+        <Slider border="0" slider-textbox="textbox-below"/>
+        <ToggleButton border="0" max-height="50" caption-size="0" text="Active"/>
+        <TextButton border="0" max-height="50" caption-size="0"/>
+        <ComboBox border="0" max-height="50" caption-size="0"/>
+        <Plot border="0" margin="0" padding="0" background-color="00000000"
+              radius="0"/>
+        <XYDragComponent border="0" margin="0" padding="0" background-color="00000000"
+                         radius="0"/>
+      </Types>
+      <Palettes>
+        <default/>
+      </Palettes>
+    </Style>
+  </Styles>
+</magic>
+ 

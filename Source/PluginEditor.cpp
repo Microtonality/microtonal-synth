@@ -22,9 +22,9 @@ MicrotonalWindow::MicrotonalWindow(juce::String name) : DocumentWindow(name,
     juce::Colours::dimgrey,
     DocumentWindow::closeButton)
 {
-    double ratio = 1.4; // adjust as desired
+    double ratio = 2; // adjust as desired
     setContentOwned(new MainContentComponent(), true);
-    centreWithSize(1400, 1000/ratio);
+    centreWithSize(1400, 700/ratio);
     setResizable(true, true);
     setResizeLimits(800, 600/ratio, 1800, 1600/ratio);
     getConstrainer()->setFixedAspectRatio(ratio);
@@ -115,7 +115,8 @@ void MicrotonalSynthAudioProcessorEditor::prepareToPlay(double sampleRate, int b
 
 void MicrotonalSynthAudioProcessorEditor::openWindow()
 {
-    window = new MicrotonalWindow("Configure Microtonal Mapping");
+    if(!window)
+        window = new MicrotonalWindow("Configure Microtonal Mapping");
 }
 
 void MicrotonalSynthAudioProcessorEditor::releaseResources()
