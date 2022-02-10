@@ -79,7 +79,10 @@ public:
             juce::AudioParameterFloat* gain = nullptr;
             juce::AudioParameterFloat* detune = nullptr;
             juce::AudioParameterChoice* wave_form = nullptr;
+            float                       angleDelta = 0.0;
+            float                       currentAngle = 0.0;
             double multiplier = 1.0;
+            void incCurrentAngle();
 
         private:
             JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BaseOscillator)
@@ -102,6 +105,9 @@ public:
         float                       lastGain = 0.0;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Voice)
+
+    public:
+        void getSamples(BaseOscillator& osc, juce::dsp::ProcessContextReplacing<float>& pc);
     };
 
 private:
