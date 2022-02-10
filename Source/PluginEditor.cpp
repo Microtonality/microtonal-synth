@@ -24,10 +24,11 @@ MicrotonalWindow::MicrotonalWindow(juce::String name) : DocumentWindow(name,
 {
     double ratio = 2; // adjust as desired
     setContentOwned(new MainContentComponent(), true);
-    centreWithSize(1400, 700/ratio);
+    //centreWithSize(1400, 700/ratio);
+    getConstrainer()->setFixedAspectRatio(ratio);
+    centreWithSize(1400, 700);
     setResizable(true, true);
     setResizeLimits(800, 600/ratio, 1800, 1600/ratio);
-    getConstrainer()->setFixedAspectRatio(ratio);
     setVisible(true);
 }
 
