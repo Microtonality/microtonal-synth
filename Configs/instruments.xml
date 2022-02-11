@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instrumentConfig>
   <instrument name="ins1">
-      <wave1>
-        <shape>sine</shape>
-        <freq>1</freq>
-        <amp>1</amp>
-      </wave1>
+      <wave1 shape="sine" freq="1" amp="1"></wave1>
+      <wave2 shape="saw" freq="1" amp="1"></wave2>
+      <wave3 shape="square" freq="1" amp="1"></wave3>
+      <wave4 shape="tri" freq="1" amp="1"></wave4>
   </instrument>
   
 </instrumentConfig>
