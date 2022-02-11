@@ -21,7 +21,7 @@ namespace IDs
 
 //==============================================================================
 
-int Synth::numOscillators = 4;
+int Synth::numOscillators = 7;
 
 void Synth::addADSRParameters(juce::AudioProcessorValueTreeState::ParameterLayout& layout)
 {
@@ -45,7 +45,10 @@ void Synth::addOvertoneParameters(juce::AudioProcessorValueTreeState::ParameterL
     {
         group->addChild(std::make_unique<juce::AudioParameterFloat>("osc" + juce::String(i), "Oscillator " + juce::String(i), juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.0f));
         group->addChild(std::make_unique<juce::AudioParameterFloat>("detune" + juce::String(i), "Detune " + juce::String(i), juce::NormalisableRange<float>(0.25f, 4.0f, 0.0001f), 1.0f));
-    }
+		group->addChild(std::make_unique<juce::AudioParameterChoice>("wave_form" + juce::String(i), "wave_form" + juce::String(i),
+            juce::StringArray({ "Sine","Square","Sawtooth","Triangle"}),
+            0));
+	}
 
     layout.add(std::move(group));
 }
@@ -129,6 +132,7 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
         state.getParameter("osc" + juce::String(i))->getText();
         
         osc->detune = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("detune" + juce::String(i)));
+        osc->wave_form = dynamic_cast<juce::AudioParameterChoice*>(state.getParameter("wave_form" + juce::String(i)));
         //osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
 		if (i%4==0){
             osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
@@ -235,6 +239,77 @@ void Synth::Voice::controllerMoved(int controllerNumber, int newControllerValue)
     juce::ignoreUnused(controllerNumber, newControllerValue);
 }
 
+void Synth::Voice::BaseOscillator::incCurrentAngle() {
+    currentAngle += angleDelta;
+    if (currentAngle >= 6.0) { currentAngle = fmod(currentAngle, 2.0 * juce::MathConstants<double>::pi); }
+}
+
+void Synth::Voice::getSamples(BaseOscillator& osc, juce::dsp::ProcessContextReplacing<float>& pc) {
+    juce::dsp::AudioBlock<float> buffer = pc.getOutputBlock();
+    int totalSamples = buffer.getNumSamples();
+    int sampleNum = 0;
+    auto oscGain = osc.gain->get();
+    auto wave_form = osc.wave_form->getIndex();
+    if (oscGain < 0.01)
+        return;
+    if (wave_form == 0) {
+        float sampleSound = 0.0;
+        while (sampleNum < totalSamples) {
+            sampleSound = std::sin(osc.currentAngle) * oscGain;
+            buffer.addSample(0, sampleNum, sampleSound);
+            osc.incCurrentAngle();
+            sampleNum++;
+        }
+    }
+    else if (wave_form == 1) {
+        float sampleSound = 0.0;
+        while (sampleNum < totalSamples) {
+            sampleSound = fmod(osc.currentAngle, 2 *
+                juce::MathConstants<double>::pi) /
+                juce::MathConstants<double>::pi - 1;
+            if (sampleSound > (float)0.0) {
+                sampleSound = (float)1.0;
+            }
+            else {
+                sampleSound = (float)-1.0;
+            }
+            sampleSound *= oscGain;
+            buffer.addSample(0, sampleNum, sampleSound);
+            osc.incCurrentAngle();
+            sampleNum++;
+        }
+    }
+    else if (wave_form == 2) {
+        float sampleSound = 0.0;
+        while (sampleNum < totalSamples) {
+            sampleSound = fmod(osc.currentAngle, 2 *
+                juce::MathConstants<double>::pi) /
+                juce::MathConstants<double>::pi - 1;
+            sampleSound *= oscGain;
+            buffer.addSample(0, sampleNum, sampleSound);
+            osc.incCurrentAngle();
+            sampleNum++;
+        }
+    }
+    else {
+        float sampleSound = 0.0;
+        while (sampleNum < totalSamples) {
+            sampleSound = 2 * fmod(osc.currentAngle, 2 *
+                juce::MathConstants<double>::pi) /
+                juce::MathConstants<double>::pi - 2;
+            if (sampleSound > 0) {
+                sampleSound = sampleSound * -1.0;
+            }
+            sampleSound += 1;
+            sampleSound *= oscGain;
+            buffer.addSample(0, sampleNum, sampleSound);
+            osc.incCurrentAngle();
+            sampleNum++;
+        }
+    }
+   
+}
+
 void Synth::Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer,
     int startSample,
     int numSamples)
@@ -251,15 +326,14 @@ void Synth::Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer,
         voiceBuffer.clear();
         for (auto& osc : oscillators)
         {
-            auto oscGain = osc->gain->get();
-            if (oscGain < 0.01)
-                continue;
-
-            updateFrequency(*osc);
+            oscillatorBuffer.clear();
+            getSamples(*osc, context);
+            voiceBuffer.addFrom(0, 0, context.getInputBlock().getChannelPointer(0), left);
+            /*updateFrequency(*osc);
             osc->osc.get<1>().setGainLinear(oscGain);
             oscillatorBuffer.clear();
             osc->osc.process(context);
-            voiceBuffer.addFrom(0, 0, oscillatorBuffer.getReadPointer(0), left);
+            voiceBuffer.addFrom(0, 0, oscillatorBuffer.getReadPointer(0), left);*/
         }
 
         adsr.applyEnvelopeToBuffer(voiceBuffer, 0, left);
@@ -302,5 +376,8 @@ void Synth::Voice::updateFrequency(BaseOscillator& oscillator, bool noteStart)
 {
     const auto freq = getFrequencyForNote(getCurrentlyPlayingNote(),
         pitchWheelValue * maxPitchWheelSemitones);
+    oscillator.angleDelta = (freq * oscillator.detune->get() / getSampleRate()) * 2.0 * juce::MathConstants<double>::pi;
+    if (noteStart)
+        oscillator.currentAngle = 0.0;
     oscillator.osc.get<0>().setFrequency(float(freq * oscillator.detune->get()), noteStart);
 }
