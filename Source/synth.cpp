@@ -129,7 +129,7 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
 
         auto& osc = oscillators.back();
         osc->gain = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("osc" + juce::String(i)));
-        state.getParameter("osc" + juce::String(i))->getText();
+        state.getParameter("osc" + juce::String(i));//->getText();
         
         osc->detune = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("detune" + juce::String(i)));
         osc->wave_form = dynamic_cast<juce::AudioParameterChoice*>(state.getParameter("wave_form" + juce::String(i)));

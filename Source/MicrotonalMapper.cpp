@@ -123,9 +123,8 @@ MainContentComponent::~MainContentComponent()
 
 void MainContentComponent::resized()
 {
-            auto area = getLocalBounds();
+        auto area = getLocalBounds();
         auto headerFooterHeight = 36;
-
 
         auto sideItemHeight = 40;
         auto sideItemMargin = 5;
@@ -165,7 +164,7 @@ void MainContentComponent::resized()
        // baseFreqInput.setBounds(upperWindowArea.getWidth() / 4, upperWindowArea.getHeight() * (95.0 / 100), 50, 20);
 
         
-        keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 8.0);
+        keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 7.0);
         keyboardComponent.setAvailableRange(72, 84);
 
         int boxWidth = divisionInput.getWidth() / 3;
