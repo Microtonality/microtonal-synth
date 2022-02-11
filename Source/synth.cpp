@@ -53,13 +53,10 @@ void Synth::addOvertoneParameters(juce::AudioProcessorValueTreeState::ParameterL
     layout.add(std::move(group));
 }
 
-void loadInstruments() {
-
-    //juce::File f = juce::File().getCurrentWorkingDirectory() + j("../ Configs / ").getChildFile("instruments.xml");
-
-    
+void loadInstruments() {    
 
     try {
+        
         juce::File f = juce::File("C:/Users/pdcst/Desktop/microtonal/Configs/instruments.xml");
 
         if (f.exists())
@@ -70,19 +67,39 @@ void loadInstruments() {
 
             std::unique_ptr<juce::XmlElement> loadedConfig;
             loadedConfig = juce::parseXML(f);
+
+            juce::XmlElement* child = loadedConfig->getFirstChildElement();
+
+            while (child != nullptr)
+            {
+                    juce::String instrumentName = child->getAttributeValue(0);
+
+                    for (auto* wave : child->getChildIterator())
+                    {
+                        //DBG(wave->toString());
+                        
+                    }
+                        //juce::XmlElement waves = wave->getChild;
+                        
+                    //child->get
+                    
+                    //child = child->getNextElement();
+            }
+
+            /*"ins1"*/
+            //1.5
             DBG(loadedConfig->toString());
 
-
         }
-
     }
     catch (const std::exception&)
     {
         DBG("No selected instruments");
     }
 
-
 }
+
+
 
 
 void Synth::addGainParameters(juce::AudioProcessorValueTreeState::ParameterLayout& layout)
@@ -129,9 +146,9 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
 
         auto& osc = oscillators.back();
         osc->gain = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("osc" + juce::String(i)));
-        state.getParameter("osc" + juce::String(i));//->getText();
         
         osc->detune = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("detune" + juce::String(i)));
+
         osc->wave_form = dynamic_cast<juce::AudioParameterChoice*>(state.getParameter("wave_form" + juce::String(i)));
         //osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
 		if (i%4==0){
@@ -185,7 +202,9 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
 
     oscillatorBuffer.setSize(1, internalBufferSize);
     voiceBuffer.setSize(1, internalBufferSize);
-    loadInstruments();
+
+    //Comment this out until John figures out the relative pathing part
+    //loadInstruments();
 }
 
 bool Synth::Voice::canPlaySound(juce::SynthesiserSound* sound)
