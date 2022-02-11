@@ -43,8 +43,8 @@
         <View id="Oscillators" background-color="FFABABAB">
           <View id="Wave 0" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
-                      border-color="FFF6F6F6" border="2" caption="Wave Type" caption-size="18"
-                      background-gradient="" parameter="wave_form0"/>
+                      border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
+                      parameter="wave_form0" caption=""/>
             <Slider parameter="osc0" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
                     id="Amplitude" border="2"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune0"
@@ -53,8 +53,8 @@
           </View>
           <View id="Wave 1" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
-                      border-color="FFF6F6F6" border="2" caption="Wave Type" caption-size="18"
-                      background-gradient="" parameter="wave_form1"/>
+                      border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
+                      parameter="wave_form1" caption=""/>
             <Slider parameter="osc1" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
                     id="Amplitude" border="2"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune1"
@@ -63,8 +63,8 @@
           </View>
           <View id="Wave 2" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
-                      border-color="FFF6F6F6" border="2" caption="Wave Type" caption-size="18"
-                      background-gradient="" parameter="wave_form2"/>
+                      border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
+                      parameter="wave_form2" caption=""/>
             <Slider parameter="osc2" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
                     id="Amplitude" border="2"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune2"
@@ -73,8 +73,8 @@
           </View>
           <View id="Wave 3" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
-                      border-color="FFF6F6F6" border="2" caption="Wave Type" caption-size="18"
-                      background-gradient="" parameter="wave_form3"/>
+                      border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
+                      parameter="wave_form3" caption=""/>
             <Slider parameter="osc3" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
                     id="Amplitude" border="2"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune3"
@@ -83,8 +83,8 @@
           </View>
           <View id="Wave 4" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
-                      border-color="FFF6F6F6" border="2" caption="Wave Type" caption-size="18"
-                      background-gradient="" parameter="wave_form4"/>
+                      border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
+                      parameter="wave_form4" caption=""/>
             <Slider parameter="osc4" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
                     id="Amplitude" border="2"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune4"
@@ -93,8 +93,8 @@
           </View>
           <View id="Wave 5" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
-                      border-color="FFF6F6F6" border="2" caption="Wave Type" caption-size="18"
-                      background-gradient="" parameter="wave_form5"/>
+                      border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
+                      parameter="wave_form5" caption=""/>
             <Slider parameter="osc5" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
                     id="Amplitude" border="2"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune5"
@@ -103,8 +103,8 @@
           </View>
           <View id="Wave 6" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
-                      border-color="FFF6F6F6" border="2" caption="Wave Type" caption-size="18"
-                      background-gradient="" parameter="wave_form6"/>
+                      border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
+                      parameter="wave_form6" caption=""/>
             <Slider parameter="osc6" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
                     id="Amplitude" border="2"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune6"
