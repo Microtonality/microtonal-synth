@@ -76,19 +76,17 @@ void loadInstruments() {
 
                     for (auto* wave : child->getChildIterator())
                     {
-                        //DBG(wave->toString());
-                        
-                    }
-                        //juce::XmlElement waves = wave->getChild;
-                        
-                    //child->get
-                    
-                    //child = child->getNextElement();
-            }
+                        juce::String shape = wave->getAttributeValue(0);
+                        float amp = wave->getAttributeValue(1).getFloatValue();
+                        float freq = wave->getAttributeValue(2).getFloatValue();
 
-            /*"ins1"*/
-            //1.5
-            DBG(loadedConfig->toString());
+                        DBG(shape);
+                        DBG(amp);
+                        DBG(freq);
+                    }
+
+                    child = child->getNextElement();
+            }
 
         }
     }
@@ -204,7 +202,7 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
     voiceBuffer.setSize(1, internalBufferSize);
 
     //Comment this out until John figures out the relative pathing part
-    //loadInstruments();
+    loadInstruments();
 }
 
 bool Synth::Voice::canPlaySound(juce::SynthesiserSound* sound)
