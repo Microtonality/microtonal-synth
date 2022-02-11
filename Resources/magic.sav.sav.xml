@@ -112,17 +112,18 @@
                     slider-textbox="textbox-below" caption="" caption-size=""/>
           </View>
         </View>
-        <View flex-grow="0.3" id="Selection" flex-direction="column">
+        <View flex-grow="0.3" id="Selection" flex-direction="column" background-color="FF044C93">
+          <ComboBox combo-text="FF090808" combo-menu-text="FF757575" id="Instrument Selection"
+                    lookAndFeel="LookAndFeel_V3" background-color="FF000000" caption="Instrument Selection"
+                    caption-size="25" caption-color="FFFFFFFF" border-color="FFFFFFFF"
+                    combo-background="FFFFFFFF" combo-menu-background="" flex-grow="0.75"/>
           <TextButton lookAndFeel="LookAndFeel_V2" id="Microtonal Mapping" text="Microtonal Mapping"
                       button-color="FFFFFFFF" background-color="" onClick="open-window"/>
           <TextButton lookAndFeel="LookAndFeel_V2" id="Load Configuration" text="Load Configuration"
                       button-color="FFFFFFFF" background-color="" caption=""/>
-          <ComboBox combo-menu-text="FF000000" id="Instrument Selection" lookAndFeel="LookAndFeel_V3"
-                    background-color="FF000000" caption="Instrument Selection" caption-size="25"
-                    caption-color="FFFFFFFF" border-color="FFFFFFFF" combo-background="FFFFFFFF"
-                    combo-menu-background="FFFFFFFF" combo-text="" border="1" flex-grow="0.8"/>
-          <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
-                  parameter="gain" slider-text="" caption="Gain" id="Gain" slider-type="rotary"/>
+          <Slider background-color="FF004B96" lookAndFeel="Skeuomorphic" parameter="gain"
+                  slider-text="" caption="Gain" id="Gain" slider-type="rotary"
+                  border="" width="1000"/>
         </View>
       </View>
     </View>

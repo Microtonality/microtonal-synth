@@ -37,8 +37,6 @@
                   id="Sustain" parameter="sustain" caption="Sustain" slider-type="rotary"/>
           <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
                   id="Release" parameter="release" caption="Release" slider-type="rotary"/>
-          <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
-                  parameter="gain" slider-text="" caption="Gain" id="Gain" slider-type="rotary"/>
         </View>
       </View>
       <View flex-grow="2" id="Other Modules">
@@ -115,18 +113,16 @@
           </View>
         </View>
         <View flex-grow="0.3" id="Selection" flex-direction="column">
-          <ComboBox combo-text="FF090808" combo-menu-text="FF757575" id="Instrument Selection"
-                    lookAndFeel="Skeuomorphic" background-color="FFABABAB" caption="Instrument Selection"
-                    caption-size="25" caption-color="FF000000" border-color="FF000000"
-                    combo-background="FF122B38" combo-menu-background=""/>
-          <ComboBox combo-text="FF090808" combo-menu-text="FF757575" id="Preset Selection"
-                    lookAndFeel="Skeuomorphic" background-color="FFABABAB" caption="Preset Selection"
-                    caption-size="25" caption-color="FF000000" border-color="FF000000"
-                    combo-background="FF122B38" combo-menu-background=""/>
           <TextButton lookAndFeel="LookAndFeel_V2" id="Microtonal Mapping" text="Microtonal Mapping"
                       button-color="FFFFFFFF" background-color="" onClick="open-window"/>
           <TextButton lookAndFeel="LookAndFeel_V2" id="Load Configuration" text="Load Configuration"
                       button-color="FFFFFFFF" background-color="" caption=""/>
+          <ComboBox combo-menu-text="FF000000" id="Instrument Selection" lookAndFeel="LookAndFeel_V3"
+                    background-color="FF000000" caption="Instrument Selection" caption-size="25"
+                    caption-color="FFFFFFFF" border-color="FFFFFFFF" combo-background="FFFFFFFF"
+                    combo-menu-background="FFFFFFFF" combo-text="" border="1" flex-grow="0.8"/>
+          <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
+                  parameter="gain" slider-text="" caption="Gain" id="Gain" slider-type="rotary"/>
         </View>
       </View>
     </View>
