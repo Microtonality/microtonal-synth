@@ -285,7 +285,7 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
             return;
         }
         else if (btn == &noteButtons[i]) {
-            //if (freqBoxIndex == -1) return;
+            if (freqBoxIndex == -1) return;
             if (selectedFrequencies[i] != NULL) {
                 for (int j = 0; j < frequencies.size(); j++) {
                     if (frequencies[j] == selectedFrequencies[i]) {
