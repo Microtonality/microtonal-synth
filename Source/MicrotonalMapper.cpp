@@ -188,10 +188,7 @@ void MainContentComponent::resized()
                 width = (boxWidth / 3) * 2,
                 height = width;
                 noteButtons[i].setBounds(X, Y, width, height);
-
         }
-        //writeValuesToXML();
-        loadConfig();
 }
 
 void MainContentComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
