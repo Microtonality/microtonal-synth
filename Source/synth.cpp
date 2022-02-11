@@ -22,6 +22,7 @@ namespace IDs
 //==============================================================================
 
 int Synth::numOscillators = 7;
+extern double total_divisions, base_freq, selectedFrequencies[12];
 
 void Synth::addADSRParameters(juce::AudioProcessorValueTreeState::ParameterLayout& layout)
 {
@@ -374,8 +375,12 @@ double Synth::Voice::getDetuneFromPitchWheel(int wheelValue) const
 
 void Synth::Voice::updateFrequency(BaseOscillator& oscillator, bool noteStart)
 {
-    const auto freq = getFrequencyForNote(getCurrentlyPlayingNote(),
-        pitchWheelValue * maxPitchWheelSemitones);
+    
+    /*const auto freq = getFrequencyForNote(getCurrentlyPlayingNote(),
+        pitchWheelValue * maxPitchWheelSemitones);*/
+    auto freq = 440.0;
+    if (selectedFrequencies[getCurrentlyPlayingNote() - 72] == NULL) freq = 440.0 * std::pow(2.0, (getCurrentlyPlayingNote() - 69) / 12.0); //change this for key mapping
+    else  freq = selectedFrequencies[getCurrentlyPlayingNote() - 72]; //change this for key mapping
     oscillator.angleDelta = (freq * oscillator.detune->get() / getSampleRate()) * 2.0 * juce::MathConstants<double>::pi;
     if (noteStart)
         oscillator.currentAngle = 0.0;
