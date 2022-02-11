@@ -165,7 +165,7 @@ void MainContentComponent::resized()
 
         
         keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 7.0);
-        keyboardComponent.setAvailableRange(72, 84);
+        keyboardComponent.setAvailableRange(72, 83);
 
         int boxWidth = divisionInput.getWidth() / 3;
         int maxDivisions = 24;
