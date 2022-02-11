@@ -379,8 +379,13 @@ void Synth::Voice::updateFrequency(BaseOscillator& oscillator, bool noteStart)
     /*const auto freq = getFrequencyForNote(getCurrentlyPlayingNote(),
         pitchWheelValue * maxPitchWheelSemitones);*/
     auto freq = 440.0;
-    if (selectedFrequencies[getCurrentlyPlayingNote() - 72] == NULL) freq = 440.0 * std::pow(2.0, (getCurrentlyPlayingNote() - 69) / 12.0); //change this for key mapping
-    else  freq = selectedFrequencies[getCurrentlyPlayingNote() - 72]; //change this for key mapping
+    auto index = (((int)getCurrentlyPlayingNote() - 72) % 12 + 12) % 12;
+    if (selectedFrequencies[index] == NULL) {
+        freq = 440.0 * std::pow(2.0, (float)((int)getCurrentlyPlayingNote() - 69) / 12.0); //change this for key mapping
+    } else {
+        freq = selectedFrequencies[index]; //change this for key mapping
+        freq *= std::pow(2.0,(float)((int)getCurrentlyPlayingNote() - 72) / 12);
+    }
     oscillator.angleDelta = (freq * oscillator.detune->get() / getSampleRate()) * 2.0 * juce::MathConstants<double>::pi;
     if (noteStart)
         oscillator.currentAngle = 0.0;
