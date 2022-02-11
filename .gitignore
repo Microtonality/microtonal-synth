@@ -1,2 +1,5 @@
 **/Builds
 **/JuceLibraryCode
+Resources/*
+
+!Resources/layout.xml
