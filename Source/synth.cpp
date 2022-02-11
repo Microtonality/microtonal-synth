@@ -50,6 +50,38 @@ void Synth::addOvertoneParameters(juce::AudioProcessorValueTreeState::ParameterL
     layout.add(std::move(group));
 }
 
+void loadInstruments() {
+
+    //juce::File f = juce::File().getCurrentWorkingDirectory() + j("../ Configs / ").getChildFile("instruments.xml");
+
+    
+
+    try {
+        juce::File f = juce::File("C:/Users/pdcst/Desktop/microtonal/Configs/instruments.xml");
+
+        if (f.exists())
+        {
+            DBG("The File is here");
+            //juce::XmlDocument doc = juce::XmlDocument(f);
+            //juce::XmlDocument dataDoc(f);
+
+            std::unique_ptr<juce::XmlElement> loadedConfig;
+            loadedConfig = juce::parseXML(f);
+            DBG(loadedConfig->toString());
+
+
+        }
+
+    }
+    catch (const std::exception&)
+    {
+        DBG("No selected instruments");
+    }
+
+
+}
+
+
 void Synth::addGainParameters(juce::AudioProcessorValueTreeState::ParameterLayout& layout)
 {
     auto gain = std::make_unique<juce::AudioParameterFloat>(IDs::paramGain, "Gain", juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.70f);
@@ -91,8 +123,11 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
     for (int i = 0; i < Synth::numOscillators; ++i)
     {
         oscillators.push_back(std::make_unique<BaseOscillator>());
+
         auto& osc = oscillators.back();
         osc->gain = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("osc" + juce::String(i)));
+        state.getParameter("osc" + juce::String(i))->getText();
+        
         osc->detune = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("detune" + juce::String(i)));
         //osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
 		if (i%4==0){
@@ -146,6 +181,7 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
 
     oscillatorBuffer.setSize(1, internalBufferSize);
     voiceBuffer.setSize(1, internalBufferSize);
+    loadInstruments();
 }
 
 bool Synth::Voice::canPlaySound(juce::SynthesiserSound* sound)
@@ -169,6 +205,8 @@ void Synth::Voice::startNote(int midiNoteNumber,
 
     for (auto& osc : oscillators)
         updateFrequency(*osc, true);
+
+    //loadInstruments();
 }
 
 void Synth::Voice::stopNote(float velocity,
