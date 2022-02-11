@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instrumentConfig>
+  <instrument>
+    <name>ins1</name>
+    <oscillators>
+      <wave1>
+        <shape>sine</shape>
+        <freq>1</freq>
+        <amp>1</amp>
+      </wave1>
+    </oscillators>
+  </instrument>
+  
+</instrumentConfig>
