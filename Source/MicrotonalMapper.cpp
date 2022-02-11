@@ -41,6 +41,7 @@ MainContentComponent::MainContentComponent()
         //addAndMakeVisible(upperWindow);
 
         keyboardWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
+        keyboardWindow.setEnabled(false);
         keyboardWindow.setColour(juce::ComboBox::outlineColourId, juce::Colours::blue);
         addAndMakeVisible(keyboardWindow);
 
