@@ -16,27 +16,12 @@
 #include "TinyXML2/tinyxml2.cpp"
 using namespace std;
 using namespace tinyxml2;
-double total_divisions, base_freq, selectedFrequencies[12];
-
+MicrotonalConfig microtonalData;
 //==============================================================================
 MainContentComponent::MainContentComponent()
     : synthAudioSource(keyboardState),
     keyboardComponent(keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard)
 {
-    juce::Array<juce::Colour> colours{ juce::Colour(49,49,49),   // background color
-                                    juce::Colour(87,87,87),   // sidebar button background
-                                    juce::Colour(120,120,120), // input background color
-                                    juce::Colour(19,243,67) // input outline and text color
-                                    };
-        enum coloursEnum {
-            backgroundColor,
-            sidebarBtnBackgroundColor,
-            inputBackgroundColor,
-            inputOutlineTextColor
-        };
-
-        
-
         upperWindow.setColour(juce::TextButton::buttonColourId, colours[backgroundColor]);
         //addAndMakeVisible(upperWindow);
 
@@ -46,21 +31,21 @@ MainContentComponent::MainContentComponent()
         addAndMakeVisible(keyboardWindow);
 
         divisionInput.setFont(juce::Font(20.0f, juce::Font::bold));
-        divisionInput.setText(to_string((int)total_divisions), juce::dontSendNotification);
+        divisionInput.setText(to_string((int)microtonalData.divisions), juce::dontSendNotification);
         divisionInput.setColour(juce::Label::textColourId, juce::Colours::black);
         divisionInput.setJustificationType(juce::Justification::centred);
         divisionInput.setEditable(true);
         divisionInput.setColour(juce::Label::backgroundColourId, colours[inputBackgroundColor]);
         divisionInput.setColour(juce::Label::outlineColourId, colours[inputOutlineTextColor]);
         divisionInput.onTextChange = [this] { 
-
             if (all_of(divisionInput.getText().begin(), divisionInput.getText().end(), isdigit) && divisionInput.getText().getIntValue() >= 12
                 && divisionInput.getText().getIntValue() <= 24) {
                 divisionInput.setText(divisionInput.getText(), juce::sendNotification);
                 divisions = divisionInput.getText().getIntValue();
             }
-            else
+            else {
                 divisionInput.setText(to_string(divisions), juce::dontSendNotification);
+            }
         };
         addAndMakeVisible(divisionInput);
 
@@ -74,7 +59,7 @@ MainContentComponent::MainContentComponent()
         addAndMakeVisible(divisionLabel);
 
         baseFreqInput.setFont(juce::Font(18.0f, juce::Font::bold));
-        baseFreqInput.setText(to_string((int)base_freq), juce::dontSendNotification);
+        baseFreqInput.setText(to_string((int)microtonalData.base_frequency), juce::dontSendNotification);
         baseFreqInput.setColour(juce::Label::textColourId, juce::Colours::black);
         baseFreqInput.setColour(juce::Label::outlineColourId, colours[inputOutlineTextColor]);
         baseFreqInput.setColour(juce::Label::backgroundColourId, colours[inputBackgroundColor]);
@@ -96,13 +81,12 @@ MainContentComponent::MainContentComponent()
         generateFrequencies.setButtonText("Generate");
         generateFrequencies.addListener(this);
         addAndMakeVisible(generateFrequencies);
+
         saveToXMLBtn.setColour(juce::TextButton::buttonColourId, colours[inputBackgroundColor]);
         saveToXMLBtn.setColour(juce::TextButton::textColourOffId, colours[inputOutlineTextColor]);
         saveToXMLBtn.setButtonText("Save Config");
         saveToXMLBtn.addListener(this);
         addAndMakeVisible(saveToXMLBtn);
-
-        
 
         addAndMakeVisible(keyboardComponent);
         setAudioChannels(0, 2);
@@ -110,10 +94,8 @@ MainContentComponent::MainContentComponent()
             btn.setColour(juce::TextButton::buttonColourId, juce::Colours::blue);
             addAndMakeVisible(btn);
         }
-        
         setSize (1200, 800);
         startTimer (400);
-
         loadConfig();
 }
 
@@ -126,7 +108,6 @@ void MainContentComponent::resized()
 {
         auto area = getLocalBounds();
         auto headerFooterHeight = 36;
-
         auto sideItemHeight = 40;
         auto sideItemMargin = 5;
 
@@ -160,27 +141,24 @@ void MainContentComponent::resized()
         auto keyboardArea = keyboardWindowArea.reduced(keyboardWidthDelta, keyboardHeightDelta);//.removeFromLeft(keyboardWidth);
         keyboardComponent.setBounds(keyboardArea);
 
-
-        // Set basefreq 
-       // baseFreqInput.setBounds(upperWindowArea.getWidth() / 4, upperWindowArea.getHeight() * (95.0 / 100), 50, 20);
-
-        
         keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 7.0);
         keyboardComponent.setAvailableRange(72, 83);
 
-        int boxWidth = divisionInput.getWidth() / 3;
+        int boxHeight = divisionInput.getWidth() / 3;
+        int boxWidth = boxHeight + 5;
         int maxDivisions = 24;
+
         generateFrequencies.setBounds(upperWindow.getX(), upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + 10, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
         saveToXMLBtn.setBounds(upperWindow.getX(), upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + generateFrequencies.getHeight() + 10, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
 
         for (int i = 0; i < maxDivisions; i++) {
-            int X = upperWindow.getX() + 1.5 * generateFrequencies.getWidth() + ((boxWidth + 2) * i), 
+            int X = upperWindow.getX() + 1.3 * generateFrequencies.getWidth() + ((boxWidth + 2) * i), 
                 Y = upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + (generateFrequencies.getHeight() / 3),
                 width = boxWidth, 
-                height = boxWidth;
+                height = boxHeight;
             frequencyBoxes[i].setBounds(X, Y, width, height);
+            frequencyBoxes[i].getBestWidthForHeight(boxHeight);
         }
-
         for (int i = 0; i < 12; i++) {
             int boxWidth = (divisionInput.getWidth() / 3) + 2;
             int X = keyboardComponent.getKeyStartPosition(startKey) + keyboardComponent.getX() + ((keyboardComponent.getKeyWidth() / 5) * 3 * i),
@@ -208,25 +186,23 @@ void MainContentComponent::loadConfig() {
         {
             int index = stoi(child->Attribute("index"));
             double freq = stod(child->GetText());
-            selectedFrequencies[index] = freq;
+            microtonalData.frequencies[index].index = index;
+            microtonalData.frequencies[index].frequency= freq;
         }
-        base_freq = stod(baseFrequencyString);
-        total_divisions = stod(divisionsString);
+        microtonalData.base_frequency = stod(baseFrequencyString);
+        microtonalData.divisions = stod(divisionsString);
     }
     catch (const std::exception&)
     {
         DBG("No selected frequencies.");
     }
     
-
-    
-
-    baseFreqInput.setText(to_string(base_freq), juce::dontSendNotification);
-    divisionInput.setText(to_string((int)total_divisions), juce::dontSendNotification);
+    baseFreqInput.setText(to_string(microtonalData.base_frequency), juce::dontSendNotification);
+    divisionInput.setText(to_string((int)microtonalData.divisions), juce::dontSendNotification);
     genFreqFunc();
     for (int j = 0; j < 12; j++) {
         for (int i = 0; i < frequencies.size(); i++){
-            if (roundoff(frequencies[i],6) == roundoff(selectedFrequencies[j], 6)) {
+            if (roundoff(frequencies[i],6) == roundoff(microtonalData.frequencies[j].frequency, 6)) {
                 frequencyBoxes[i].triggerClick();
                 noteButtons[j].triggerClick();
             }
@@ -243,7 +219,7 @@ void MainContentComponent::paint(juce::Graphics& g) {
     for (int i = 0; i < frequencies.size(); i++) {
         for (int j = 0; j < 12; j++) {
             
-            if (frequencies[i] == selectedFrequencies[j]) {
+            if (frequencies[i] == microtonalData.frequencies[j].frequency) {
                 juce::Line<float> line(
                     juce::Point<float>(
                         frequencyBoxes[i].getX() + (frequencyBoxes[i].getWidth() / 2),
@@ -275,7 +251,8 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
     for (int i = 0; i < 24; i++) {
         if (btn == &generateFrequencies) {
             for (int i = 0; i < 12; i++) {
-                selectedFrequencies[i] = NULL;
+                microtonalData.frequencies[i].frequency = NULL;
+                microtonalData.frequencies[i].index = NULL;
             }
             genFreqFunc(); 
             return; 
@@ -286,18 +263,19 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
         }
         else if (btn == &noteButtons[i]) {
             if (freqBoxIndex == -1) return;
-            if (selectedFrequencies[i] != NULL) {
+            if (microtonalData.frequencies[i].frequency != NULL) {
                 for (int j = 0; j < frequencies.size(); j++) {
-                    if (frequencies[j] == selectedFrequencies[i]) {
+                    if (frequencies[j] == microtonalData.frequencies[i].frequency) {
                         frequencyBoxes[j].setColour(juce::TextButton::buttonColourId, juce::Colours::white);
                     }
                 }
             }
-            selectedFrequencies[i] = frequencies[freqBoxIndex];
+            microtonalData.frequencies[i].index = freqBoxIndex;
+            microtonalData.frequencies[i].frequency = frequencies[freqBoxIndex];
             for (int k = 0; k < 12; k++) {
                 if (k == i) continue;
                 
-                if (selectedFrequencies[k] == selectedFrequencies[i]) selectedFrequencies[k] = NULL;
+                if (microtonalData.frequencies[k].frequency == microtonalData.frequencies[i].frequency) microtonalData.frequencies[k].frequency = NULL;
             }
             noteButtons[i].setColour(juce::TextButton::buttonColourId, freqColors[i]);
             frequencyBoxes[freqBoxIndex].setColour(juce::TextButton::buttonColourId, freqColors[i]);
@@ -311,17 +289,14 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
         }
     }
 }
-    
+
 void MainContentComponent::genFreqFunc() {
-    total_divisions = divisionInput.getText().getDoubleValue();
-    base_freq = baseFreqInput.getText().getDoubleValue();
-    frequencies.clear(); // Dynamic array to store frequencies
-    for (int i = 0; i <= total_divisions; i++) {
-        double step_calc = (i / total_divisions);
-        frequencies.push_back(base_freq * pow(2, step_calc));
-    }
-    for (int i = 0; i < total_divisions; i++) {
-        //frequencyBoxes[i].setButtonText(to_string(frequencies[i]).substr(0, to_string(frequencies[i]).find(".")));
+    microtonalData.divisions = divisionInput.getText().getDoubleValue();
+    microtonalData.base_frequency = baseFreqInput.getText().getDoubleValue();
+    frequencies = microtonalData.getAllFrequencies();
+
+    for (int i = 0; i < microtonalData.divisions; i++) {
+        frequencyBoxes[i].setButtonText(to_string(frequencies[i]).substr(0, 5));
         frequencyBoxes[i].setColour(juce::TextButton::buttonColourId, juce::Colours::white);
         frequencyBoxes[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
         frequencyBoxes[i].addListener(this);
@@ -333,7 +308,7 @@ void MainContentComponent::genFreqFunc() {
         noteButtons[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
         noteButtons[i].addListener(this);
     }
-    for (int i = total_divisions; i < 24; i++) {
+    for (int i = microtonalData.divisions; i < 24; i++) {
         try{ 
             frequencyBoxes[i].setVisible(false); 
             frequencyBoxes[i].removeListener(this);
@@ -345,26 +320,8 @@ void MainContentComponent::genFreqFunc() {
 
 string MainContentComponent::writeValuesToXML() {
     ofstream outf{ "../../Configs/previousState.xml" };
-    if (!outf)
-    {
-        // Print an error and exit
-        return "Uh oh, Sample.txt could not be opened for writing!\n";
-    }
-    string writeToXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    writeToXML = writeToXML + "<microtonalConfig>\n";
-
-    writeToXML = writeToXML + "\t<baseFrequency>" + to_string(base_freq) +  "</baseFrequency>\n";
-    writeToXML = writeToXML + "\t<totalDivisions>" + to_string(total_divisions) + "</totalDivisions>\n";
-    writeToXML = writeToXML + "\t<selectedFrequencies>\n";
-    for (int i = 0; i < 12; i++) {
-        if (selectedFrequencies[i] == NULL) continue;
-
-        writeToXML = writeToXML + "\t\t<frequency index=\"" + to_string(i) + "\">" + to_string(selectedFrequencies[i]) + "</frequency>\n";
-    }
-    writeToXML = writeToXML + "\t</selectedFrequencies>\n";
-
-
-    writeToXML = writeToXML + "</microtonalConfig>";
+    if (!outf) { return "Error loading config."; }
+    string writeToXML = microtonalData.generateXML();
     outf << writeToXML;
     return writeToXML;
 }
@@ -380,7 +337,6 @@ SynthAudioSource::SynthAudioSource(juce::MidiKeyboardState& keyState)
 {
     for (auto i = 0; i < 4; ++i)                // [1]
         synth.addVoice(new SineWaveVoice());
-
     synth.addSound(new SineWaveSound());       // [2]
 }
 
@@ -403,7 +359,6 @@ void SynthAudioSource::getNextAudioBlock(const juce::AudioSourceChannelInfo& buf
     juce::MidiBuffer incomingMidi;
     keyboardState.processNextMidiBuffer(incomingMidi, bufferToFill.startSample,
         bufferToFill.numSamples, true);       // [4]
-
     synth.renderNextBlock(*bufferToFill.buffer, incomingMidi,
         bufferToFill.startSample, bufferToFill.numSamples); // [5]
 }

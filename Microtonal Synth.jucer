@@ -7,6 +7,7 @@
       <FILE id="qnUMcy" name="layout.xml" compile="0" resource="1" file="Resources/layout.xml"/>
     </GROUP>
     <GROUP id="{A81970BF-123A-2D09-3768-6FC8B9923387}" name="Source">
+      <FILE id="LKYgaq" name="Microtonal.h" compile="0" resource="0" file="Source/Microtonal.h"/>
       <FILE id="K8QD5v" name="MicrotonalMapper.cpp" compile="1" resource="0"
             file="Source/MicrotonalMapper.cpp"/>
       <FILE id="qG3JN6" name="MicrotonalMapper.h" compile="0" resource="0"

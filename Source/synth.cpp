@@ -9,6 +9,7 @@
 */
 
 #include "synth.h"
+#include "Microtonal.h"
 
 namespace IDs
 {
@@ -22,8 +23,7 @@ namespace IDs
 //==============================================================================
 
 int Synth::numOscillators = 7;
-extern double total_divisions, base_freq, selectedFrequencies[12];
-
+extern MicrotonalConfig microtonalData;
 void Synth::addADSRParameters(juce::AudioProcessorValueTreeState::ParameterLayout& layout)
 {
     auto attack = std::make_unique<juce::AudioParameterFloat>(IDs::paramAttack, "Attack", juce::NormalisableRange<float>(0.001f, 0.5f, 0.01f), 0.10f);
@@ -392,16 +392,27 @@ double Synth::Voice::getDetuneFromPitchWheel(int wheelValue) const
 
 void Synth::Voice::updateFrequency(BaseOscillator& oscillator, bool noteStart)
 {
-    
+    /* 
+        MicrotonalConfig {
+			double base_frequency;
+			double divisions;
+			Mapping frequencies[12] {
+				int index;
+				double frequency;
+			}
+        }
+    */
     /*const auto freq = getFrequencyForNote(getCurrentlyPlayingNote(),
         pitchWheelValue * maxPitchWheelSemitones);*/
     auto freq = 440.0;
     auto index = (((int)getCurrentlyPlayingNote() - 72) % 12 + 12) % 12;
-    if (selectedFrequencies[index] == NULL) {
+    if (microtonalData.frequencies[index].frequency == NULL) {
         freq = 440.0 * std::pow(2.0, (float)((int)getCurrentlyPlayingNote() - 69) / 12.0); //change this for key mapping
     } else {
-        freq = selectedFrequencies[index]; //change this for key mapping
-        freq *= std::pow(2.0,(float)((int)getCurrentlyPlayingNote() - 72) / 12);
+        freq = microtonalData.frequencies[index].frequency; //change this for key mapping
+
+        // Used to adjust mapped frequencies for a different octave, currently not working correctly
+        // freq *= 440.0 * std::pow(2.0,(float)((int)getCurrentlyPlayingNote() - 72) / 12);
     }
     oscillator.angleDelta = (freq * oscillator.detune->get() / getSampleRate()) * 2.0 * juce::MathConstants<double>::pi;
     if (noteStart)

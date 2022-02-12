@@ -13,11 +13,11 @@
 #include <algorithm>
 #include <string> 
 #include <cctype> 
+#include "Microtonal.h"
 using namespace std;
 
 //==============================================================================
-extern double total_divisions, base_freq, selectedFrequencies[12];
-
+extern MicrotonalConfig microtonalData;
 //=================================================================================================
 struct SineWaveSound : public juce::SynthesiserSound
 {
@@ -45,8 +45,8 @@ struct SineWaveVoice : public juce::SynthesiserVoice
 
         // auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz (midiNoteNumber);
         double cyclesPerSecond;
-        if (selectedFrequencies[midiNoteNumber - 72] == NULL) cyclesPerSecond = base_freq * std::pow(2.0, (midiNoteNumber - 69) / 12.0); //change this for key mapping
-        else  cyclesPerSecond = selectedFrequencies[midiNoteNumber - 72]; //change this for key mapping
+        if (microtonalData.frequencies[midiNoteNumber - 72].frequency == NULL) cyclesPerSecond = microtonalData.base_frequency * std::pow(2.0, (midiNoteNumber - 69) / 12.0); //change this for key mapping
+        else  cyclesPerSecond = microtonalData.frequencies[midiNoteNumber - 72].frequency; //change this for key mapping
 
         auto cyclesPerSample = cyclesPerSecond / getSampleRate();
 
@@ -216,6 +216,19 @@ public:
     void paint(juce::Graphics& g) override;
 
 private:
+    juce::Array<juce::Colour> colours { 
+        juce::Colour(49,49,49),   // background color
+		juce::Colour(87,87,87),   // sidebar button background
+		juce::Colour(120,120,120), // input background color
+		juce::Colour(19,243,67) // input outline and text color
+	};
+	enum coloursEnum {
+		backgroundColor,
+		sidebarBtnBackgroundColor,
+		inputBackgroundColor,
+		inputOutlineTextColor
+	};
+
     void timerCallback() override;
     int test = 1;
     int divisions = 12;
@@ -234,7 +247,6 @@ private:
     juce::Label divisionInput;
     int freqBoxIndex = -1, selectedFrequencyIndex = 0;
     vector<double> frequencies;
-
 
     juce::Array<juce::Colour> freqColors{
         juce::Colour(254,0,0),
