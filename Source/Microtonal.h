@@ -7,7 +7,6 @@ public:
 };
 class MicrotonalConfig {
 public:
-    MicrotonalConfig() {}
     double base_frequency = 440.000000;
     double divisions = 12;
     Mapping frequencies[12];
