@@ -199,8 +199,9 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
             return; 
         }
         else if (btn == &frequencyBoxes[i]) {
-            freqBoxIndex = i;
-            return;
+            if (freqBoxIndex != i) { freqBoxIndex = i; return; }
+            
+            // logic for changing frequency
         }
         else if (btn == &noteButtons[i]) {
             if (freqBoxIndex == -1) return;
