@@ -410,9 +410,11 @@ void Synth::Voice::updateFrequency(BaseOscillator& oscillator, bool noteStart)
         freq = 440.0 * std::pow(2.0, (float)((int)getCurrentlyPlayingNote() - 69) / 12.0); //change this for key mapping
     } else {
         freq = microtonalData.frequencies[index].frequency; //change this for key mapping
-
-        // Used to adjust mapped frequencies for a different octave, currently not working correctly
-        // freq *= 440.0 * std::pow(2.0,(float)((int)getCurrentlyPlayingNote() - 72) / 12);
+		auto index_y = ((int)getCurrentlyPlayingNote() - 72);
+        if (index_y < 0) {
+            index_y = index_y * -1 + 11;
+        }
+        freq *= std::pow(2.0, -1.0 * (float)((index_y) / 12));
     }
     oscillator.angleDelta = (freq * oscillator.detune->get() / getSampleRate()) * 2.0 * juce::MathConstants<double>::pi;
     if (noteStart)
