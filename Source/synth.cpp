@@ -142,57 +142,11 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
     for (int i = 0; i < Synth::numOscillators; ++i)
     {
         oscillators.push_back(std::make_unique<BaseOscillator>());
-
         auto& osc = oscillators.back();
-        osc->gain = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("osc" + juce::String(i)));
-        
+        osc->gain = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("osc" + juce::String(i)));  
         osc->detune = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("detune" + juce::String(i)));
-
         osc->wave_form = dynamic_cast<juce::AudioParameterChoice*>(state.getParameter("wave_form" + juce::String(i)));
-        //osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
-		if (i%4==0){
-            osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
-        }
-        else if (i % 4 == 1) {
-            osc->osc.get<0>().initialise([](auto arg) {
-            return juce::jmap((float)arg,
-                (float)(-juce::MathConstants<double>::pi),
-                (float)(juce::MathConstants<double>::pi),
-                (float)(-1.0),
-                (float)(1.0));}, 512);
-        }else if (i % 4 == 2){
-            osc->osc.get<0>().initialise([](auto arg) {
-                auto soundval = juce::jmap((float)arg,
-                    (float)(-juce::MathConstants<double>::pi),
-                    (float)(juce::MathConstants<double>::pi),
-                    (float)(-1.0),
-                    (float)(1.0));
-                if (soundval > (float)0.0) {
-                    soundval = (float)1.0;
-                }
-                else {
-                    soundval = (float)-1.0;
-                }
-                return (soundval);}, 512);
-        }
-        else {
-            osc->osc.get<0>().initialise([](auto arg) {
-                auto soundval = juce::jmap((float)arg,
-                    (float)(-juce::MathConstants<double>::pi),
-                    (float)(juce::MathConstants<double>::pi),
-                    (float)(0.0),
-                    (float)(1.0));
-                if (soundval < (float)0.25) {
-                    soundval = (float)soundval * 4.0;
-                }
-                else if (soundval < (float)0.75) {
-                    soundval = (float)soundval * -4.0 + 2.0;
-                }
-                else {
-                    soundval = (float)soundval * 4.0 - 4.0;
-                }
-                return (soundval); }, 512);
-        }
+        osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
         osc->multiplier = 1.0;//i + 1;
     }
 
