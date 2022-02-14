@@ -346,36 +346,19 @@ double Synth::Voice::getDetuneFromPitchWheel(int wheelValue) const
 
 void Synth::Voice::updateFrequency(BaseOscillator& oscillator, bool noteStart)
 {
-    /* 
-        MicrotonalConfig {
-			double base_frequency;
-			double divisions;
-			Mapping frequencies[12] {
-				int index;
-				double frequency;
-			}
-        }
-    */
-    /*const auto freq = getFrequencyForNote(getCurrentlyPlayingNote(),
-        pitchWheelValue * maxPitchWheelSemitones);*/
-    auto freq = 440.0;
-    auto index = (((int)getCurrentlyPlayingNote() - 72) % 12 + 12) % 12;
-    if (microtonalData.frequencies[index].frequency == NULL) {
-        freq = 440.0 * std::pow(2.0, (float)((int)getCurrentlyPlayingNote() - 69) / 12.0); //change this for key mapping
-    } else {
-        freq = microtonalData.frequencies[index].frequency; //change this for key mapping
-		int index_y = ((int)getCurrentlyPlayingNote() - 72);
-        if (index_y < 0) {
-            index_y = index_y * -1 + 11;
-            freq *= std::pow(2.0, -1.0 * (float)((index_y) / 12));
-        }
-        else {
-            freq *=  (index_y / 12) + 1;
-        }
-        
-    }
-    oscillator.angleDelta = (freq * oscillator.detune->get() / getSampleRate()) * 2.0 * juce::MathConstants<double>::pi;
-    if (noteStart)
-        oscillator.currentAngle = 0.0;
-    oscillator.osc.get<0>().setFrequency(float(freq * oscillator.detune->get()), noteStart);
+    int singleOctaveIndex = (((int)getCurrentlyPlayingNote() - 72) % 12 + 12) % 12, 
+        totalSynthIndex = ((int)getCurrentlyPlayingNote() - 72);
+
+    double newFrequency = microtonalData.frequencies[singleOctaveIndex].frequency, 
+        defaultFrequency = 440.0 * std::pow(2.0, (float)((int)getCurrentlyPlayingNote() - 69) / 12.0);
+
+    newFrequency = (newFrequency == NULL)
+        ? defaultFrequency // note unmapped
+        : (totalSynthIndex < 0)
+            ? newFrequency * std::pow(2.0, -1.0 * (float)((totalSynthIndex * -1 + 11) / 12)) // note lower than C4
+            : newFrequency * std::pow(2.0, (totalSynthIndex / 12)); // note higher than B5
+
+    oscillator.angleDelta = (newFrequency * oscillator.detune->get() / getSampleRate()) * 2.0 * juce::MathConstants<double>::pi;
+    if (noteStart) oscillator.currentAngle = 0.0;
+    oscillator.osc.get<0>().setFrequency(float(newFrequency * oscillator.detune->get()), noteStart);
 }
