@@ -145,7 +145,7 @@ void MicrotonalSynthAudioProcessorEditor::processBlock(juce::AudioBuffer<float>&
 
     synthesiser.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 	
-	int j = 0;
+	/*int j = 0;
     while (j < buffer.getNumSamples()) {
         int i = 0;
         while (i < FFT_BUFFER_SIZE && i + j < buffer.getNumSamples()) {
@@ -193,7 +193,7 @@ void MicrotonalSynthAudioProcessorEditor::processBlock(juce::AudioBuffer<float>&
             i++;
         }
         j += FFT_BUFFER_SIZE;
-    }
+    }*/
 	
     for (int i = 1; i < buffer.getNumChannels(); ++i)
         buffer.copyFrom(i, 0, buffer.getReadPointer(0), buffer.getNumSamples());
