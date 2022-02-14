@@ -13,6 +13,9 @@
 
 #include "JuceHeader.h"
 
+#define FFT_BUFFER_SIZE_k 11
+#define FFT_BUFFER_SIZE (1 << FFT_BUFFER_SIZE_k)
+
 class Synth : public juce::Synthesiser
 {
 public:
@@ -22,7 +25,14 @@ public:
     static void addOvertoneParameters(juce::AudioProcessorValueTreeState::ParameterLayout& layout);
     static void addGainParameters(juce::AudioProcessorValueTreeState::ParameterLayout& layout);
 
-    Synth() = default;
+    Synth() : windowingfunc(FFT_BUFFER_SIZE, juce::dsp::WindowingFunction<float>::kaiser)
+    {
+        FFT_ = std::make_unique<juce::dsp::FFT>(juce::dsp::FFT(FFT_BUFFER_SIZE_k));
+    };
+
+    juce::dsp::WindowingFunction<float> windowingfunc;
+    std::unique_ptr<juce::dsp::FFT> FFT_ = nullptr;
+    float FFT_buffer[FFT_BUFFER_SIZE * 2] = { 0.0 };
 
     class Sound : public juce::SynthesiserSound
     {
