@@ -152,8 +152,8 @@ void MicrotonalSynthAudioProcessorEditor::processBlock(juce::AudioBuffer<float>&
             synthesiser.FFT_buffer[i] = buffer.getReadPointer(0)[i];
             i++;
         }
-        synthesiser.windowingfunc.multiplyWithWindowingTable(synthesiser.FFT_buffer, FFT_BUFFER_SIZE);
-        synthesiser.FFT_->performRealOnlyForwardTransform(synthesiser.FFT_buffer, false);
+        //synthesiser.windowingfunc.multiplyWithWindowingTable(synthesiser.FFT_buffer, FFT_BUFFER_SIZE);
+        //synthesiser.FFT_->performRealOnlyForwardTransform(synthesiser.FFT_buffer, false);
         i = 0;
         while (i < FFT_BUFFER_SIZE) {
             //Edit frequencies stuff here
@@ -172,10 +172,10 @@ void MicrotonalSynthAudioProcessorEditor::processBlock(juce::AudioBuffer<float>&
             //synthesiser.FFT_buffer[i] = std::pow(juce::MathConstants<float>::euler, -1 * ii * ii ) * 100;
             i++;
         }
-        synthesiser.FFT_->performRealOnlyInverseTransform(synthesiser.FFT_buffer);
+        //synthesiser.FFT_->performRealOnlyInverseTransform(synthesiser.FFT_buffer);
         i = 0;
         while (i < FFT_BUFFER_SIZE && i + j < buffer.getNumSamples()) {
-            buffer.getWritePointer(0)[i] = synthesiser.FFT_buffer[i];
+            //buffer.getWritePointer(0)[i] = synthesiser.FFT_buffer[i];
             i++;
         }
         j += FFT_BUFFER_SIZE;
