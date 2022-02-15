@@ -263,9 +263,9 @@ void MainContentComponent::genFreqFunc() {
 string MainContentComponent::writeValuesToXML() {
     ofstream outf{ "../../Configs/previousState.xml" };
     if (!outf) { return "Error loading config."; }
-    string writeToXML = microtonalData.generateXML();
+    juce::String writeToXML = microtonalData.generateXML().toString();
     outf << writeToXML;
-    return writeToXML;
+    return writeToXML.toStdString();
 }
 
 void MainContentComponent::timerCallback()
