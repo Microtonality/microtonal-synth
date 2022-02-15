@@ -16,7 +16,7 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
-
+int mappingGroup = Default;
 //==============================================================================
 MicrotonalWindow::MicrotonalWindow(juce::String name) : DocumentWindow(name,
     juce::Colours::dimgrey,
@@ -83,7 +83,48 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     {
         openWindow();
     });
-
+    magicState.addTrigger("set-map1", [this]
+    {
+        if (mappingGroup != Group1)
+            mappingGroup = Group1;
+        else
+            mappingGroup = Default;
+    });
+    magicState.addTrigger("set-map2", [this]
+    {
+        if (mappingGroup != Group2)
+            mappingGroup = Group2;
+        else
+            mappingGroup = Default;
+    });
+    magicState.addTrigger("set-map3", [this]
+    {
+        if (mappingGroup != Group3)
+            mappingGroup = Group3;
+        else
+            mappingGroup = Default;
+    });
+    magicState.addTrigger("set-map4", [this]
+    {
+        if (mappingGroup != Group4)
+            mappingGroup = Group4;
+        else
+            mappingGroup = Default;
+    });
+    magicState.addTrigger("set-map5", [this]
+    {
+        if (mappingGroup != Group5)
+            mappingGroup = Group5;
+        else
+            mappingGroup = Default;
+    });
+    magicState.addTrigger("set-map6", [this]
+    {
+        if (mappingGroup != Group6)
+            mappingGroup = Group6;
+        else
+            mappingGroup = Default;
+    });
     magicState.setApplicationSettingsFile(juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory)
         .getChildFile(ProjectInfo::companyName)
         .getChildFile(ProjectInfo::projectName + juce::String(".settings")));
@@ -95,6 +136,8 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
 
     for (int i = 0; i < 16; ++i)
         synthesiser.addVoice(new Synth::Voice(treeState));
+
+    mappingGroup = Default;
 }
 
 MicrotonalSynthAudioProcessorEditor::~MicrotonalSynthAudioProcessorEditor()
@@ -192,7 +235,6 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new MicrotonalSynthAudioProcessorEditor();
 }
-
 
 
 //class MainContentComponentItem : public foleys::GuiItem
