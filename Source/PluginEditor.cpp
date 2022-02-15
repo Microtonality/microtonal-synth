@@ -61,7 +61,7 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     if (file.existsAsFile())
         magicState.setGuiValueTree(file);
     else
-        magicState.setGuiValueTree(BinaryData::mappinglayoutv1_xml, BinaryData::mappinglayoutv1_xmlSize);
+        magicState.setGuiValueTree(BinaryData::layout_xml, BinaryData::layout_xmlSize);
 
     // MAGIC GUI: add a meter at the output
     outputMeter = magicState.createAndAddObject<foleys::MagicLevelSource>("output");
