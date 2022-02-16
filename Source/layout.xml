@@ -132,7 +132,7 @@
         <View margin="-7" border="">
           <TextButton lookAndFeel="LookAndFeel_V2" flex-grow="1.5" button-color="FFFFFFFF"
                       button-off-text="" text="1" onClick="set-map1" id="map1"/>
-          <TextButton lookAndFeel="LookAndFeel_V2" flex-grow="1.5" button-color="FFFFFFFF"
+          <TextButton lookAndFeel="Settings" flex-grow="1.5" button-color="FFFFFFFF"
                       button-off-text="" onClick="open-window" text=""/>
           <ComboBox combo-menu-text="FF000000" id="Mapping Selection" lookAndFeel="LookAndFeel_V3"
                     background-color="FF000000" caption-size="10" caption-color="FFFFFFFF"
@@ -142,7 +142,7 @@
         <View margin="-7" border="">
           <TextButton lookAndFeel="LookAndFeel_V2" flex-grow="1.5" button-color="FFFFFFFF"
                       button-off-text="" text="2" onClick="set-map2" id="map2"/>
-          <TextButton lookAndFeel="LookAndFeel_V2" flex-grow="1.5" button-color="FFFFFFFF"
+          <TextButton lookAndFeel="Settings" flex-grow="1.5" button-color="FFFFFFFF"
                       button-off-text="" text="" onClick="open-window"/>
           <ComboBox combo-menu-text="FF000000" id="Mapping Selection" lookAndFeel="LookAndFeel_V3"
                     background-color="FF000000" caption-size="10" caption-color="FFFFFFFF"
@@ -152,7 +152,7 @@
         <View margin="-7" border="">
           <TextButton lookAndFeel="LookAndFeel_V2" flex-grow="1.5" button-color="FFFFFFFF"
                       button-off-text="" text="3" onClick="set-map3" id="map3"/>
-          <TextButton lookAndFeel="LookAndFeel_V2" flex-grow="1.5" button-color="FFFFFFFF"
+          <TextButton lookAndFeel="Settings" flex-grow="1.5" button-color="FFFFFFFF"
                       button-off-text="" text="" onClick="open-window"/>
           <ComboBox combo-menu-text="FF000000" id="Mapping Selection" lookAndFeel="LookAndFeel_V3"
                     background-color="FF000000" caption-size="10" caption-color="FFFFFFFF"
@@ -162,7 +162,7 @@
         <View margin="-7" border="">
           <TextButton lookAndFeel="LookAndFeel_V2" flex-grow="1.5" button-color="FFFFFFFF"
                       button-off-text="" text="4" onClick="set-map4" id="map4"/>
-          <TextButton lookAndFeel="LookAndFeel_V2" flex-grow="1.5" button-color="FFFFFFFF"
+          <TextButton lookAndFeel="Settings" flex-grow="1.5" button-color="FFFFFFFF"
                       button-off-text="" text="" onClick="open-window"/>
           <ComboBox combo-menu-text="FF000000" id="Mapping Selection" lookAndFeel="LookAndFeel_V3"
                     background-color="FF000000" caption-size="10" caption-color="FFFFFFFF"
@@ -172,7 +172,7 @@
         <View margin="-7" border="">
           <TextButton lookAndFeel="LookAndFeel_V2" flex-grow="1.5" button-color="FFFFFFFF"
                       button-off-text="" text="5" onClick="set-map5" id="map5"/>
-          <TextButton lookAndFeel="LookAndFeel_V2" flex-grow="1.5" button-color="FFFFFFFF"
+          <TextButton lookAndFeel="Settings" flex-grow="1.5" button-color="FFFFFFFF"
                       button-off-text="" text="" onClick="open-window"/>
           <ComboBox combo-menu-text="FF000000" id="Mapping Selection" lookAndFeel="LookAndFeel_V3"
                     background-color="FF000000" caption-size="10" caption-color="FFFFFFFF"
@@ -182,7 +182,7 @@
         <View margin="-7" border="">
           <TextButton lookAndFeel="LookAndFeel_V2" flex-grow="1.5" button-color="FFFFFFFF"
                       button-off-text="" text="6" onClick="set-map6" id="map6" caption=""/>
-          <TextButton lookAndFeel="LookAndFeel_V2" flex-grow="1.5" button-color="FFFFFFFF"
+          <TextButton lookAndFeel="Settings" flex-grow="1.5" button-color="FFFFFFFF"
                       button-off-text="" text="" onClick="open-window"/>
           <ComboBox combo-menu-text="FF000000" id="Mapping Selection" lookAndFeel="LookAndFeel_V3"
                     background-color="FF000000" caption-size="10" caption-color="FFFFFFFF"

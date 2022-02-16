@@ -10,6 +10,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "PresetListBox.h"
+#include "CustomLookAndFeel.h"
 #include <string> 
 #include <cctype> 
 #include <math.h>
@@ -267,15 +268,19 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 //    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponentItem)
 //};
 
-
+void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuilder& builder)
+{
+    builder.registerJUCEFactories();
+    builder.registerJUCELookAndFeels();
+    builder.registerLookAndFeel("Settings", make_unique<customButton>());
+}
 
 //juce::AudioProcessorEditor* MicrotonalSynthAudioProcessorEditor::createEditor()
 //{
 //    // MAGIC GUI: we create our custom builder instance here, that will be available for all factories we add
 //    auto builder = std::make_unique<foleys::MagicGUIBuilder>(magicState);
 //    builder->registerJUCEFactories();
-//
-//    builder->registerFactory("MainContentComponentItem", &MainContentComponentItem::factory);
+//    builder->registerLookAndFeel("Settings", make_unique<customButton>());
 //
 //    return new foleys::MagicPluginEditor(magicState, std::move(builder));
 //}

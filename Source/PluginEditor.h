@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 //#include "PluginProcessor.h"
 #include "MicrotonalMapper.h"
+#include "CustomLookAndFeel.h"
 #include "synth.h"
 
 class PresetListBox;
@@ -66,7 +67,7 @@ public:
     //==============================================================================
     double getTailLengthSeconds() const override;
 
-   // juce::AudioProcessorEditor* createEditor() override;
+    void initialiseBuilder(foleys::MagicGUIBuilder& builder) override;
 
     void openWindow();
 
@@ -81,6 +82,7 @@ private:
     foleys::MagicLevelSource* outputMeter = nullptr;
     foleys::MagicPlotSource* oscilloscope = nullptr;
     foleys::MagicPlotSource* analyser = nullptr;
+    customButton settings;
 
     PresetListBox* presetList = nullptr;
 

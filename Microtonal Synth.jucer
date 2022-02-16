@@ -4,11 +4,17 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="wGo505" name="Microtonal Synth">
     <GROUP id="{2A9F9425-8E6E-F147-3BC2-670BD9506D13}" name="Resources">
+      <FILE id="IfuZcV" name="cogwheelMedium.png" compile="0" resource="1"
+            file="../../../Downloads/cogwheelMedium.png"/>
       <FILE id="qnUMcy" name="layout.xml" compile="0" resource="1" file="Resources/layout.xml"/>
       <FILE id="yONlOc" name="mappinglayoutv1.xml" compile="0" resource="1"
             file="Resources/mappinglayoutv1.xml"/>
     </GROUP>
     <GROUP id="{A81970BF-123A-2D09-3768-6FC8B9923387}" name="Source">
+      <FILE id="F55HLJ" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/CustomLookAndFeel.cpp"/>
+      <FILE id="NdRHNs" name="CustomLookAndFeel.h" compile="0" resource="0"
+            file="Source/CustomLookAndFeel.h"/>
       <FILE id="LKYgaq" name="Microtonal.h" compile="0" resource="0" file="Source/Microtonal.h"/>
       <FILE id="K8QD5v" name="MicrotonalMapper.cpp" compile="1" resource="0"
             file="Source/MicrotonalMapper.cpp"/>
