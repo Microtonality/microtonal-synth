@@ -7,7 +7,6 @@ public:
 };
 class MicrotonalConfig {
 public:
-    MicrotonalConfig() {}
     double base_frequency = 440.000000;
     double divisions = 12;
     Mapping frequencies[12];
@@ -20,18 +19,15 @@ public:
 		}
         return freq;
     }
-    string generateXML() {
+    juce::XmlElement generateXML() {
         string writeToXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        writeToXML = writeToXML + "<microtonalConfig>\n";
-        writeToXML = writeToXML + "\t<baseFrequency>" + to_string(base_frequency) + "</baseFrequency>\n";
-        writeToXML = writeToXML + "\t<totalDivisions>" + to_string(divisions) + "</totalDivisions>\n";
-        writeToXML = writeToXML + "\t<selectedFrequencies>\n";
+        writeToXML = writeToXML + "<microtonalConfig base_frequency=\"" + to_string(base_frequency) + "\" total_divisions=\"" + to_string(divisions) + "\">\n";
         for (int i = 0; i < 12; i++) {
             if (frequencies[i].frequency == NULL) continue;
-            writeToXML = writeToXML + "\t\t<frequency index=\"" + to_string(i) + "\">" + to_string(frequencies[i].frequency) + "</frequency>\n";
+            writeToXML = writeToXML + "\t<frequency index=\"" + to_string(i) + "\">" + to_string(frequencies[i].frequency) + "</frequency>\n";
         }
-        writeToXML = writeToXML + "\t</selectedFrequencies>\n";
         writeToXML = writeToXML + "</microtonalConfig>";
-        return writeToXML;
+        
+        return *juce::XmlDocument(writeToXML).getDocumentElement();
     }
 };

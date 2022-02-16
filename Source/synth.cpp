@@ -138,64 +138,11 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
     for (int i = 0; i < Synth::numOscillators; ++i)
     {
         oscillators.push_back(std::make_unique<BaseOscillator>());
-
         auto& osc = oscillators.back();
-        osc->gain = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("osc" + juce::String(i)));
-        
+        osc->gain = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("osc" + juce::String(i)));  
         osc->detune = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("detune" + juce::String(i)));
-
         osc->wave_form = dynamic_cast<juce::AudioParameterChoice*>(state.getParameter("wave_form" + juce::String(i)));
-
-        osc->wave_form->setValueNotifyingHost(2);
-        DBG(osc->wave_form->getCurrentValueAsText());
-        osc->detune->setValueNotifyingHost(0.27);
-        DBG(osc->detune->getCurrentValueAsText());
-        osc->gain->setValueNotifyingHost(.24);
-
-        //osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
-		/*if (i%4==0){
-            osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
-        }
-        else if (i % 4 == 1) {
-            osc->osc.get<0>().initialise([](auto arg) {
-            return juce::jmap((float)arg,
-                (float)(-juce::MathConstants<double>::pi),
-                (float)(juce::MathConstants<double>::pi),
-                (float)(-1.0),
-                (float)(1.0));}, 512);
-        }else if (i % 4 == 2){
-            osc->osc.get<0>().initialise([](auto arg) {
-                auto soundval = juce::jmap((float)arg,
-                    (float)(-juce::MathConstants<double>::pi),
-                    (float)(juce::MathConstants<double>::pi),
-                    (float)(-1.0),
-                    (float)(1.0));
-                if (soundval > (float)0.0) {
-                    soundval = (float)1.0;
-                }
-                else {
-                    soundval = (float)-1.0;
-                }
-                return (soundval);}, 512);
-        }
-        else {
-            osc->osc.get<0>().initialise([](auto arg) {
-                auto soundval = juce::jmap((float)arg,
-                    (float)(-juce::MathConstants<double>::pi),
-                    (float)(juce::MathConstants<double>::pi),
-                    (float)(0.0),
-                    (float)(1.0));
-                if (soundval < (float)0.25) {
-                    soundval = (float)soundval * 4.0;
-                }
-                else if (soundval < (float)0.75) {
-                    soundval = (float)soundval * -4.0 + 2.0;
-                }
-                else {
-                    soundval = (float)soundval * 4.0 - 4.0;
-                }
-                return (soundval); }, 512);
-        }*/
+        osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
         osc->multiplier = 1.0;//i + 1;
     }
 
@@ -396,30 +343,19 @@ double Synth::Voice::getDetuneFromPitchWheel(int wheelValue) const
 
 void Synth::Voice::updateFrequency(BaseOscillator& oscillator, bool noteStart)
 {
-    /* 
-        MicrotonalConfig {
-			double base_frequency;
-			double divisions;
-			Mapping frequencies[12] {
-				int index;
-				double frequency;
-			}
-        }
-    */
-    /*const auto freq = getFrequencyForNote(getCurrentlyPlayingNote(),
-        pitchWheelValue * maxPitchWheelSemitones);*/
-    auto freq = 440.0;
-    auto index = (((int)getCurrentlyPlayingNote() - 72) % 12 + 12) % 12;
-    if (microtonalData.frequencies[index].frequency == NULL) {
-        freq = 440.0 * std::pow(2.0, (float)((int)getCurrentlyPlayingNote() - 69) / 12.0); //change this for key mapping
-    } else {
-        freq = microtonalData.frequencies[index].frequency; //change this for key mapping
+    int singleOctaveIndex = (((int)getCurrentlyPlayingNote() - 72) % 12 + 12) % 12, 
+        totalSynthIndex = ((int)getCurrentlyPlayingNote() - 72);
 
-        // Used to adjust mapped frequencies for a different octave, currently not working correctly
-        // freq *= 440.0 * std::pow(2.0,(float)((int)getCurrentlyPlayingNote() - 72) / 12);
-    }
-    oscillator.angleDelta = (freq * oscillator.detune->get() / getSampleRate()) * 2.0 * juce::MathConstants<double>::pi;
-    if (noteStart)
-        oscillator.currentAngle = 0.0;
-    oscillator.osc.get<0>().setFrequency(float(freq * oscillator.detune->get()), noteStart);
+    double newFrequency = microtonalData.frequencies[singleOctaveIndex].frequency, 
+        defaultFrequency = 440.0 * std::pow(2.0, (float)((int)getCurrentlyPlayingNote() - 69) / 12.0);
+
+    newFrequency = (newFrequency == NULL)
+        ? defaultFrequency // note unmapped
+        : (totalSynthIndex < 0)
+            ? newFrequency * std::pow(2.0, -1.0 * (float)((totalSynthIndex * -1 + 11) / 12)) // note lower than C4
+            : newFrequency * std::pow(2.0, (totalSynthIndex / 12)); // note higher than B5
+
+    oscillator.angleDelta = (newFrequency * oscillator.detune->get() / getSampleRate()) * 2.0 * juce::MathConstants<double>::pi;
+    if (noteStart) oscillator.currentAngle = 0.0;
+    oscillator.osc.get<0>().setFrequency(float(newFrequency * oscillator.detune->get()), noteStart);
 }

@@ -45,7 +45,7 @@ struct SineWaveVoice : public juce::SynthesiserVoice
 
         // auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz (midiNoteNumber);
         double cyclesPerSecond;
-        if (microtonalData.frequencies[midiNoteNumber - 72].frequency == NULL) cyclesPerSecond = microtonalData.base_frequency * std::pow(2.0, (midiNoteNumber - 69) / 12.0); //change this for key mapping
+        if (microtonalData.frequencies[midiNoteNumber - 72].frequency == NULL) cyclesPerSecond = 440.0 * std::pow(2.0, (midiNoteNumber - 69) / 12.0); //change this for key mapping
         else  cyclesPerSecond = microtonalData.frequencies[midiNoteNumber - 72].frequency; //change this for key mapping
 
         auto cyclesPerSample = cyclesPerSecond / getSampleRate();

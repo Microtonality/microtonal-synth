@@ -12,19 +12,13 @@
 #include <math.h>
 #include <iostream>
 #include <fstream>
-#include "TinyXML2/tinyxml2.h"
-#include "TinyXML2/tinyxml2.cpp"
 using namespace std;
-using namespace tinyxml2;
 MicrotonalConfig microtonalData;
 //==============================================================================
 MainContentComponent::MainContentComponent()
     : synthAudioSource(keyboardState),
     keyboardComponent(keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard)
 {
-        upperWindow.setColour(juce::TextButton::buttonColourId, colours[backgroundColor]);
-        //addAndMakeVisible(upperWindow);
-
         keyboardWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
         keyboardWindow.setEnabled(false);
         keyboardWindow.setColour(juce::ComboBox::outlineColourId, juce::Colours::blue);
@@ -82,12 +76,6 @@ MainContentComponent::MainContentComponent()
         generateFrequencies.addListener(this);
         addAndMakeVisible(generateFrequencies);
 
-        saveToXMLBtn.setColour(juce::TextButton::buttonColourId, colours[inputBackgroundColor]);
-        saveToXMLBtn.setColour(juce::TextButton::textColourOffId, colours[inputOutlineTextColor]);
-        saveToXMLBtn.setButtonText("Save Config");
-        saveToXMLBtn.addListener(this);
-        addAndMakeVisible(saveToXMLBtn);
-
         addAndMakeVisible(keyboardComponent);
         setAudioChannels(0, 2);
         for (auto& btn : noteButtons) {
@@ -96,7 +84,7 @@ MainContentComponent::MainContentComponent()
         }
         setSize (1200, 800);
         startTimer (400);
-        loadConfig();
+        genFreqFunc();
 }
 
 MainContentComponent::~MainContentComponent()
@@ -105,14 +93,10 @@ MainContentComponent::~MainContentComponent()
 }
 
 void MainContentComponent::resized()
-{
+{       
+        // Set Main Window
         auto area = getLocalBounds();
-        auto headerFooterHeight = 36;
-        auto sideItemHeight = 40;
-        auto sideItemMargin = 5;
-
-        // Set Upper Window
-        auto upperWindowArea = area.removeFromTop(getHeight());//.reduced(windowMargin);
+        auto upperWindowArea = area.removeFromTop(getHeight());
         upperWindow.setBounds(upperWindowArea);
 
         // Set Keyboard Window
@@ -140,16 +124,13 @@ void MainContentComponent::resized()
         auto keyboardHeightDelta = 0.1 * keyboardWindowArea.getHeight();
         auto keyboardArea = keyboardWindowArea.reduced(keyboardWidthDelta, keyboardHeightDelta);//.removeFromLeft(keyboardWidth);
         keyboardComponent.setBounds(keyboardArea);
-
         keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 7.0);
         keyboardComponent.setAvailableRange(72, 83);
 
         int boxHeight = divisionInput.getWidth() / 3;
         int boxWidth = boxHeight + 5;
         int maxDivisions = 24;
-
         generateFrequencies.setBounds(upperWindow.getX(), upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + 10, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
-        saveToXMLBtn.setBounds(upperWindow.getX(), upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + generateFrequencies.getHeight() + 10, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
 
         for (int i = 0; i < maxDivisions; i++) {
             int X = upperWindow.getX() + 1.3 * generateFrequencies.getWidth() + ((boxWidth + 2) * i), 
@@ -173,42 +154,6 @@ void MainContentComponent::prepareToPlay(int samplesPerBlockExpected, double sam
 {
     synthAudioSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
-void MainContentComponent::loadConfig() {
-    XMLDocument doc;
-
-    try {
-        doc.LoadFile("../../Configs/previousState.xml");
-        const char* baseFrequencyString = doc.FirstChildElement("microtonalConfig")->FirstChildElement("baseFrequency")->GetText();
-        const char* divisionsString = doc.FirstChildElement("microtonalConfig")->FirstChildElement("totalDivisions")->GetText();
-    
-        XMLElement* levelElement = doc.FirstChildElement("microtonalConfig")->FirstChildElement("selectedFrequencies");
-        for (XMLElement* child = levelElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
-        {
-            int index = stoi(child->Attribute("index"));
-            double freq = stod(child->GetText());
-            microtonalData.frequencies[index].index = index;
-            microtonalData.frequencies[index].frequency= freq;
-        }
-        microtonalData.base_frequency = stod(baseFrequencyString);
-        microtonalData.divisions = stod(divisionsString);
-    }
-    catch (const std::exception&)
-    {
-        DBG("No selected frequencies.");
-    }
-    
-    baseFreqInput.setText(to_string(microtonalData.base_frequency), juce::dontSendNotification);
-    divisionInput.setText(to_string((int)microtonalData.divisions), juce::dontSendNotification);
-    genFreqFunc();
-    for (int j = 0; j < 12; j++) {
-        for (int i = 0; i < frequencies.size(); i++){
-            if (roundoff(frequencies[i],6) == roundoff(microtonalData.frequencies[j].frequency, 6)) {
-                frequencyBoxes[i].triggerClick();
-                noteButtons[j].triggerClick();
-            }
-        }
-    }
-}
 
 float MainContentComponent::roundoff(float value, unsigned char prec)
 {
@@ -218,17 +163,13 @@ float MainContentComponent::roundoff(float value, unsigned char prec)
 void MainContentComponent::paint(juce::Graphics& g) {
     for (int i = 0; i < frequencies.size(); i++) {
         for (int j = 0; j < 12; j++) {
-            
             if (frequencies[i] == microtonalData.frequencies[j].frequency) {
-                juce::Line<float> line(
-                    juce::Point<float>(
-                        frequencyBoxes[i].getX() + (frequencyBoxes[i].getWidth() / 2),
-                        frequencyBoxes[i].getY() + frequencyBoxes[i].getHeight()
-                        ),
-                    juce::Point<float>(
-                        noteButtons[j].getX() + (noteButtons[j].getWidth() / 2),
-                        noteButtons[j].getY())
-                );
+                float startX = frequencyBoxes[i].getX() + (frequencyBoxes[i].getWidth() / 2),
+                    startY = frequencyBoxes[i].getY() + frequencyBoxes[i].getHeight(),
+                    endX = noteButtons[j].getX() + (noteButtons[j].getWidth() / 2),
+                    endY = noteButtons[j].getY();
+
+                juce::Line<float> line(juce::Point<float>(startX,startY), juce::Point<float>(endX,endY));
                 g.setColour(freqColors[j]);
                 g.drawLine(line, 3.0f);
                 frequencyBoxes[i].setColour(juce::TextButton::buttonColourId, freqColors[j]);
@@ -258,8 +199,9 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
             return; 
         }
         else if (btn == &frequencyBoxes[i]) {
-            freqBoxIndex = i;
-            return;
+            if (freqBoxIndex != i) { freqBoxIndex = i; return; }
+            
+            // logic for changing frequency
         }
         else if (btn == &noteButtons[i]) {
             if (freqBoxIndex == -1) return;
@@ -321,9 +263,9 @@ void MainContentComponent::genFreqFunc() {
 string MainContentComponent::writeValuesToXML() {
     ofstream outf{ "../../Configs/previousState.xml" };
     if (!outf) { return "Error loading config."; }
-    string writeToXML = microtonalData.generateXML();
+    juce::String writeToXML = microtonalData.generateXML().toString();
     outf << writeToXML;
-    return writeToXML;
+    return writeToXML.toStdString();
 }
 
 void MainContentComponent::timerCallback()

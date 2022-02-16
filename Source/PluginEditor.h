@@ -17,7 +17,16 @@ class PresetListBox;
 //==============================================================================
 /**
 */
-
+enum SelectMappingGroup {
+    Default = 0,
+    Group1 = 1,
+    Group2 = 2,
+    Group3 = 3,
+    Group4 = 4,
+    Group5 = 5,
+    Group6 = 6
+};
+extern int mappingGroup;
 class MicrotonalWindow : public juce::DocumentWindow
 {
 public:
@@ -61,6 +70,7 @@ public:
 
     void openWindow();
 
+
 private:
     juce::AudioProcessorValueTreeState treeState;
     juce::Component::SafePointer<MicrotonalWindow> window;
@@ -71,7 +81,6 @@ private:
     foleys::MagicLevelSource* outputMeter = nullptr;
     foleys::MagicPlotSource* oscilloscope = nullptr;
     foleys::MagicPlotSource* analyser = nullptr;
- 
 
     PresetListBox* presetList = nullptr;
 
