@@ -91,6 +91,7 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     {
         mappingGroup = mappingGroup == Group1 ? Default : Group1;
         DBG(mappingGroup);
+        
     });
     magicState.addTrigger("set-map2", [this]
     {
@@ -229,8 +230,62 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new MicrotonalSynthAudioProcessorEditor();
 }
+class ActivePresetComponent : public juce::Component
+{
+public:
+    //==============================================================================
+    ActivePresetComponent(){
+        for (int i = 0; i < 7; i++) {
+            addAndMakeVisible(btns[i]);
+            btns[i].setButtonText(to_string(i));
+        }
+    };
+    void resized() override{
+        auto rect = getLocalBounds();
+        rect.setWidth(rect.getWidth() / 7);
+        for (int i = 0; i < 7; i++) {
+            btns[i].setBounds(rect);
+            rect.setX(rect.getX() + rect.getWidth());
+        }
+    }
+    void paint(juce::Graphics& g) override{
+        for (int i = 0; i < 7; i++) {
+            if (i == mappingGroup) {
+                btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::green);
+            } else {
+                btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::red);
+            }
+        }
+    }
+private:
+    juce::TextButton btns[7];
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ActivePresetComponent)
+};
+    
+class ActivePresetComponentItem : public foleys::GuiItem
+{
+public:
+    FOLEYS_DECLARE_GUI_FACTORY(ActivePresetComponentItem)
 
+    ActivePresetComponentItem(foleys::MagicGUIBuilder& builder, const juce::ValueTree& node) : foleys::GuiItem(builder, node)
+    {
+        addAndMakeVisible(activepresetcomponent);
+    }
 
+    void update() override
+    {
+        activepresetcomponent.repaint();
+    }
+
+    juce::Component* getWrappedComponent() override
+    {
+        return &activepresetcomponent;
+    }
+
+private:
+    ActivePresetComponent activepresetcomponent;
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ActivePresetComponentItem)
+};
 //class MainContentComponentItem : public foleys::GuiItem
 //{
 //public:
@@ -273,6 +328,7 @@ void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuil
     builder.registerJUCEFactories();
     builder.registerJUCELookAndFeels();
     builder.registerLookAndFeel("Settings", make_unique<customButton>());
+    builder.registerFactory("ActivePresetComponent", &ActivePresetComponentItem::factory);
 }
 
 //juce::AudioProcessorEditor* MicrotonalSynthAudioProcessorEditor::createEditor()
