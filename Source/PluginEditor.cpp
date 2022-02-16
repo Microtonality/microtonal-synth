@@ -16,7 +16,6 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
-int mappingGroup = Default;
 //==============================================================================
 MicrotonalWindow::MicrotonalWindow(juce::String name) : DocumentWindow(name,
     juce::Colours::dimgrey,
@@ -71,6 +70,9 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     magicState.addBackgroundProcessing(analyser);
 
     presetList = magicState.createAndAddObject<PresetListBox>("presets");
+    savePresetInternal();
+    loadPresetInternal(0);
+  //  presetNode.getChildWithName("presets");
     presetList->onSelectionChanged = [&](int number)
     {
         loadPresetInternal(number);
@@ -82,48 +84,6 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     magicState.addTrigger("open-window", [this]
     {
         openWindow();
-    });
-    magicState.addTrigger("set-map1", [this]
-    {
-        if (mappingGroup != Group1)
-            mappingGroup = Group1;
-        else
-            mappingGroup = Default;
-    });
-    magicState.addTrigger("set-map2", [this]
-    {
-        if (mappingGroup != Group2)
-            mappingGroup = Group2;
-        else
-            mappingGroup = Default;
-    });
-    magicState.addTrigger("set-map3", [this]
-    {
-        if (mappingGroup != Group3)
-            mappingGroup = Group3;
-        else
-            mappingGroup = Default;
-    });
-    magicState.addTrigger("set-map4", [this]
-    {
-        if (mappingGroup != Group4)
-            mappingGroup = Group4;
-        else
-            mappingGroup = Default;
-    });
-    magicState.addTrigger("set-map5", [this]
-    {
-        if (mappingGroup != Group5)
-            mappingGroup = Group5;
-        else
-            mappingGroup = Default;
-    });
-    magicState.addTrigger("set-map6", [this]
-    {
-        if (mappingGroup != Group6)
-            mappingGroup = Group6;
-        else
-            mappingGroup = Default;
     });
     magicState.setApplicationSettingsFile(juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory)
         .getChildFile(ProjectInfo::companyName)
@@ -137,7 +97,6 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     for (int i = 0; i < 16; ++i)
         synthesiser.addVoice(new Synth::Voice(treeState));
 
-    mappingGroup = Default;
 }
 
 MicrotonalSynthAudioProcessorEditor::~MicrotonalSynthAudioProcessorEditor()
@@ -202,15 +161,18 @@ void MicrotonalSynthAudioProcessorEditor::processBlock(juce::AudioBuffer<float>&
 //==============================================================================
 void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
 {
+    //magicState.getSettings().getOrCreateChildWithName("presets", nullptr) = nullptr;
+    magicState.getSettings().removeAllChildren(nullptr);
     presetNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
 
     juce::ValueTree preset{ "Preset" };
-    preset.setProperty("name", "Preset " + juce::String(presetNode.getNumChildren() + 1), nullptr);
-
+   // preset.setProperty("name", "Preset " + juce::String(presetNode.getNumChildren() + 1), nullptr);
+    preset.setProperty("name", "Preset", nullptr);
     foleys::ParameterManager manager(*this);
     manager.saveParameterValues(preset);
 
     presetNode.appendChild(preset, nullptr);
+    DBG(presetNode.toXmlString());
 }
 
 void MicrotonalSynthAudioProcessorEditor::loadPresetInternal(int index)

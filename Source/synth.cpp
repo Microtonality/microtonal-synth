@@ -50,7 +50,6 @@ void Synth::addOvertoneParameters(juce::AudioProcessorValueTreeState::ParameterL
             juce::StringArray({ "Sine","Square","Sawtooth","Triangle"}),
             0));
 	}
-
     layout.add(std::move(group));
 }
 
