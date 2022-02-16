@@ -13,7 +13,7 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-MicrotonalConfig microtonalData;
+MicrotonalConfig microtonalMappings[6];
 //==============================================================================
 MainContentComponent::MainContentComponent()
     : synthAudioSource(keyboardState),
@@ -25,7 +25,7 @@ MainContentComponent::MainContentComponent()
         addAndMakeVisible(keyboardWindow);
 
         divisionInput.setFont(juce::Font(20.0f, juce::Font::bold));
-        divisionInput.setText(to_string((int)microtonalData.divisions), juce::dontSendNotification);
+        divisionInput.setText(to_string((int)microtonalMappings[0].divisions), juce::dontSendNotification);
         divisionInput.setColour(juce::Label::textColourId, juce::Colours::black);
         divisionInput.setJustificationType(juce::Justification::centred);
         divisionInput.setEditable(true);
@@ -53,7 +53,7 @@ MainContentComponent::MainContentComponent()
         addAndMakeVisible(divisionLabel);
 
         baseFreqInput.setFont(juce::Font(18.0f, juce::Font::bold));
-        baseFreqInput.setText(to_string((int)microtonalData.base_frequency), juce::dontSendNotification);
+        baseFreqInput.setText(to_string((int)microtonalMappings[0].base_frequency), juce::dontSendNotification);
         baseFreqInput.setColour(juce::Label::textColourId, juce::Colours::black);
         baseFreqInput.setColour(juce::Label::outlineColourId, colours[inputOutlineTextColor]);
         baseFreqInput.setColour(juce::Label::backgroundColourId, colours[inputBackgroundColor]);
@@ -163,7 +163,7 @@ float MainContentComponent::roundoff(float value, unsigned char prec)
 void MainContentComponent::paint(juce::Graphics& g) {
     for (int i = 0; i < frequencies.size(); i++) {
         for (int j = 0; j < 12; j++) {
-            if (frequencies[i] == microtonalData.frequencies[j].frequency) {
+            if (frequencies[i] == microtonalMappings[0].frequencies[j].frequency) {
                 float startX = frequencyBoxes[i].getX() + (frequencyBoxes[i].getWidth() / 2),
                     startY = frequencyBoxes[i].getY() + frequencyBoxes[i].getHeight(),
                     endX = noteButtons[j].getX() + (noteButtons[j].getWidth() / 2),
@@ -192,8 +192,8 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
     for (int i = 0; i < 24; i++) {
         if (btn == &generateFrequencies) {
             for (int i = 0; i < 12; i++) {
-                microtonalData.frequencies[i].frequency = NULL;
-                microtonalData.frequencies[i].index = NULL;
+                microtonalMappings[0].frequencies[i].frequency = NULL;
+                microtonalMappings[0].frequencies[i].index = NULL;
             }
             genFreqFunc(); 
             return; 
@@ -205,19 +205,19 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
         }
         else if (btn == &noteButtons[i]) {
             if (freqBoxIndex == -1) return;
-            if (microtonalData.frequencies[i].frequency != NULL) {
+            if (microtonalMappings[0].frequencies[i].frequency != NULL) {
                 for (int j = 0; j < frequencies.size(); j++) {
-                    if (frequencies[j] == microtonalData.frequencies[i].frequency) {
+                    if (frequencies[j] == microtonalMappings[0].frequencies[i].frequency) {
                         frequencyBoxes[j].setColour(juce::TextButton::buttonColourId, juce::Colours::white);
                     }
                 }
             }
-            microtonalData.frequencies[i].index = freqBoxIndex;
-            microtonalData.frequencies[i].frequency = frequencies[freqBoxIndex];
+            microtonalMappings[0].frequencies[i].index = freqBoxIndex;
+            microtonalMappings[0].frequencies[i].frequency = frequencies[freqBoxIndex];
             for (int k = 0; k < 12; k++) {
                 if (k == i) continue;
                 
-                if (microtonalData.frequencies[k].frequency == microtonalData.frequencies[i].frequency) microtonalData.frequencies[k].frequency = NULL;
+                if (microtonalMappings[0].frequencies[k].frequency == microtonalMappings[0].frequencies[i].frequency) microtonalMappings[0].frequencies[k].frequency = NULL;
             }
             noteButtons[i].setColour(juce::TextButton::buttonColourId, freqColors[i]);
             frequencyBoxes[freqBoxIndex].setColour(juce::TextButton::buttonColourId, freqColors[i]);
@@ -233,11 +233,11 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
 }
 
 void MainContentComponent::genFreqFunc() {
-    microtonalData.divisions = divisionInput.getText().getDoubleValue();
-    microtonalData.base_frequency = baseFreqInput.getText().getDoubleValue();
-    frequencies = microtonalData.getAllFrequencies();
+    microtonalMappings[0].divisions = divisionInput.getText().getDoubleValue();
+    microtonalMappings[0].base_frequency = baseFreqInput.getText().getDoubleValue();
+    frequencies = microtonalMappings[0].getAllFrequencies();
 
-    for (int i = 0; i < microtonalData.divisions; i++) {
+    for (int i = 0; i < microtonalMappings[0].divisions; i++) {
         frequencyBoxes[i].setButtonText(to_string(frequencies[i]).substr(0, 5));
         frequencyBoxes[i].setColour(juce::TextButton::buttonColourId, juce::Colours::white);
         frequencyBoxes[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
@@ -250,7 +250,7 @@ void MainContentComponent::genFreqFunc() {
         noteButtons[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
         noteButtons[i].addListener(this);
     }
-    for (int i = microtonalData.divisions; i < 24; i++) {
+    for (int i = microtonalMappings[0].divisions; i < 24; i++) {
         try{ 
             frequencyBoxes[i].setVisible(false); 
             frequencyBoxes[i].removeListener(this);
@@ -263,7 +263,7 @@ void MainContentComponent::genFreqFunc() {
 string MainContentComponent::writeValuesToXML() {
     ofstream outf{ "../../Configs/previousState.xml" };
     if (!outf) { return "Error loading config."; }
-    juce::String writeToXML = microtonalData.generateXML().toString();
+    juce::String writeToXML = microtonalMappings[0].generateXML().toString();
     outf << writeToXML;
     return writeToXML.toStdString();
 }

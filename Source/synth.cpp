@@ -23,7 +23,7 @@ namespace IDs
 //==============================================================================
 
 int Synth::numOscillators = 7;
-extern MicrotonalConfig microtonalData;
+extern MicrotonalConfig microtonalMappings[6];
 void Synth::addADSRParameters(juce::AudioProcessorValueTreeState::ParameterLayout& layout)
 {
     auto attack = std::make_unique<juce::AudioParameterFloat>(IDs::paramAttack, "Attack", juce::NormalisableRange<float>(0.001f, 0.5f, 0.01f), 0.10f);
@@ -345,7 +345,7 @@ void Synth::Voice::updateFrequency(BaseOscillator& oscillator, bool noteStart)
     int singleOctaveIndex = (((int)getCurrentlyPlayingNote() - 72) % 12 + 12) % 12, 
         totalSynthIndex = ((int)getCurrentlyPlayingNote() - 72);
 
-    double newFrequency = microtonalData.frequencies[singleOctaveIndex].frequency, 
+    double newFrequency = microtonalMappings[0].frequencies[singleOctaveIndex].frequency, 
         defaultFrequency = 440.0 * std::pow(2.0, (float)((int)getCurrentlyPlayingNote() - 69) / 12.0);
 
     newFrequency = (newFrequency == NULL)
