@@ -16,6 +16,7 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
+int mappingGroup = Default;
 //==============================================================================
 MicrotonalWindow::MicrotonalWindow(juce::String name) : DocumentWindow(name,
     juce::Colours::dimgrey,
@@ -84,6 +85,36 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     magicState.addTrigger("open-window", [this]
     {
         openWindow();
+    });
+    magicState.addTrigger("set-map1", [this]
+    {
+        mappingGroup = mappingGroup == Group1 ? Default : Group1;
+        DBG(mappingGroup);
+    });
+    magicState.addTrigger("set-map2", [this]
+    {
+        mappingGroup = mappingGroup == Group2 ? Default : Group2;
+        DBG(mappingGroup);
+    });
+    magicState.addTrigger("set-map3", [this]
+    {
+        mappingGroup = mappingGroup == Group3 ? Default : Group3;
+        DBG(mappingGroup);
+    });
+    magicState.addTrigger("set-map4", [this]
+    {
+        mappingGroup = mappingGroup == Group4 ? Default : Group4;
+        DBG(mappingGroup);
+    });
+    magicState.addTrigger("set-map5", [this]
+    {
+        mappingGroup = mappingGroup == Group5 ? Default : Group5;
+        DBG(mappingGroup);
+    });
+    magicState.addTrigger("set-map6", [this]
+    {
+        mappingGroup = mappingGroup == Group6 ? Default : Group6;
+        DBG(mappingGroup);
     });
     magicState.setApplicationSettingsFile(juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory)
         .getChildFile(ProjectInfo::companyName)
