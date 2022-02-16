@@ -230,7 +230,7 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new MicrotonalSynthAudioProcessorEditor();
 }
-class ActivePresetComponent : public juce::Component
+class ActivePresetComponent : public juce::Component, private juce::Timer
 {
 public:
     //==============================================================================
@@ -239,7 +239,12 @@ public:
             addAndMakeVisible(btns[i]);
             btns[i].setButtonText(to_string(i));
         }
+        startTimerHz(30);
     };
+    void setFactor(float f)
+    {
+        factor = f;
+    }
     void resized() override{
         auto rect = getLocalBounds();
         rect.setWidth(rect.getWidth() / 7);
@@ -259,6 +264,17 @@ public:
     }
 private:
     juce::TextButton btns[7];
+    void timerCallback() override
+    {
+        phase += 0.1f;
+        if (phase >= juce::MathConstants<float>::twoPi)
+            phase -= juce::MathConstants<float>::twoPi;
+
+        repaint();
+    }
+
+    float factor = 3.0f;
+    float phase = 0.0f;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ActivePresetComponent)
 };
     
@@ -274,7 +290,9 @@ public:
 
     void update() override
     {
-        activepresetcomponent.repaint();
+       // activepresetcomponent.repaint();
+        auto factor = getProperty("factor");
+        activepresetcomponent.setFactor(factor.isVoid() ? 3.0f : float(factor));
     }
 
     juce::Component* getWrappedComponent() override
