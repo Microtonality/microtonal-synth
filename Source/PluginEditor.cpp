@@ -238,6 +238,7 @@ public:
         for (int i = 0; i < 7; i++) {
             addAndMakeVisible(btns[i]);
             btns[i].setButtonText(to_string(i));
+            btns[i].setEnabled(false);
         }
         startTimerHz(30);
     };
@@ -256,7 +257,7 @@ public:
     void paint(juce::Graphics& g) override{
         for (int i = 0; i < 7; i++) {
             if (i == mappingGroup) {
-                btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::green);
+                btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::darkgreen);
             } else {
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::red);
             }
