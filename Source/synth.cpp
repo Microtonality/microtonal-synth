@@ -80,10 +80,6 @@ void loadInstruments() {
                         juce::String shape = wave->getAttributeValue(0);
                         float amp = wave->getAttributeValue(1).getFloatValue();
                         float freq = wave->getAttributeValue(2).getFloatValue();
-
-                        DBG(shape);
-                        DBG(amp);
-                        DBG(freq);
                     }
 
                     child = child->getNextElement();
@@ -97,7 +93,6 @@ void loadInstruments() {
     }
 
 }
-
 
 
 
@@ -139,6 +134,7 @@ juce::ADSR::Parameters Synth::Sound::getADSR()
 
 Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
 {
+
     for (int i = 0; i < Synth::numOscillators; ++i)
     {
         oscillators.push_back(std::make_unique<BaseOscillator>());
@@ -149,8 +145,15 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
         osc->detune = dynamic_cast<juce::AudioParameterFloat*>(state.getParameter("detune" + juce::String(i)));
 
         osc->wave_form = dynamic_cast<juce::AudioParameterChoice*>(state.getParameter("wave_form" + juce::String(i)));
+
+        osc->wave_form->setValueNotifyingHost(2);
+        DBG(osc->wave_form->getCurrentValueAsText());
+        osc->detune->setValueNotifyingHost(0.27);
+        DBG(osc->detune->getCurrentValueAsText());
+        osc->gain->setValueNotifyingHost(.24);
+
         //osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
-		if (i%4==0){
+		/*if (i%4==0){
             osc->osc.get<0>().initialise([](auto arg) {return std::sin(arg); }, 512);
         }
         else if (i % 4 == 1) {
@@ -192,7 +195,7 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
                     soundval = (float)soundval * 4.0 - 4.0;
                 }
                 return (soundval); }, 512);
-        }
+        }*/
         osc->multiplier = 1.0;//i + 1;
     }
 
@@ -204,6 +207,7 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
 
     //Comment this out until John figures out the relative pathing part
     loadInstruments();
+    
 }
 
 bool Synth::Voice::canPlaySound(juce::SynthesiserSound* sound)
