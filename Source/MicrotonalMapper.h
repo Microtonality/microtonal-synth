@@ -17,7 +17,8 @@
 using namespace std;
 
 //==============================================================================
-extern MicrotonalConfig microtonalMappings[6];
+extern MicrotonalConfig microtonalMappings[7];
+extern int mappingGroup;
 //=================================================================================================
 struct SineWaveSound : public juce::SynthesiserSound
 {
@@ -45,8 +46,8 @@ struct SineWaveVoice : public juce::SynthesiserVoice
 
         // auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz (midiNoteNumber);
         double cyclesPerSecond;
-        if (microtonalMappings[0].frequencies[midiNoteNumber - 72].frequency == NULL) cyclesPerSecond = 440.0 * std::pow(2.0, (midiNoteNumber - 69) / 12.0); //change this for key mapping
-        else  cyclesPerSecond = microtonalMappings[0].frequencies[midiNoteNumber - 72].frequency; //change this for key mapping
+        if (microtonalMappings[mappingGroup].frequencies[midiNoteNumber - 72].frequency == NULL) cyclesPerSecond = 440.0 * std::pow(2.0, (midiNoteNumber - 69) / 12.0); //change this for key mapping
+        else  cyclesPerSecond = microtonalMappings[mappingGroup].frequencies[midiNoteNumber - 72].frequency; //change this for key mapping
 
         auto cyclesPerSample = cyclesPerSecond / getSampleRate();
 

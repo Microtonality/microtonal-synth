@@ -17,6 +17,7 @@
 #include <algorithm>
 using namespace std;
 int mappingGroup = Default;
+extern MicrotonalConfig microtonalMappings[7];
 //==============================================================================
 MicrotonalWindow::MicrotonalWindow(juce::String name) : DocumentWindow(name,
     juce::Colours::dimgrey,
@@ -66,7 +67,6 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     // MAGIC GUI: add a meter at the output
     outputMeter = magicState.createAndAddObject<foleys::MagicLevelSource>("output");
     oscilloscope = magicState.createAndAddObject<foleys::MagicOscilloscope>("waveform");
-
     analyser = magicState.createAndAddObject<foleys::MagicAnalyser>("analyser");
     magicState.addBackgroundProcessing(analyser);
 
