@@ -28,7 +28,7 @@ MicrotonalWindow::MicrotonalWindow(juce::String name, int index) : DocumentWindo
     setContentOwned(new MainContentComponent(index), true);
     //centreWithSize(1400, 700/ratio);
     getConstrainer()->setFixedAspectRatio(ratio);
-    centreWithSize(1400, 700);
+    centreWithSize(1600, 700);
     setResizable(true, true);
     setResizeLimits(800, 600/ratio, 1800, 1600/ratio);
     setVisible(true);
@@ -301,6 +301,7 @@ public:
             }
         }
     }
+
 private:
     juce::TextButton btns[6];
     void timerCallback() override
@@ -386,6 +387,7 @@ void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuil
     builder.registerJUCELookAndFeels();
     builder.registerLookAndFeel("Settings", make_unique<customButton>());
     builder.registerFactory("ActivePresetComponent", &ActivePresetComponentItem::factory);
+    DBG(builder.getGuiRootNode().toXmlString());
 }
 
 //juce::AudioProcessorEditor* MicrotonalSynthAudioProcessorEditor::createEditor()
