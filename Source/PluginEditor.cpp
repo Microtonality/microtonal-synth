@@ -172,7 +172,7 @@ void MicrotonalSynthAudioProcessorEditor::prepareToPlay(double sampleRate, int b
 void MicrotonalSynthAudioProcessorEditor::openWindow(int index)
 {
     if(!window)
-        window = new MicrotonalWindow("Configure Microtonal Mapping", index);
+        window = new MicrotonalWindow("Configure Microtonal Mapping Preset " + to_string(index), index);
 }
 
 void MicrotonalSynthAudioProcessorEditor::releaseResources()
