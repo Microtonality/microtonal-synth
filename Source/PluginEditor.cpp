@@ -28,7 +28,7 @@ MicrotonalWindow::MicrotonalWindow(juce::String name, int index) : DocumentWindo
     setContentOwned(new MainContentComponent(index), true);
     //centreWithSize(1400, 700/ratio);
     getConstrainer()->setFixedAspectRatio(ratio);
-    centreWithSize(1600, 700);
+    centreWithSize(1500, 700);
     setResizable(true, true);
     setResizeLimits(800, 600/ratio, 1800, 1600/ratio);
     setVisible(true);
