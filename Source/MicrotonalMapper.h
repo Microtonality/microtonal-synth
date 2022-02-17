@@ -192,7 +192,7 @@ class MainContentComponent : public juce::AudioAppComponent,
     public juce::Button::Listener
 {
 public:
-    MainContentComponent();
+    MainContentComponent(int index);
 
     ~MainContentComponent() override;
 

@@ -31,7 +31,7 @@ extern int mappingGroup;
 class MicrotonalWindow : public juce::DocumentWindow
 {
 public:
-    MicrotonalWindow(juce::String name);
+    MicrotonalWindow(juce::String name, int index);
     void closeButtonPressed() override;
 
     //   void resized() override;
@@ -69,7 +69,7 @@ public:
 
     void initialiseBuilder(foleys::MagicGUIBuilder& builder) override;
 
-    void openWindow();
+    void openWindow(int index);
 
 
 private:

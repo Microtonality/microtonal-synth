@@ -20,12 +20,12 @@ using namespace std;
 int mappingGroup = Default;
 extern MicrotonalConfig microtonalMappings[7];
 //==============================================================================
-MicrotonalWindow::MicrotonalWindow(juce::String name) : DocumentWindow(name,
+MicrotonalWindow::MicrotonalWindow(juce::String name, int index) : DocumentWindow(name,
     juce::Colours::dimgrey,
     DocumentWindow::closeButton)
 {
     double ratio = 2; // adjust as desired
-    setContentOwned(new MainContentComponent(), true);
+    setContentOwned(new MainContentComponent(index), true);
     //centreWithSize(1400, 700/ratio);
     getConstrainer()->setFixedAspectRatio(ratio);
     centreWithSize(1400, 700);
@@ -83,10 +83,30 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     {
         savePresetInternal();
     });
-    magicState.addTrigger("open-window", [this]
+    magicState.addTrigger("open-window1", [this]
     {
-        openWindow();
+        openWindow(1);
     });
+    magicState.addTrigger("open-window2", [this]
+        {
+            openWindow(2);
+        });
+    magicState.addTrigger("open-window3", [this]
+        {
+            openWindow(3);
+        });
+    magicState.addTrigger("open-window4", [this]
+        {
+            openWindow(4);
+        });
+    magicState.addTrigger("open-window5", [this]
+        {
+            openWindow(5);
+        });
+    magicState.addTrigger("open-window6", [this]
+        {
+            openWindow(6);
+        });
     magicState.addTrigger("set-map1", [this]
     {
         mappingGroup = mappingGroup == Group1 ? Default : Group1;
@@ -149,10 +169,10 @@ void MicrotonalSynthAudioProcessorEditor::prepareToPlay(double sampleRate, int b
     analyser->prepareToPlay(sampleRate, blockSize);
 }
 
-void MicrotonalSynthAudioProcessorEditor::openWindow()
+void MicrotonalSynthAudioProcessorEditor::openWindow(int index)
 {
     if(!window)
-        window = new MicrotonalWindow("Configure Microtonal Mapping");
+        window = new MicrotonalWindow("Configure Microtonal Mapping", index);
 }
 
 void MicrotonalSynthAudioProcessorEditor::releaseResources()
