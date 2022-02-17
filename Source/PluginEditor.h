@@ -75,6 +75,7 @@ public:
 private:
     juce::AudioProcessorValueTreeState treeState;
     juce::Component::SafePointer<MicrotonalWindow> window;
+    int activeWindow = Default;
     Synth      synthesiser;
     juce::ValueTree  presetNode;
 

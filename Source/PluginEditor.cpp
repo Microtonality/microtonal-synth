@@ -22,7 +22,7 @@ extern MicrotonalConfig microtonalMappings[7];
 //==============================================================================
 MicrotonalWindow::MicrotonalWindow(juce::String name, int index) : DocumentWindow(name,
     juce::Colours::dimgrey,
-    DocumentWindow::closeButton)
+    DocumentWindow::closeButton, true)
 {
     double ratio = 2; // adjust as desired
     setContentOwned(new MainContentComponent(index), true);
@@ -85,28 +85,40 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     });
     magicState.addTrigger("open-window1", [this]
     {
+       if (activeWindow != 1)
+            delete window;
         openWindow(1);
     });
     magicState.addTrigger("open-window2", [this]
-        {
-            openWindow(2);
-        });
+    {
+       if (activeWindow != 2)
+            delete window;
+        openWindow(2);
+    });
     magicState.addTrigger("open-window3", [this]
-        {
-            openWindow(3);
-        });
+    {
+       if (activeWindow != 3)
+            delete window;
+        openWindow(3);
+    });
     magicState.addTrigger("open-window4", [this]
-        {
-            openWindow(4);
-        });
+    {
+       if (activeWindow != 4)
+            delete window;
+       openWindow(4);
+    });
     magicState.addTrigger("open-window5", [this]
-        {
-            openWindow(5);
-        });
+    {
+       if (activeWindow != 5)
+            delete window;
+        openWindow(5);
+    });
     magicState.addTrigger("open-window6", [this]
-        {
-            openWindow(6);
-        });
+    {
+       if (activeWindow != 6)
+            delete window;
+       openWindow(6);
+    });
     magicState.addTrigger("set-map1", [this]
     {
         mappingGroup = mappingGroup == Group1 ? Default : Group1;
@@ -171,8 +183,14 @@ void MicrotonalSynthAudioProcessorEditor::prepareToPlay(double sampleRate, int b
 
 void MicrotonalSynthAudioProcessorEditor::openWindow(int index)
 {
-    if(!window)
+    if (!window) {
         window = new MicrotonalWindow("Configure Microtonal Mapping Preset " + to_string(index), index);
+        activeWindow = index;
+    }
+    else if (index != activeWindow) {
+        delete window;
+        new MicrotonalWindow("Configure Microtonal Mapping Preset " + to_string(index), index);
+    }
 }
 
 void MicrotonalSynthAudioProcessorEditor::releaseResources()
