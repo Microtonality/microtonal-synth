@@ -273,9 +273,9 @@ class ActivePresetComponent : public juce::Component, private juce::Timer
 public:
     //==============================================================================
     ActivePresetComponent(){
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 6; i++) {
             addAndMakeVisible(btns[i]);
-            btns[i].setButtonText(to_string(i));
+            btns[i].setButtonText(to_string(i + 1));
             btns[i].setEnabled(false);
         }
         startTimerHz(30);
@@ -286,15 +286,15 @@ public:
     }
     void resized() override{
         auto rect = getLocalBounds();
-        rect.setWidth(rect.getWidth() / 7);
-        for (int i = 0; i < 7; i++) {
+        rect.setWidth(rect.getWidth() / 6);
+        for (int i = 0; i < 6; i++) {
             btns[i].setBounds(rect);
             rect.setX(rect.getX() + rect.getWidth());
         }
     }
     void paint(juce::Graphics& g) override{
-        for (int i = 0; i < 7; i++) {
-            if (i == mappingGroup) {
+        for (int i = 0; i < 6; i++) {
+            if (i+1 == mappingGroup) {
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::darkgreen);
             } else {
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::red);
@@ -302,7 +302,7 @@ public:
         }
     }
 private:
-    juce::TextButton btns[7];
+    juce::TextButton btns[6];
     void timerCallback() override
     {
         phase += 0.1f;
