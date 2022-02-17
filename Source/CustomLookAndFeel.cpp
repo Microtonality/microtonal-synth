@@ -11,9 +11,14 @@
 #include "CustomLookAndFeel.h"
 
 void customButton::drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
-    bool, bool isButtonDown)
+    bool isHighlighted, bool isButtonDown)
 {
-    juce::Image background = juce::ImageCache::getFromMemory(BinaryData::cogwheelMedium_png, BinaryData::cogwheelMedium_pngSize);
-    //g.drawImageAt(background, 0, 0);
+    juce::Image background;
+    if (isButtonDown)
+        background = juce::ImageCache::getFromMemory(BinaryData::cogdown_png, BinaryData::cogdown_pngSize);
+    else if (isHighlighted)
+        background = juce::ImageCache::getFromMemory(BinaryData::coghighlight_png, BinaryData::coghighlight_pngSize);
+    else
+        background = juce::ImageCache::getFromMemory(BinaryData::cogwheel2_png, BinaryData::cogwheel2_pngSize);
     g.drawImageWithin(background, 0, 0, button.getWidth(), button.getHeight(), juce::RectanglePlacement());
 }

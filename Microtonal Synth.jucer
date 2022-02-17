@@ -4,6 +4,12 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="wGo505" name="Microtonal Synth">
     <GROUP id="{2A9F9425-8E6E-F147-3BC2-670BD9506D13}" name="Resources">
+      <FILE id="QBT1Yh" name="coghighlight.png" compile="0" resource="1"
+            file="Resources/coghighlight.png"/>
+      <FILE id="oZPzgh" name="cogdown.png" compile="0" resource="1" file="Resources/cogdown.png"/>
+      <FILE id="ED1ZHl" name="cogwheel(2).png" compile="0" resource="1" file="Resources/cogwheel(2).png"/>
+      <FILE id="DYBTPH" name="gear.png" compile="0" resource="1" file="Resources/gear.png"/>
+      <FILE id="fmloJz" name="settings.png" compile="0" resource="1" file="Resources/settings.png"/>
       <FILE id="UiGyUH" name="setting.png" compile="0" resource="1" file="Resources/setting.png"/>
       <FILE id="GRmHpa" name="cogwheelMedium.png" compile="0" resource="1"
             file="Resources/cogwheelMedium.png"/>

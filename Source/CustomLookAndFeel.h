@@ -15,5 +15,5 @@ class customButton : public juce::LookAndFeel_V4
 public:
     customButton() {};
     void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
-        bool, bool isButtonDown) override;
+        bool isHighlighted, bool isButtonDown) override;
 };
