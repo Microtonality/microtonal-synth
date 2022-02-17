@@ -20,7 +20,7 @@
                        radius="0"/>
     </Types>
   </Style>
-  <View id="root" resizable="1" resize-corner="1" display="flexbox" flex-direction="column"
+  <View id="root" resizable="0" resize-corner="0" display="flexbox" flex-direction="column"
         lookAndFeel="LookAndFeel_V2" background-gradient="linear-gradient(0,0% ff000000,100% ffffffff)">
     <View flex-grow="1.5" id="Main Window">
       <View id="ADSR and Visualizer" flex-direction="column">
@@ -40,7 +40,7 @@
         </View>
       </View>
       <View flex-grow="2" id="Other Modules">
-        <View id="Oscillators" background-color="FFABABAB">
+        <View id="Oscillators" background-color="FFABABAB" flex-grow="1.7">
           <View id="Wave 0" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
                       border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
