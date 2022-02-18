@@ -79,7 +79,7 @@ private:
     juce::Component::SafePointer<MicrotonalWindow> window;
     int activeWindow = Default;
     Synth      synthesiser;
-    juce::ValueTree  presetNode;
+    juce::ValueTree  presetNode, microtonalNode;
 
     // GUI MAGIC: define that as last member of your AudioProcessor
     foleys::MagicLevelSource* outputMeter = nullptr;

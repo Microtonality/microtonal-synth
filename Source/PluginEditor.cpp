@@ -25,7 +25,7 @@ extern MicrotonalConfig microtonalMappings[7];
 //==============================================================================
 MicrotonalWindow::MicrotonalWindow(juce::String name, int index) : DocumentWindow(name,
     juce::Colours::dimgrey,
-    DocumentWindow::closeButton, true)
+    DocumentWindow::closeButton | DocumentWindow::maximiseButton, true)
 {
     double ratio = 2; // adjust as desired
     setContentOwned(new MainContentComponent(index), true);
@@ -254,23 +254,43 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
     //magicState.getSettings().removeAllChildren(nullptr);
     presetNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
 
+    presetNode = magicState.getSettings().getOrCreateChildWithName("instrument_presets", nullptr);
+    microtonalNode = magicState.getSettings().getOrCreateChildWithName("microtonal_presets", nullptr);
     juce::ValueTree preset{ "Preset" };
+    for (int i = 1; i < 7; i++) {
+        if (microtonalMappings[i].frequencies[0].frequency == NULL) continue;
+        juce::ValueTree microtonal = microtonalMappings[i].generateValueTree();
+        microtonal.setProperty("index", juce::String(i), nullptr);
+        microtonalNode.appendChild(microtonal, nullptr);
+    }
     preset.setProperty("name", "Preset " + juce::String(presetNode.getNumChildren() + 1), nullptr);
     preset.setProperty("name", "Preset", nullptr);
     foleys::ParameterManager manager(*this);
     manager.saveParameterValues(preset);
 
     presetNode.appendChild(preset, nullptr);
-    DBG(presetNode.toXmlString());
+    DBG(magicState.getSettings().toXmlString().toStdString());
 
 }
 
 
 void MicrotonalSynthAudioProcessorEditor::loadPresetInternal(int index)
 {
-    presetNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
+    presetNode = magicState.getSettings().getOrCreateChildWithName("instrument_presets", nullptr);
     auto preset = presetNode.getChild(index);
-
+    microtonalNode = magicState.getSettings().getOrCreateChildWithName("microtonal_presets", nullptr);
+    DBG(microtonalNode.toXmlString().toStdString());
+    for (juce::ValueTree t : microtonalNode) {
+        int index = stoi(t.getProperty("index").toString().toStdString());
+        microtonalMappings[index].base_frequency = stod(t.getProperty("base_frequency").toString().toStdString());
+        microtonalMappings[index].divisions = stod(t.getProperty("total_divisions").toString().toStdString());
+        int i = 0;
+        for (juce::ValueTree p : t) {
+            microtonalMappings[index].frequencies[i].index = stoi(p.getProperty("index").toString().toStdString());
+            microtonalMappings[index].frequencies[i].frequency = stod(p.getProperty("value").toString().toStdString());
+            i++;
+        }
+    }
     foleys::ParameterManager manager(*this);
     manager.loadParameterValues(preset);
 }

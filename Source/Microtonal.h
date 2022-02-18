@@ -59,15 +59,19 @@ public:
 		}
         return freq;
     }
-    juce::XmlElement generateXML() {
-        string writeToXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        writeToXML = writeToXML + "<microtonalConfig base_frequency=\"" + to_string(base_frequency) + "\" total_divisions=\"" + to_string(divisions) + "\">\n";
+    juce::ValueTree generateValueTree() {
+        // string writeToXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        juce::ValueTree t{"Preset"};
+        t.setProperty("base_frequency", juce::String(base_frequency), nullptr);
+        t.setProperty("total_divisions", juce::String(divisions), nullptr);
         for (int i = 0; i < 12; i++) {
             if (frequencies[i].frequency == NULL) continue;
-            writeToXML = writeToXML + "\t<frequency index=\"" + to_string(i) + "\">" + to_string(frequencies[i].frequency) + "</frequency>\n";
+            juce::ValueTree child{ "frequency" };
+            child.setProperty("index", juce::String(i), nullptr);
+            child.setProperty("value", juce::String(frequencies[i].frequency), nullptr);
+            t.appendChild(child, nullptr);
         }
-        writeToXML = writeToXML + "</microtonalConfig>";
         
-        return *juce::XmlDocument(writeToXML).getDocumentElement();
+        return t;
     }
 };
