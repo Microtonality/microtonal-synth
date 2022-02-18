@@ -25,6 +25,9 @@ namespace IDs
 int Synth::numOscillators = 7;
 extern MicrotonalConfig microtonalMappings[7];
 extern int mappingGroup;
+vector<juce::String> instrumentNames;
+
+
 void Synth::addADSRParameters(juce::AudioProcessorValueTreeState::ParameterLayout& layout)
 {
     auto attack = std::make_unique<juce::AudioParameterFloat>(IDs::paramAttack, "Attack", juce::NormalisableRange<float>(0.001f, 0.5f, 0.01f), 0.10f);
@@ -51,7 +54,20 @@ void Synth::addOvertoneParameters(juce::AudioProcessorValueTreeState::ParameterL
             juce::StringArray({ "Sine","Square","Sawtooth","Triangle"}),
             0));
 	}
+
+    //instrumentNames.push_back("preset1");
+    //instrumentNames.push_back("preset2");
+    //instrumentNames.push_back("preset3");
+
+    //auto groupInstruments = std::make_unique<juce::AudioProcessorParameterGroup>("instruments", "Instruments", "|");
+    //groupInstruments->addChild(std::make_unique<juce::AudioParameterChoice>("instrumentPreset", "Instrument_Preset", juce::StringArray({ "preset342", "preset54"}), 0));
+
+
+    
+    
+    //layout.add(std::move(groupInstruments));
     layout.add(std::move(group));
+
 }
 
 void loadInstruments() {    

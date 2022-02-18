@@ -63,6 +63,8 @@ public:
     //==============================================================================
     void savePresetInternal();
     void loadPresetInternal(int index);
+    void deletePreset(int toDelete);
+    void loadAllInstruments();
 
     //==============================================================================
     double getTailLengthSeconds() const override;
@@ -84,6 +86,7 @@ private:
     foleys::MagicPlotSource* oscilloscope = nullptr;
     foleys::MagicPlotSource* analyser = nullptr;
     customButton settings;
+
 
     PresetListBox* presetList = nullptr;
 

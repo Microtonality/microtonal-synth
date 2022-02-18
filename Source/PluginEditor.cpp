@@ -19,6 +19,9 @@
 using namespace std;
 int mappingGroup = Default;
 extern MicrotonalConfig microtonalMappings[7];
+
+
+
 //==============================================================================
 MicrotonalWindow::MicrotonalWindow(juce::String name, int index) : DocumentWindow(name,
     juce::Colours::dimgrey,
@@ -46,6 +49,11 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
     Synth::addADSRParameters(layout);
     Synth::addOvertoneParameters(layout);
     Synth::addGainParameters(layout);
+
+    auto groupInstruments = std::make_unique<juce::AudioProcessorParameterGroup>("instruments", "Instruments", "|");
+    groupInstruments->addChild(std::make_unique<juce::AudioParameterChoice>("instrumentPreset", "Instrument_Preset", juce::StringArray({ "preset342", "preset54" }), 0));
+    layout.add(std::move(groupInstruments));
+
     return layout;
 }
 MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
@@ -71,9 +79,16 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     analyser = magicState.createAndAddObject<foleys::MagicAnalyser>("analyser");
     magicState.addBackgroundProcessing(analyser);
 
+    loadAllInstruments();
+
+    presetNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
+
+    //magicState.createAndAddObject<vector<juce::String>>("instruments", instrumentNames);
+
     presetList = magicState.createAndAddObject<PresetListBox>("presets");
     savePresetInternal();
     loadPresetInternal(0);
+    
   //  presetNode.getChildWithName("presets");
     presetList->onSelectionChanged = [&](int number)
     {
@@ -162,7 +177,10 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     for (int i = 0; i < 16; ++i)
         synthesiser.addVoice(new Synth::Voice(treeState));
 
+    
+
 }
+
 
 MicrotonalSynthAudioProcessorEditor::~MicrotonalSynthAudioProcessorEditor()
 {
@@ -233,18 +251,20 @@ void MicrotonalSynthAudioProcessorEditor::processBlock(juce::AudioBuffer<float>&
 void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
 {
     //magicState.getSettings().getOrCreateChildWithName("presets", nullptr) = nullptr;
-    magicState.getSettings().removeAllChildren(nullptr);
+    //magicState.getSettings().removeAllChildren(nullptr);
     presetNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
 
     juce::ValueTree preset{ "Preset" };
-   // preset.setProperty("name", "Preset " + juce::String(presetNode.getNumChildren() + 1), nullptr);
+    preset.setProperty("name", "Preset " + juce::String(presetNode.getNumChildren() + 1), nullptr);
     preset.setProperty("name", "Preset", nullptr);
     foleys::ParameterManager manager(*this);
     manager.saveParameterValues(preset);
 
     presetNode.appendChild(preset, nullptr);
     DBG(presetNode.toXmlString());
+
 }
+
 
 void MicrotonalSynthAudioProcessorEditor::loadPresetInternal(int index)
 {
@@ -254,6 +274,53 @@ void MicrotonalSynthAudioProcessorEditor::loadPresetInternal(int index)
     foleys::ParameterManager manager(*this);
     manager.loadParameterValues(preset);
 }
+
+void MicrotonalSynthAudioProcessorEditor::loadAllInstruments()
+{
+    /*setNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
+
+    for (int i = 0; i < presetNode.getNumChildren(); i++)
+    {
+        auto preset = presetNode.getChild(i).getPropertyAsValue("name", nullptr);
+        instruments[i] = preset.getValue();
+        DBG(instruments[i]);
+    }*/
+
+    
+}
+
+void MicrotonalSynthAudioProcessorEditor::deletePreset(int toDelete)
+{
+    if (toDelete == 0)
+    {
+        return;
+    }
+
+    juce::ValueTree presetNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
+    auto preset = presetNode.getChild(toDelete);
+    
+    //magicState.getSettings().removeAllChildren(nullptr);
+    presetNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
+
+    //juce::ValueTree preset{ "Preset" };
+    /*preset.setProperty("name", "Preset " + juce::String(presetNode.getNumChildren() + 1), nullptr);
+    preset.setProperty("name", "Preset", nullptr);*/
+   
+    preset.removeAllChildren(nullptr);
+    presetNode.removeChild(toDelete, nullptr);
+    foleys::ParameterManager manager(*this);
+    manager.saveParameterValues(preset);
+
+    DBG(presetNode.toXmlString());
+
+}
+/*
+void loadAllInstruments() {
+    
+   foleys::MagicProcessorState::
+}*/
+
+
 
 //==============================================================================
 
@@ -300,6 +367,8 @@ public:
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::red);
             }
         }
+        
+
     }
 
 private:
