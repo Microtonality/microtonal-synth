@@ -206,6 +206,8 @@ public:
 
     void buttonClicked(juce::Button* btn) override;
 
+    void undoButtonHighlighting();
+
     void genFreqFunc();
 
     string writeValuesToXML();

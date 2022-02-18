@@ -189,6 +189,14 @@ void MainContentComponent::releaseResources()
     synthAudioSource.releaseResources();
 }
 
+void MainContentComponent::undoButtonHighlighting()
+{
+    for (auto& b : frequencyBoxes) {
+        b.removeColour(juce::ComboBox::outlineColourId);
+        b.setColour(juce::TextButton::buttonColourId, juce::Colours::white);
+    }
+}
+
 void MainContentComponent::buttonClicked(juce::Button* btn)
 {
     for (int i = 0; i < 24; i++) {
@@ -201,9 +209,9 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
             return; 
         }
         else if (btn == &frequencyBoxes[i]) {
-            if (freqBoxIndex != i) { freqBoxIndex = i; return; }
-            
-            // logic for changing frequency
+            if (freqBoxIndex != i) { freqBoxIndex = i; undoButtonHighlighting(); frequencyBoxes[i].setColour(juce::TextButton::buttonColourId, juce::Colours::yellow);
+            frequencyBoxes[i].setColour(juce::ComboBox::outlineColourId, juce::Colours::black); return; }
+
         }
         else if (btn == &noteButtons[i]) {
             if (freqBoxIndex == -1) return;
@@ -223,6 +231,7 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
             }
             noteButtons[i].setColour(juce::TextButton::buttonColourId, freqColors[i]);
             frequencyBoxes[freqBoxIndex].setColour(juce::TextButton::buttonColourId, freqColors[i]);
+            frequencyBoxes[freqBoxIndex].removeColour(juce::ComboBox::outlineColourId);
             freqBoxIndex = -1;
             repaint();
             return;
