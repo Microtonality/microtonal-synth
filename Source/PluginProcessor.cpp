@@ -244,11 +244,6 @@ void MicrotonalSynthAudioProcessor::changeProgramName (int index, const juce::St
 {
 }
 
-//bool MicrotonalSynthAudioProcessor::hasEditor() const
-//{
-//    return true;
-//}
-
 //==============================================================================
 void MicrotonalSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
@@ -260,13 +255,6 @@ void MicrotonalSynthAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
-}
-
-void MicrotonalSynthAudioProcessor::initialiseBuilder(foleys::MagicGUIBuilder& builder)
-{
-    builder.registerJUCEFactories();
-
-    builder.registerFactory("Divisions", &DivisionComponentItem::factory);
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
