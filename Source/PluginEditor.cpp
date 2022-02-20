@@ -98,13 +98,53 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     {
         savePresetInternal();
     });
-    magicState.addTrigger("load-microtonal-preset", [this]
+    magicState.addTrigger("load-microtonal-preset1", [this]
     {
-            loadMicrotonalPreset();
+            loadMicrotonalPreset(1);
     });
-    magicState.addTrigger("save-microtonal-preset", [this]
+    magicState.addTrigger("save-microtonal-preset1", [this]
     {
-            saveMicrotonalPreset();
+            saveMicrotonalPreset(1);
+    });
+    magicState.addTrigger("load-microtonal-preset2", [this]
+    {
+            loadMicrotonalPreset(2);
+    });
+    magicState.addTrigger("save-microtonal-preset2", [this]
+    {
+            saveMicrotonalPreset(2);
+    });
+    magicState.addTrigger("load-microtonal-preset3", [this]
+    {
+            loadMicrotonalPreset(3);
+    });
+    magicState.addTrigger("save-microtonal-preset3", [this]
+    {
+            saveMicrotonalPreset(3);
+    });
+    magicState.addTrigger("load-microtonal-preset4", [this]
+    {
+            loadMicrotonalPreset(4);
+    });
+    magicState.addTrigger("save-microtonal-preset4", [this]
+    {
+            saveMicrotonalPreset(4);
+    });
+    magicState.addTrigger("load-microtonal-preset5", [this]
+    {
+            loadMicrotonalPreset(5);
+    });
+    magicState.addTrigger("save-microtonal-preset5", [this]
+    {
+            saveMicrotonalPreset(5);
+    });
+    magicState.addTrigger("load-microtonal-preset6", [this]
+    {
+            loadMicrotonalPreset(6);
+    });
+    magicState.addTrigger("save-microtonal-preset6", [this]
+    {
+            saveMicrotonalPreset(6);
     });
     magicState.addTrigger("open-window1", [this]
     {
@@ -498,20 +538,26 @@ void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuil
 //
 //    return new foleys::MagicPluginEditor(magicState, std::move(builder));
 //}
-void MicrotonalSynthAudioProcessorEditor::loadMicrotonalPreset() {
+void MicrotonalSynthAudioProcessorEditor::loadMicrotonalPreset(int preset) {
     // choose a file
     chooser = std::make_unique<juce::FileChooser>("Load a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
     auto flags = juce::FileBrowserComponent::openMode
         | juce::FileBrowserComponent::canSelectFiles;
-    chooser->launchAsync(flags, [this] (const juce::FileChooser& fc) {
+    chooser->launchAsync(flags, [this, preset] (const juce::FileChooser& fc) {
         juce::File myFile;
         myFile = fc.getResult();
-        juce::String s = myFile.loadFileAsString();
-        //juce::XmlDocument doc(s);
-        DBG(s);
-        /* Load file logic goes here*/
-
-        /* End load file logic*/
+		juce::XmlDocument doc(myFile.loadFileAsString());
+        juce::XmlElement config = *doc.getDocumentElement();
+        juce::ValueTree t;
+        t = t.fromXml(config);
+        microtonalMappings[preset].base_frequency = stod(t.getProperty("base_frequency").toString().toStdString());
+        microtonalMappings[preset].divisions = stod(t.getProperty("total_divisions").toString().toStdString());
+        int i = 0;
+        for (juce::ValueTree frequency : t) {
+            microtonalMappings[preset].frequencies[i].index = stoi(frequency.getProperty("index").toString().toStdString());
+            microtonalMappings[preset].frequencies[i].frequency = stod(frequency.getProperty("value").toString().toStdString());
+            i++;
+        }
     });
 
     /* Used for reference */
@@ -527,27 +573,25 @@ void MicrotonalSynthAudioProcessorEditor::loadMicrotonalPreset() {
 			);
     */
 }
-void MicrotonalSynthAudioProcessorEditor::saveMicrotonalPreset() {
+void MicrotonalSynthAudioProcessorEditor::saveMicrotonalPreset(int preset) {
     // choose a file
     chooser = std::make_unique<juce::FileChooser>("Save a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
     auto flags = juce::FileBrowserComponent::saveMode
         | juce::FileBrowserComponent::canSelectFiles
         | juce::FileBrowserComponent::warnAboutOverwriting;
-	chooser->launchAsync(flags, [this] (const juce::FileChooser& fc) {
+    juce::String mapping = microtonalMappings[preset].generateValueTree().toXmlString();
+	chooser->launchAsync(flags, [this, mapping] (const juce::FileChooser& fc) {
         if (fc.getResult() == juce::File{})
             return;
         juce::File myFile = fc.getResult().withFileExtension("xml");
         /* Save file logic goes here*/
-
+        if (!myFile.replaceWithText(mapping)) {
+			juce::AlertWindow::showMessageBoxAsync (
+				juce::AlertWindow::WarningIcon,
+				TRANS("Error whilst saving"),
+				TRANS("Couldn't write to the specified file!")
+			);
+        }
         /* End save file logic*/
-
-        /* Testing */
-        if (! myFile.replaceWithText("Replace testing")){
-                juce::AlertWindow::showMessageBoxAsync (
-                    juce::AlertWindow::WarningIcon,
-				    TRANS("Error whilst saving"),
-				    TRANS("Couldn't write to the specified file!")
-                );
-            }
     });
 }

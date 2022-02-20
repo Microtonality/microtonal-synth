@@ -71,9 +71,9 @@ public:
 
     void initialiseBuilder(foleys::MagicGUIBuilder& builder) override;
 
-    void loadMicrotonalPreset();
+    void loadMicrotonalPreset(int);
 
-    void saveMicrotonalPreset();
+    void saveMicrotonalPreset(int);
 
     void openWindow(int index);
 

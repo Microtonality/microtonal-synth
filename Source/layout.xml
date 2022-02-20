@@ -139,9 +139,9 @@
           <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                 border="2">
             <TextButton lookAndFeel="Save" margin="-10" id="Save" background-color="FF333333"
-                        onClick="save-microtonal-preset"/>
+                        onClick="save-microtonal-preset1"/>
             <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset"/>
+                        onClick="load-microtonal-preset1"/>
           </View>
         </View>
         <View margin="-7" border="">
@@ -152,9 +152,9 @@
           <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                 border="2">
             <TextButton lookAndFeel="Save" margin="-10" id="Save" background-color="FF333333"
-                        onClick="save-microtonal-preset"/>
+                        onClick="save-microtonal-preset2"/>
             <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset"/>
+                        onClick="load-microtonal-preset2"/>
           </View>
         </View>
         <View margin="-7" border="">
@@ -165,9 +165,9 @@
           <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                 border="2">
             <TextButton lookAndFeel="Save" margin="-10" id="Save" background-color="FF333333"
-                        onClick="save-microtonal-preset"/>
+                        onClick="save-microtonal-preset3"/>
             <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset"/>
+                        onClick="load-microtonal-preset3"/>
           </View>
         </View>
         <View margin="-7" border="">
@@ -178,9 +178,9 @@
           <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                 border="2">
             <TextButton lookAndFeel="Save" margin="-10" id="Save" background-color="FF333333"
-                        onClick="save-microtonal-preset"/>
+                        onClick="save-microtonal-preset4"/>
             <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset"/>
+                        onClick="load-microtonal-preset4"/>
           </View>
         </View>
         <View margin="-7" border="">
@@ -191,9 +191,9 @@
           <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                 border="2">
             <TextButton lookAndFeel="Save" margin="-10" id="Save" background-color="FF333333"
-                        onClick="save-microtonal-preset"/>
+                        onClick="save-microtonal-preset5"/>
             <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset"/>
+                        onClick="load-microtonal-preset5"/>
           </View>
         </View>
         <View margin="-7" border="">
@@ -204,9 +204,9 @@
           <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                 border="2">
             <TextButton lookAndFeel="Save" margin="-10" id="Save" background-color="FF333333"
-                        onClick="save-microtonal-preset"/>
+                        onClick="save-microtonal-preset6"/>
             <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset"/>
+                        onClick="load-microtonal-preset6"/>
           </View>
         </View>
       </View>
@@ -237,3 +237,4 @@
     </Style>
   </Styles>
 </magic>
+ 

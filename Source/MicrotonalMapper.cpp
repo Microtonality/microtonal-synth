@@ -165,7 +165,7 @@ float MainContentComponent::roundoff(float value, unsigned char prec)
 void MainContentComponent::paint(juce::Graphics& g) {
     for (int i = 0; i < frequencies.size(); i++) {
         for (int j = 0; j < 12; j++) {
-            if (frequencies[i] == microtonalMappings[mappingIndex].frequencies[j].frequency) {
+            if (roundoff(frequencies[i], 1) == roundoff(microtonalMappings[mappingIndex].frequencies[j].frequency, 1)) {
                 float startX = frequencyBoxes[i].getX() + (frequencyBoxes[i].getWidth() / 2),
                     startY = frequencyBoxes[i].getY() + frequencyBoxes[i].getHeight(),
                     endX = noteButtons[j].getX() + (noteButtons[j].getWidth() / 2),
