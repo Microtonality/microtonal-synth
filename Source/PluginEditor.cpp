@@ -544,9 +544,11 @@ void MicrotonalSynthAudioProcessorEditor::loadMicrotonalPreset(int preset) {
     auto flags = juce::FileBrowserComponent::openMode
         | juce::FileBrowserComponent::canSelectFiles;
     chooser->launchAsync(flags, [this, preset] (const juce::FileChooser& fc) {
+        if (fc.getResult() == juce::File{})
+            return;
         juce::File myFile;
-        myFile = fc.getResult();
-		juce::XmlDocument doc(myFile.loadFileAsString());
+        myFile = fc.getResult();		
+        juce::XmlDocument doc(myFile.loadFileAsString());
         juce::XmlElement config = *doc.getDocumentElement();
         juce::ValueTree t;
         t = t.fromXml(config);
