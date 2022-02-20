@@ -98,6 +98,14 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     {
         savePresetInternal();
     });
+    magicState.addTrigger("load-microtonal-preset", [this]
+    {
+            loadMicrotonalPreset();
+    });
+    magicState.addTrigger("save-microtonal-preset", [this]
+    {
+            saveMicrotonalPreset();
+    });
     magicState.addTrigger("open-window1", [this]
     {
        if (activeWindow != 1)
@@ -488,4 +496,56 @@ void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuil
 //
 //    return new foleys::MagicPluginEditor(magicState, std::move(builder));
 //}
+void MicrotonalSynthAudioProcessorEditor::loadMicrotonalPreset() {
+    // choose a file
+    chooser = std::make_unique<juce::FileChooser>("Load a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
+    auto flags = juce::FileBrowserComponent::openMode
+        | juce::FileBrowserComponent::canSelectFiles;
+    chooser->launchAsync(flags, [this] (const juce::FileChooser& fc) {
+        juce::File myFile;
+        myFile = fc.getResult();
+        juce::String s = myFile.loadFileAsString();
+        //juce::XmlDocument doc(s);
+        DBG(s);
+        /* Load file logic goes here*/
 
+        /* End load file logic*/
+    });
+
+    /* Used for reference */
+    /* 
+        MemoryBlock data;
+		if (fc.getResult().loadFileAsData (data))
+			processor->setStateInformation (data.getData(), (int) data.getSize());
+		else
+			AlertWindow::showMessageBoxAsync (
+				AlertWindow::WarningIcon,
+				TRANS("Error whilst loading"),
+				TRANS("Couldn't read from the specified file!")
+			);
+    */
+}
+void MicrotonalSynthAudioProcessorEditor::saveMicrotonalPreset() {
+    // choose a file
+    chooser = std::make_unique<juce::FileChooser>("Save a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
+    auto flags = juce::FileBrowserComponent::saveMode
+        | juce::FileBrowserComponent::canSelectFiles
+        | juce::FileBrowserComponent::warnAboutOverwriting;
+	chooser->launchAsync(flags, [this] (const juce::FileChooser& fc) {
+        if (fc.getResult() == juce::File{})
+            return;
+        juce::File myFile = fc.getResult().withFileExtension("xml");
+        /* Save file logic goes here*/
+
+        /* End save file logic*/
+
+        /* Testing */
+        if (! myFile.replaceWithText("Replace testing")){
+                juce::AlertWindow::showMessageBoxAsync (
+                    juce::AlertWindow::WarningIcon,
+				    TRANS("Error whilst saving"),
+				    TRANS("Couldn't write to the specified file!")
+                );
+            }
+    });
+}

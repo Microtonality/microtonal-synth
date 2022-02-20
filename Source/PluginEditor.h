@@ -71,6 +71,10 @@ public:
 
     void initialiseBuilder(foleys::MagicGUIBuilder& builder) override;
 
+    void loadMicrotonalPreset();
+
+    void saveMicrotonalPreset();
+
     void openWindow(int index);
 
 
@@ -80,7 +84,7 @@ private:
     int activeWindow = Default;
     Synth      synthesiser;
     juce::ValueTree  presetNode, microtonalNode;
-
+    std::unique_ptr<juce::FileChooser> chooser;
     // GUI MAGIC: define that as last member of your AudioProcessor
     foleys::MagicLevelSource* outputMeter = nullptr;
     foleys::MagicPlotSource* oscilloscope = nullptr;
