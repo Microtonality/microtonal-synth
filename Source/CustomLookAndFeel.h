@@ -10,10 +10,26 @@
 
 #pragma once
 #include <JuceHeader.h>
-class customButton : public juce::LookAndFeel_V4
+class customSettings : public juce::LookAndFeel_V4
 {
 public:
-    customButton() {};
+    customSettings() {};
+    void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
+        bool isHighlighted, bool isButtonDown) override;
+};
+
+class customSave : public juce::LookAndFeel_V4
+{
+public:
+    customSave() {};
+    void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
+        bool isHighlighted, bool isButtonDown) override;
+};
+
+class customLoad : public juce::LookAndFeel_V4
+{
+public:
+    customLoad() {};
     void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
         bool isHighlighted, bool isButtonDown) override;
 };

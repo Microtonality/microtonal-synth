@@ -4,15 +4,18 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="wGo505" name="Microtonal Synth">
     <GROUP id="{2A9F9425-8E6E-F147-3BC2-670BD9506D13}" name="Resources">
+      <FILE id="GTtSno" name="download-over.png" compile="0" resource="1"
+            file="Resources/download-over.png"/>
+      <FILE id="I7XB04" name="saveFile.png" compile="0" resource="1" file="Resources/saveFile.png"/>
+      <FILE id="xXnuEF" name="save-over.png" compile="0" resource="1" file="Resources/save-over.png"/>
+      <FILE id="Rm8iWI" name="download-down.png" compile="0" resource="1"
+            file="Resources/download-down.png"/>
+      <FILE id="qKwBV9" name="save-down.png" compile="0" resource="1" file="Resources/save-down.png"/>
+      <FILE id="iQHkC0" name="download.png" compile="0" resource="1" file="Resources/download.png"/>
       <FILE id="QBT1Yh" name="coghighlight.png" compile="0" resource="1"
             file="Resources/coghighlight.png"/>
       <FILE id="oZPzgh" name="cogdown.png" compile="0" resource="1" file="Resources/cogdown.png"/>
       <FILE id="ED1ZHl" name="cogwheel(2).png" compile="0" resource="1" file="Resources/cogwheel(2).png"/>
-      <FILE id="DYBTPH" name="gear.png" compile="0" resource="1" file="Resources/gear.png"/>
-      <FILE id="fmloJz" name="settings.png" compile="0" resource="1" file="Resources/settings.png"/>
-      <FILE id="UiGyUH" name="setting.png" compile="0" resource="1" file="Resources/setting.png"/>
-      <FILE id="GRmHpa" name="cogwheelMedium.png" compile="0" resource="1"
-            file="Resources/cogwheelMedium.png"/>
       <FILE id="qnUMcy" name="layout.xml" compile="0" resource="1" file="Resources/layout.xml"/>
     </GROUP>
     <GROUP id="{A81970BF-123A-2D09-3768-6FC8B9923387}" name="Source">

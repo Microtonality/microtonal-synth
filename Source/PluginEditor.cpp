@@ -482,7 +482,9 @@ void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuil
 {
     builder.registerJUCEFactories();
     builder.registerJUCELookAndFeels();
-    builder.registerLookAndFeel("Settings", make_unique<customButton>());
+    builder.registerLookAndFeel("Settings", make_unique<customSettings>());
+    builder.registerLookAndFeel("Save", make_unique<customSave>());
+    builder.registerLookAndFeel("Load", make_unique<customLoad>());
     builder.registerFactory("ActivePresetComponent", &ActivePresetComponentItem::factory);
     DBG(builder.getGuiRootNode().toXmlString());
 }

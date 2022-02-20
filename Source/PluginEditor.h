@@ -89,8 +89,6 @@ private:
     foleys::MagicLevelSource* outputMeter = nullptr;
     foleys::MagicPlotSource* oscilloscope = nullptr;
     foleys::MagicPlotSource* analyser = nullptr;
-    customButton settings;
-
 
     PresetListBox* presetList = nullptr;
 
