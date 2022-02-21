@@ -232,6 +232,10 @@ private:
 		inputOutlineTextColor
 	};
 
+    bool validateDivisionInput(const juce::String& s);
+
+    bool validateFrequencyInput(const juce::String& s);
+
     void timerCallback() override;
     int test = 1;
     int divisions = 12;

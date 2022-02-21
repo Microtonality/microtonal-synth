@@ -34,13 +34,12 @@ MainContentComponent::MainContentComponent(int index)
         divisionInput.setColour(juce::Label::backgroundColourId, colours[inputBackgroundColor]);
         divisionInput.setColour(juce::Label::outlineColourId, colours[inputOutlineTextColor]);
         divisionInput.onTextChange = [this] { 
-            if (all_of(divisionInput.getText().begin(), divisionInput.getText().end(), isdigit) && divisionInput.getText().getIntValue() >= 12
-                && divisionInput.getText().getIntValue() <= 24) {
+            if (validateDivisionInput(divisionInput.getText())) {
                 divisionInput.setText(divisionInput.getText(), juce::sendNotification);
                 divisions = divisionInput.getText().getIntValue();
             }
             else {
-                divisionInput.setText(to_string(divisions), juce::dontSendNotification);
+                divisionInput.setText(juce::String(divisions), juce::dontSendNotification);
             }
         };
         addAndMakeVisible(divisionInput);
@@ -61,6 +60,15 @@ MainContentComponent::MainContentComponent(int index)
         baseFreqInput.setColour(juce::Label::backgroundColourId, colours[inputBackgroundColor]);
         baseFreqInput.setJustificationType(juce::Justification::centred);
         baseFreqInput.setEditable(true);
+        baseFreqInput.onTextChange = [this] {
+            if (validateFrequencyInput(baseFreqInput.getText())) {
+                baseFreqInput.setText(baseFreqInput.getText(), juce::sendNotification);
+                frequency = baseFreqInput.getText().getDoubleValue();
+            }
+            else {
+                baseFreqInput.setText(juce::String(frequency), juce::dontSendNotification);
+            }
+        };
         addAndMakeVisible(baseFreqInput);
 
         baseFreqLabel.setFont(juce::Font(20.0f, juce::Font::bold));
@@ -270,13 +278,22 @@ void MainContentComponent::genFreqFunc() {
     }
     repaint();
 }
-
 string MainContentComponent::writeValuesToXML() {
     ofstream outf{ "../../Configs/previousState.xml" };
     if (!outf) { return "Error loading config."; }
     // juce::String writeToXML = microtonalMappings[mappingIndex].generateXML().toString();
     // outf << writeToXML;
     return NULL;
+}
+
+bool MainContentComponent::validateDivisionInput(const juce::String& s)
+{
+    return s.containsOnly("0123456789") && s.getIntValue() >= 12 && s.getIntValue() <= 24;
+}
+
+bool MainContentComponent::validateFrequencyInput(const juce::String& s)
+{
+    return s.getDoubleValue() >= 1 && s.getDoubleValue() <= 50000;
 }
 
 void MainContentComponent::timerCallback()
