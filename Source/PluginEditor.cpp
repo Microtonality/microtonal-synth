@@ -439,7 +439,7 @@ public:
             else {
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::red);
             }
-            btns[i].setButtonText(microtonalPresetNames[i + 1]);
+            btns[i].setButtonText(microtonalPresetNames[i + 1].contains(".xml") ? microtonalPresetNames[i + 1].substring(0, microtonalPresetNames[i + 1].indexOf(".")) : microtonalPresetNames[i + 1]);
 
 
         }
@@ -606,7 +606,7 @@ void MicrotonalSynthAudioProcessorEditor::saveMicrotonalPreset(int preset) {
         if (fc.getResult() == juce::File{})
             return;
         juce::File myFile = fc.getResult().withFileExtension("xml");
-        juce::String fileName = myFile.getFileName();
+        juce::String fileName = myFile.getFileName(); 
         microtonalPresetNames[preset] = fileName;
         /* Save file logic goes here*/
         if (!myFile.replaceWithText(mapping)) {
