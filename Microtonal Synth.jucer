@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="pn5JFl" name="Microtonal Synth" projectType="audioplug" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+  <MAINGROUP id="wGo505" name="Microtonal Synth">
+    <GROUP id="{2A9F9425-8E6E-F147-3BC2-670BD9506D13}" name="Resources">
+      <FILE id="GTtSno" name="download-over.png" compile="0" resource="1"
+            file="Resources/download-over.png"/>
+      <FILE id="I7XB04" name="saveFile.png" compile="0" resource="1" file="Resources/saveFile.png"/>
+      <FILE id="xXnuEF" name="save-over.png" compile="0" resource="1" file="Resources/save-over.png"/>
+      <FILE id="Rm8iWI" name="download-down.png" compile="0" resource="1"
+            file="Resources/download-down.png"/>
+      <FILE id="qKwBV9" name="save-down.png" compile="0" resource="1" file="Resources/save-down.png"/>
+      <FILE id="iQHkC0" name="download.png" compile="0" resource="1" file="Resources/download.png"/>
+      <FILE id="QBT1Yh" name="coghighlight.png" compile="0" resource="1"
+            file="Resources/coghighlight.png"/>
+      <FILE id="oZPzgh" name="cogdown.png" compile="0" resource="1" file="Resources/cogdown.png"/>
+      <FILE id="ED1ZHl" name="cogwheel(2).png" compile="0" resource="1" file="Resources/cogwheel(2).png"/>
+      <FILE id="qnUMcy" name="layout.xml" compile="0" resource="1" file="Resources/layout.xml"/>
+    </GROUP>
+    <GROUP id="{A81970BF-123A-2D09-3768-6FC8B9923387}" name="Source">
+      <FILE id="F55HLJ" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/CustomLookAndFeel.cpp"/>
+      <FILE id="NdRHNs" name="CustomLookAndFeel.h" compile="0" resource="0"
+            file="Source/CustomLookAndFeel.h"/>
+      <FILE id="LKYgaq" name="Microtonal.h" compile="0" resource="0" file="Source/Microtonal.h"/>
+      <FILE id="K8QD5v" name="MicrotonalMapper.cpp" compile="1" resource="0"
+            file="Source/MicrotonalMapper.cpp"/>
+      <FILE id="qG3JN6" name="MicrotonalMapper.h" compile="0" resource="0"
+            file="Source/MicrotonalMapper.h"/>
+      <FILE id="vzG7Z1" name="PresetListBox.h" compile="0" resource="0" file="Source/PresetListBox.h"/>
+      <FILE id="eEgRx4" name="synth.cpp" compile="1" resource="0" file="Source/synth.cpp"/>
+      <FILE id="rjefS7" name="synth.h" compile="0" resource="0" file="Source/synth.h"/>
+      <FILE id="d9lVT1" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="ApXsVt" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="is6eut" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="aa1aKw" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <VS2019 targetFolder="Builds/VisualStudio2019">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="Microtonal Synth"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="Microtonal Synth" defines="FOLEYS_SHOW_GUI_EDITOR_PALLETTE=0"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+        <MODULEPATH id="foleys_gui_magic" path="../../OneDrive/Desktop"/>
+      </MODULEPATHS>
+    </VS2019>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="foleys_gui_magic" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+</JUCERPROJECT>
