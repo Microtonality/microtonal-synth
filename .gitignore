@@ -1,7 +1,7 @@
 **/Builds
 **/JuceLibraryCode
+Configs/
 Resources/*
 
 !Resources/layout.xml
-!Resources/mappinglayoutv1.xml
-!Resources/*.png
+!Resources/png

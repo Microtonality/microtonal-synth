@@ -42,6 +42,7 @@ MainContentComponent::MainContentComponent(int index)
                 divisionInput.setText(juce::String(divisions), juce::dontSendNotification);
             }
         };
+        divisionInput.setMouseCursor(juce::MouseCursor::IBeamCursor);
         addAndMakeVisible(divisionInput);
 
         divisionLabel.setFont(juce::Font(20.0f, juce::Font::bold));
@@ -69,6 +70,7 @@ MainContentComponent::MainContentComponent(int index)
                 baseFreqInput.setText(juce::String(frequency), juce::dontSendNotification);
             }
         };
+        baseFreqInput.setMouseCursor(juce::MouseCursor::IBeamCursor);
         addAndMakeVisible(baseFreqInput);
 
         baseFreqLabel.setFont(juce::Font(20.0f, juce::Font::bold));
@@ -84,12 +86,14 @@ MainContentComponent::MainContentComponent(int index)
         generateFrequencies.setColour(juce::TextButton::textColourOffId, colours[inputOutlineTextColor]);
         generateFrequencies.setButtonText("Generate");
         generateFrequencies.addListener(this);
+        generateFrequencies.setMouseCursor(juce::MouseCursor::PointingHandCursor);
         addAndMakeVisible(generateFrequencies);
 
         addAndMakeVisible(keyboardComponent);
         setAudioChannels(0, 2);
         for (auto& btn : noteButtons) {
             btn.setColour(juce::TextButton::buttonColourId, juce::Colours::blue);
+            btn.setMouseCursor(juce::MouseCursor::PointingHandCursor);
             addAndMakeVisible(btn);
         }
         setSize (1200, 800);
@@ -103,11 +107,14 @@ MainContentComponent::MainContentComponent(int index)
         shortHandInput.setEditable(true);
         shortHandInput.setColour(juce::Label::backgroundColourId, colours[inputBackgroundColor]);
         shortHandInput.setColour(juce::Label::outlineColourId, colours[inputOutlineTextColor]);
+        shortHandInput.setMouseCursor(juce::MouseCursor::IBeamCursor);
+
         addAndMakeVisible(shortHandInput);
         shortHandBtn.setColour(juce::TextButton::buttonColourId, colours[inputBackgroundColor]);
         shortHandBtn.setColour(juce::TextButton::textColourOffId, colours[inputOutlineTextColor]);
         shortHandBtn.setButtonText("Quick Map");
-        shortHandBtn.addListener(this);
+        shortHandBtn.addListener(this);        
+        shortHandBtn.setMouseCursor(juce::MouseCursor::PointingHandCursor);
         addAndMakeVisible(shortHandBtn);
 }
 
@@ -249,8 +256,12 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
             return; 
         }
         else if (btn == &frequencyBoxes[i]) {
-            if (freqBoxIndex != i) { freqBoxIndex = i; undoButtonHighlighting(); frequencyBoxes[i].setColour(juce::TextButton::buttonColourId, juce::Colours::yellow);
-            frequencyBoxes[i].setColour(juce::ComboBox::outlineColourId, juce::Colours::black); return; }
+            if (freqBoxIndex != i) { 
+                freqBoxIndex = i; undoButtonHighlighting(); 
+                frequencyBoxes[i].setColour(juce::TextButton::buttonColourId, juce::Colours::yellow);
+                frequencyBoxes[i].setColour(juce::ComboBox::outlineColourId, juce::Colours::black); 
+                return; 
+            }
 
         }
         else if (btn == &noteButtons[i]) {
@@ -322,6 +333,7 @@ void MainContentComponent::genFreqFunc() {
         frequencyBoxes[i].setColour(juce::TextButton::buttonColourId, juce::Colours::white);
         frequencyBoxes[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
         frequencyBoxes[i].addListener(this);
+        frequencyBoxes[i].setMouseCursor(juce::MouseCursor::PointingHandCursor);
         addAndMakeVisible(frequencyBoxes[i]);
     } 
     for (int i = 0; i < 12; i++) {
@@ -332,6 +344,7 @@ void MainContentComponent::genFreqFunc() {
     }
     for (int i = microtonalMappings[mappingIndex].divisions; i < 24; i++) {
         try{ 
+            frequencyBoxes[i].setMouseCursor(juce::MouseCursor::NormalCursor);
             frequencyBoxes[i].setVisible(false); 
             frequencyBoxes[i].removeListener(this);
         }
