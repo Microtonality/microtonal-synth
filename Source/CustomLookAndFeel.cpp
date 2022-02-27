@@ -13,6 +13,7 @@
 void customSettings::drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
     bool isHighlighted, bool isButtonDown)
 {
+    button.setMouseCursor(juce::MouseCursor::PointingHandCursor);
     juce::Image background;
     if (isButtonDown)
         background = juce::ImageCache::getFromMemory(BinaryData::cogdown_png, BinaryData::cogdown_pngSize);
@@ -26,6 +27,7 @@ void customSettings::drawButtonBackground(juce::Graphics& g, juce::Button& butto
 void customSave::drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
     bool isHighlighted, bool isButtonDown)
 {
+    button.setMouseCursor(juce::MouseCursor::PointingHandCursor);
     juce::Image background;
     if (isButtonDown)
         background = juce::ImageCache::getFromMemory(BinaryData::savedown_png, BinaryData::savedown_pngSize);
@@ -39,6 +41,7 @@ void customSave::drawButtonBackground(juce::Graphics& g, juce::Button& button, c
 void customLoad::drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
     bool isHighlighted, bool isButtonDown)
 {
+    button.setMouseCursor(juce::MouseCursor::PointingHandCursor);
     juce::Image background;
     if (isButtonDown)
         background = juce::ImageCache::getFromMemory(BinaryData::downloaddown_png, BinaryData::downloaddown_pngSize);

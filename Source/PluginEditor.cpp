@@ -413,6 +413,7 @@ public:
             btns[i].setButtonText(microtonalPresetNames[i+1]);
             //btns[i].setEnabled(false);
             btns[i].addListener(this);
+            btns[i].setMouseCursor(juce::MouseCursor::PointingHandCursor);
         }
         startTimerHz(30);
     };
@@ -437,7 +438,7 @@ public:
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::blue);
             }
             else {
-                btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::red);
+                btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
             }
             btns[i].setButtonText(microtonalPresetNames[i + 1].contains(".xml") ? microtonalPresetNames[i + 1].substring(0, microtonalPresetNames[i + 1].indexOf(".")) : microtonalPresetNames[i + 1]);
 
