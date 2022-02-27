@@ -240,7 +240,7 @@ private:
 
     void timerCallback() override;
     int test = 1;
-    int divisions = 12;
+    int divisions; 
     double frequency = 440.0;
     juce::MidiKeyboardState keyboardState;
     SynthAudioSource synthAudioSource;

@@ -20,6 +20,7 @@ MainContentComponent::MainContentComponent(int index)
     : synthAudioSource(keyboardState),
     keyboardComponent(keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard)
 {
+        divisions = (int)microtonalMappings[mappingIndex].divisions;
         mappingIndex = index;
         keyboardWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
         keyboardWindow.setEnabled(false);
@@ -126,6 +127,7 @@ MainContentComponent::~MainContentComponent()
 void MainContentComponent::resized()
 {       
         // Set Main Window
+        divisions = (int)microtonalMappings[mappingIndex].divisions;
         auto area = getLocalBounds();
         auto upperWindowArea = area.removeFromTop(getHeight());
         upperWindow.setBounds(upperWindowArea);
@@ -180,8 +182,6 @@ void MainContentComponent::resized()
         for (int i = 0; i < divisions; i++) {
             frequencyBoxes[i].setBounds(positions[i], Y, boxWidth, boxHeight);
             frequencyBoxes[i].getBestWidthForHeight(boxHeight);
-            DBG(i);
-            DBG(positions[i]);
              //X = startX + iter * (i % 2 == 0 ? 1 : -1) * ((boxWidth + 2));
              //iter = i % 2 == 0 ? iter + 1 : iter;
              //frequencyBoxes[i].setBounds(X, Y, boxWidth, boxHeight);
