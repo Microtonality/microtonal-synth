@@ -127,21 +127,9 @@ void MainContentComponent::resized()
         auto keyboardWindowHeight = upperWindowArea.getHeight() / 2;
         auto keyboardWindowWidth = upperWindowArea.getWidth() * (6.0/7.0);
         auto keyboardWindowMargin = 10;
-        auto keyboardWindowArea = upperWindowArea.removeFromBottom(keyboardWindowHeight).removeFromRight(keyboardWindowWidth).reduced(keyboardWindowMargin);
+        auto keyboardWindowArea = upperWindowArea.removeFromBottom(keyboardWindowHeight).reduced(keyboardWindowMargin);
         keyboardWindow.setBounds(keyboardWindowArea);
 
-        // Set division label
-        auto divisionHeight = keyboardWindow.getHeight() / 4;
-        auto divisionWidth = keyboardWindow.getWidth() / 10;
-        divisionInput.setBounds(keyboardWindow.getX(), upperWindow.getY() + keyboardWindow.getHeight() / 2 - divisionHeight, divisionWidth, divisionHeight);//divisionInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY(), divisionWidth, divisionHeight);
-        divisionLabel.setBounds(upperWindow.getX(), upperWindow.getY() + keyboardWindow.getHeight() / 2 - divisionHeight, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, divisionHeight);
-        shortHandInput.setBounds(keyboardWindow.getX() + (2 * divisionInput.getWidth()), upperWindow.getY(),
-                                    divisionWidth, divisionHeight / 2);
-        // Set frequency label
-        auto frequencyHeight = divisionHeight;
-        auto frequencyWidth = divisionWidth;
-        baseFreqInput.setBounds(keyboardWindow.getX(), upperWindow.getY(), frequencyWidth, frequencyHeight);//baseFreqInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() - frequencyHeight, frequencyWidth, frequencyHeight);//baseFreqInput.setBounds(upperWindow.getX() + 200, upperWindow.getY() + 80, frequencyWidth, frequencyHeight);
-        baseFreqLabel.setBounds(upperWindow.getX(), upperWindow.getY(), upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
 
         // Set Keyboard
         auto keyboardMargin = 10;
@@ -152,22 +140,49 @@ void MainContentComponent::resized()
         keyboardComponent.setKeyWidth(keyboardArea.getWidth() / 7.0);
         keyboardComponent.setAvailableRange(72, 83);
 
-        int boxHeight = divisionInput.getWidth() / 3;
+        // Set division label
+        auto divisionHeight = keyboardWindow.getHeight() / 4;
+        auto divisionWidth = keyboardWindow.getWidth() / 10;
+        auto divisionMargin = 10;
+        divisionInput.setBounds(keyboardWindow.getX() + divisionWidth + divisionMargin, keyboardWindow.getY() + divisionMargin, divisionWidth / 2, divisionHeight);//divisionInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY(), divisionWidth, divisionHeight);
+        divisionLabel.setBounds(keyboardWindow.getX() + divisionMargin, keyboardWindow.getY() + divisionMargin, divisionWidth, divisionHeight);
+        
+
+        // Set frequency label
+        auto frequencyHeight = divisionHeight;
+        auto frequencyWidth = divisionWidth;
+        baseFreqInput.setBounds(keyboardWindow.getX() + frequencyWidth + divisionMargin, keyboardWindow.getY() + frequencyHeight + divisionMargin, frequencyWidth / 2, frequencyHeight);//baseFreqInput.setBounds(keyboardWindow.getX(), keyboardWindow.getY() + keyboardWindow.getHeight() - frequencyHeight, frequencyWidth, frequencyHeight);//baseFreqInput.setBounds(upperWindow.getX() + 200, upperWindow.getY() + 80, frequencyWidth, frequencyHeight);
+        baseFreqLabel.setBounds(keyboardWindow.getX() + divisionMargin, keyboardWindow.getY() + frequencyHeight + divisionMargin, frequencyWidth, frequencyHeight);
+
+
+        int boxHeight = divisionInput.getWidth()*0.70;
         int boxWidth = boxHeight + 5;
         int maxDivisions = 24;
-        generateFrequencies.setBounds(upperWindow.getX(), upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + 10, upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin, frequencyHeight);
-        shortHandBtn.setBounds(keyboardWindow.getX() + (2 * divisionInput.getWidth()) + shortHandInput.getWidth(), upperWindow.getY(), (upperWindow.getWidth() - keyboardWindowWidth + keyboardWindowMargin) / 2, frequencyHeight / 2);
-
-        for (int i = 0; i < maxDivisions; i++) {
-            int X = upperWindow.getX() + 1.3 * generateFrequencies.getWidth() + ((boxWidth + 2) * i), 
-                Y = upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + (generateFrequencies.getHeight() / 3),
-                width = boxWidth, 
-                height = boxHeight;
-            frequencyBoxes[i].setBounds(X, Y, width, height);
+        generateFrequencies.setBounds(keyboardWindow.getX() + divisionMargin, keyboardWindow.getY() + 2*frequencyHeight + divisionMargin, (3.0/2)*frequencyWidth, frequencyHeight);
+        shortHandBtn.setBounds(((keyboardWindow.getWidth() + 2 * keyboardWindowMargin) + (keyboardComponent.getX() + keyboardComponent.getWidth()))/2 - (3.0 / 4) * frequencyWidth, keyboardWindow.getY() + 2 * frequencyHeight + divisionMargin, (3.0 / 2) * frequencyWidth, frequencyHeight);
+        shortHandInput.setBounds(((keyboardWindow.getWidth() + 2 * keyboardWindowMargin) + (keyboardComponent.getX() + keyboardComponent.getWidth())) / 2 - (3.0 / 4) * frequencyWidth, keyboardWindow.getY() + 2 * frequencyHeight + divisionMargin - frequencyHeight/2, (3.0 / 2) * frequencyWidth, frequencyHeight / 2);
+        auto iter = 1;
+        vector<double>positions;
+        positions.push_back(keyboardWindow.getWidth() / 2 + boxWidth / 2 - 10);
+        for (int i = 1; i < divisions; i++) {
+            positions.push_back(positions[0] + iter * (i % 2 == 0 ? 1 : -1) * ((boxWidth + 2)));
+            iter = i % 2 == 0 ? iter + 1 : iter;
+        }
+        sort(positions.begin(), positions.end());
+        auto Y = upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + (generateFrequencies.getHeight() / 3);
+        for (int i = 0; i < divisions; i++) {
+            frequencyBoxes[i].setBounds(positions[i], Y, boxWidth, boxHeight);
             frequencyBoxes[i].getBestWidthForHeight(boxHeight);
+            DBG(i);
+            DBG(positions[i]);
+             //X = startX + iter * (i % 2 == 0 ? 1 : -1) * ((boxWidth + 2));
+             //iter = i % 2 == 0 ? iter + 1 : iter;
+             //frequencyBoxes[i].setBounds(X, Y, boxWidth, boxHeight);
+             //frequencyBoxes[i].getBestWidthForHeight(boxHeight);
+
         }
         for (int i = 0; i < 12; i++) {
-            int boxWidth = (divisionInput.getWidth() / 3) + 2;
+            int boxWidth = (divisionInput.getWidth() *0.7) + 2;
             int X = keyboardComponent.getKeyStartPosition(startKey) + keyboardComponent.getX() + ((keyboardComponent.getKeyWidth() / 5) * 3 * i),
                 Y = keyboardComponent.getY() - 35,
                 width = (boxWidth / 3) * 2,
@@ -230,6 +245,7 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
                 microtonalMappings[mappingIndex].frequencies[i].index = NULL;
             }
             genFreqFunc(); 
+            this->resized();
             return; 
         }
         else if (btn == &frequencyBoxes[i]) {
@@ -307,7 +323,7 @@ void MainContentComponent::genFreqFunc() {
         frequencyBoxes[i].setColour(juce::TextButton::textColourOffId, juce::Colours::black);
         frequencyBoxes[i].addListener(this);
         addAndMakeVisible(frequencyBoxes[i]);
-    }
+    } 
     for (int i = 0; i < 12; i++) {
         //selectedFrequencies[i] = NULL;
         noteButtons[i].setColour(juce::TextButton::buttonColourId, freqColors[i]);
