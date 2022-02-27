@@ -131,7 +131,7 @@ void MainContentComponent::resized()
         upperWindow.setBounds(upperWindowArea);
 
         // Set Keyboard Window
-        auto keyboardWindowHeight = upperWindowArea.getHeight() / 2;
+        auto keyboardWindowHeight = upperWindowArea.getHeight() * 0.6;
         auto keyboardWindowWidth = upperWindowArea.getWidth() * (6.0/7.0);
         auto keyboardWindowMargin = 10;
         auto keyboardWindowArea = upperWindowArea.removeFromBottom(keyboardWindowHeight).reduced(keyboardWindowMargin);
@@ -176,7 +176,7 @@ void MainContentComponent::resized()
             iter = i % 2 == 0 ? iter + 1 : iter;
         }
         sort(positions.begin(), positions.end());
-        auto Y = upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 4 + (generateFrequencies.getHeight() / 3);
+        auto Y = upperWindow.getY() + (keyboardWindow.getHeight() * 2) / 10; //+ (generateFrequencies.getHeight() / 3);
         for (int i = 0; i < divisions; i++) {
             frequencyBoxes[i].setBounds(positions[i], Y, boxWidth, boxHeight);
             frequencyBoxes[i].getBestWidthForHeight(boxHeight);
