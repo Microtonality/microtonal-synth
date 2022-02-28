@@ -49,9 +49,9 @@ void Synth::addOvertoneParameters(juce::AudioProcessorValueTreeState::ParameterL
     for (int i = 0; i < Synth::numOscillators; ++i)
     {
         group->addChild(std::make_unique<juce::AudioParameterFloat>("osc" + juce::String(i), "Oscillator " + juce::String(i), juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.0f));
-        group->addChild(std::make_unique<juce::AudioParameterFloat>("detune" + juce::String(i), "Detune " + juce::String(i), juce::NormalisableRange<float>(0.25f, 4.0f, 0.0001f), 1.0f));
+        group->addChild(std::make_unique<juce::AudioParameterFloat>("detune" + juce::String(i), "Detune " + juce::String(i), juce::NormalisableRange<float>(0.0625f, 16.0f, 0.0001f), 1.0f));
 		group->addChild(std::make_unique<juce::AudioParameterChoice>("wave_form" + juce::String(i), "wave_form" + juce::String(i),
-            juce::StringArray({ "Sine","Squ","Sawt","Tri" }),
+            juce::StringArray({ "Sin","Squ","Saw","Tri" }),
             0));
 	}
 
