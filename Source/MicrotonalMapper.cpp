@@ -56,7 +56,7 @@ MainContentComponent::MainContentComponent(int index)
         addAndMakeVisible(divisionLabel);
 
         baseFreqInput.setFont(juce::Font(18.0f, juce::Font::bold));
-        baseFreqInput.setText(to_string((int)microtonalMappings[mappingIndex].base_frequency), juce::dontSendNotification);
+        baseFreqInput.setText(to_string(microtonalMappings[mappingIndex].base_frequency), juce::dontSendNotification);
         baseFreqInput.setColour(juce::Label::textColourId, juce::Colours::black);
         baseFreqInput.setColour(juce::Label::outlineColourId, colours[inputOutlineTextColor]);
         baseFreqInput.setColour(juce::Label::backgroundColourId, colours[inputBackgroundColor]);
