@@ -38,6 +38,9 @@
                   id="Sustain" parameter="sustain" caption="Sustain" slider-type="rotary"/>
           <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
                   id="Release" parameter="release" caption="Release" slider-type="rotary"/>
+          <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
+                  parameter="gain" slider-text="" caption="Gain" id="Gain" slider-type="rotary"
+                  flex-grow="1"/>
         </View>
       </View>
       <View flex-grow="2" id="Other Modules">
@@ -113,17 +116,7 @@
                     slider-textbox="textbox-below" caption="" caption-size=""/>
           </View>
         </View>
-        <View flex-grow="0.4" id="Selection" flex-direction="column">
-          <TextButton lookAndFeel="LookAndFeel_V2" id="Save Instrument" text="Save Instrument"
-                      button-color="FFFFFFFF" background-color="" caption=""/>
-          <ComboBox combo-menu-text="FF000000" id="Instrument Selection" lookAndFeel="LookAndFeel_V3"
-                    background-color="FF000000" caption="Instrument Selection" caption-size="25"
-                    caption-color="FFFFFFFF" border-color="FFFFFFFF" combo-background="FFFFFFFF"
-                    combo-menu-background="FFFFFFFF" combo-text="" border="1" flex-grow="0.8"/>
-          <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
-                  parameter="gain" slider-text="" caption="Gain" id="Gain" slider-type="rotary"
-                  flex-grow="1.8"/>
-        </View>
+        <View flex-grow="0.6" id="Selection" flex-direction="column"/>
       </View>
     </View>
     <View id="Keyboard">
@@ -225,3 +218,4 @@
     </Style>
   </Styles>
 </magic>
+ 

@@ -12,7 +12,7 @@ public:
     Mapping frequencies[12];
     /* default constructor */
     MicrotonalConfig() {
-        this->base_frequency = 523.25113060119725;
+        this->base_frequency = 261.63;
         this->divisions = 12;
     };
     /* pass base frequency and total divisions */

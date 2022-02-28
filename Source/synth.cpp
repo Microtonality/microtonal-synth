@@ -363,7 +363,7 @@ void Synth::Voice::updateFrequency(BaseOscillator& oscillator, bool noteStart)
         totalSynthIndex = ((int)getCurrentlyPlayingNote() - 72);
 
     double newFrequency = microtonalMappings[mappingGroup].frequencies[singleOctaveIndex].frequency, 
-        defaultFrequency = 440.0 * std::pow(2.0, (float)((int)getCurrentlyPlayingNote() - 69) / 12.0);
+        defaultFrequency = 440.0 * std::pow(2.0, (float)((int)getCurrentlyPlayingNote() - 81) / 12.0);
 
     newFrequency = (newFrequency == NULL)
         ? defaultFrequency // note unmapped
