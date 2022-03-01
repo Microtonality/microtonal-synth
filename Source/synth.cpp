@@ -226,7 +226,7 @@ void Synth::Voice::controllerMoved(int controllerNumber, int newControllerValue)
 
 void Synth::Voice::BaseOscillator::incCurrentAngle() {
     currentAngle += angleDelta;
-    if (currentAngle >= 6.0) { currentAngle = fmod(currentAngle, 2.0 * juce::MathConstants<double>::pi); }
+    if (currentAngle >= juce::MathConstants<float>::twoPi) { currentAngle = fmod(currentAngle, juce::MathConstants<float>::twoPi); }
 }
 
 void Synth::Voice::getSamples(BaseOscillator& osc, juce::dsp::ProcessContextReplacing<float>& pc) {
@@ -249,9 +249,8 @@ void Synth::Voice::getSamples(BaseOscillator& osc, juce::dsp::ProcessContextRepl
     else if (wave_form == 1) {
         float sampleSound = 0.0;
         while (sampleNum < totalSamples) {
-            sampleSound = fmod(osc.currentAngle, 2 *
-                juce::MathConstants<double>::pi) /
-                juce::MathConstants<double>::pi - 1;
+            sampleSound = osc.currentAngle /
+                juce::MathConstants<float>::pi - 1;
             if (sampleSound > (float)0.0) {
                 sampleSound = (float)1.0;
             }
@@ -267,9 +266,8 @@ void Synth::Voice::getSamples(BaseOscillator& osc, juce::dsp::ProcessContextRepl
     else if (wave_form == 2) {
         float sampleSound = 0.0;
         while (sampleNum < totalSamples) {
-            sampleSound = fmod(osc.currentAngle, 2 *
-                juce::MathConstants<double>::pi) /
-                juce::MathConstants<double>::pi - 1;
+            sampleSound = osc.currentAngle /
+                juce::MathConstants<float>::pi - 1;
             sampleSound *= oscGain;
             buffer.addSample(0, sampleNum, sampleSound);
             osc.incCurrentAngle();
@@ -279,9 +277,8 @@ void Synth::Voice::getSamples(BaseOscillator& osc, juce::dsp::ProcessContextRepl
     else {
         float sampleSound = 0.0;
         while (sampleNum < totalSamples) {
-            sampleSound = 2 * fmod(osc.currentAngle, 2 *
-                juce::MathConstants<double>::pi) /
-                juce::MathConstants<double>::pi - 2;
+            sampleSound = 2 * osc.currentAngle /
+                juce::MathConstants<float>::pi - 2;
             if (sampleSound > 0) {
                 sampleSound = sampleSound * -1.0;
             }
