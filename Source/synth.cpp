@@ -51,7 +51,7 @@ void Synth::addOvertoneParameters(juce::AudioProcessorValueTreeState::ParameterL
         group->addChild(std::make_unique<juce::AudioParameterFloat>("osc" + juce::String(i), "Oscillator " + juce::String(i), juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.0f));
         group->addChild(std::make_unique<juce::AudioParameterFloat>("detune" + juce::String(i), "Detune " + juce::String(i), juce::NormalisableRange<float>(0.0625f, 16.0f, 0.0001f), 1.0f));
 		group->addChild(std::make_unique<juce::AudioParameterChoice>("wave_form" + juce::String(i), "wave_form" + juce::String(i),
-            juce::StringArray({ "Sin","Squ","Saw","Tri","Cu1","Cu2","Cu3" }),
+            juce::StringArray({ "Sin","Squ","Saw","Tri","Cu1","Cu2","Cu3","Cu4","Cu5","Cu6","Cu7" }),
             0));
 	}
 
@@ -186,6 +186,10 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
     loadcustomwave("cu1.txt", 0);
     loadcustomwave("cu2.txt", 1);
     loadcustomwave("cu3.txt", 2);
+    loadcustomwave("cu4.txt", 3);
+    loadcustomwave("cu5.txt", 4);
+    loadcustomwave("cu6.txt", 5);
+    loadcustomwave("cu7.txt", 6);
 }
 
 bool Synth::Voice::canPlaySound(juce::SynthesiserSound* sound)
@@ -303,7 +307,7 @@ void Synth::Voice::getSamples(BaseOscillator& osc, juce::dsp::ProcessContextRepl
             osc.incCurrentAngle();
             sampleNum++;
         }
-    }else if (wave_form == 4 || wave_form == 5 || wave_form == 6) {
+    }else if (wave_form >= 4 && wave_form < 4 + 7) {
         int cu_ind = wave_form - 4;
         if (cu_t[cu_ind] >= 1.0) {
             float sampleSound = 0.0;

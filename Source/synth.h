@@ -107,8 +107,8 @@ public:
         juce::ADSR                  adsr;
         juce::AudioParameterFloat* gainParameter = nullptr;
         float                       lastGain = 0.0;
-        std::vector<float> cu_w[3];
-        float cu_t[3] = { -1.0, -1.0, -1.0};
+        std::vector<float> cu_w[7];
+        float cu_t[7] = { -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0 };
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Voice)
 
