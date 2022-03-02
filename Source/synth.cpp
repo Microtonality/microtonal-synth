@@ -51,7 +51,7 @@ void Synth::addOvertoneParameters(juce::AudioProcessorValueTreeState::ParameterL
         group->addChild(std::make_unique<juce::AudioParameterFloat>("osc" + juce::String(i), "Oscillator " + juce::String(i), juce::NormalisableRange<float>(0.0f, 1.0f, 0.01f), 0.0f));
         group->addChild(std::make_unique<juce::AudioParameterFloat>("detune" + juce::String(i), "Detune " + juce::String(i), juce::NormalisableRange<float>(0.0625f, 16.0f, 0.0001f), 1.0f));
 		group->addChild(std::make_unique<juce::AudioParameterChoice>("wave_form" + juce::String(i), "wave_form" + juce::String(i),
-            juce::StringArray({ "Sin","Squ","Saw","Tri" }),
+            juce::StringArray({ "Sin","Squ","Saw","Tri","Cu1","Cu2","Cu3" }),
             0));
 	}
 
@@ -148,6 +148,18 @@ juce::ADSR::Parameters Synth::Sound::getADSR()
 
 //==============================================================================
 
+void Synth::Voice::loadcustomwave(const char* file, int i) {
+    FILE* fp = fopen(file, "r");
+    if (fp != nullptr) {
+        float num;
+        while (fscanf(fp, "%f", &num) != EOF) {
+            cu_w[i].push_back(num);
+            cu_t[i] += 1.0;
+        }
+        fclose(fp);
+    }
+}
+
 Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
 {
 
@@ -171,6 +183,9 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
     //Comment this out until John figures out the relative pathing part
     loadInstruments();
     
+    loadcustomwave("cu1.txt", 0);
+    loadcustomwave("cu2.txt", 1);
+    loadcustomwave("cu3.txt", 2);
 }
 
 bool Synth::Voice::canPlaySound(juce::SynthesiserSound* sound)
@@ -274,7 +289,7 @@ void Synth::Voice::getSamples(BaseOscillator& osc, juce::dsp::ProcessContextRepl
             sampleNum++;
         }
     }
-    else {
+    else  if (wave_form == 3) {
         float sampleSound = 0.0;
         while (sampleNum < totalSamples) {
             sampleSound = 2 * osc.currentAngle /
@@ -287,6 +302,20 @@ void Synth::Voice::getSamples(BaseOscillator& osc, juce::dsp::ProcessContextRepl
             buffer.addSample(0, sampleNum, sampleSound);
             osc.incCurrentAngle();
             sampleNum++;
+        }
+    }else if (wave_form == 4 || wave_form == 5 || wave_form == 6) {
+        int cu_ind = wave_form - 4;
+        if (cu_t[cu_ind] >= 1.0) {
+            float sampleSound = 0.0;
+            while (sampleNum < totalSamples) {
+                float x = (osc.currentAngle * cu_t[wave_form - 4]) / juce::MathConstants<float>::twoPi;
+                int index = floor(x);
+                sampleSound = (float)(cu_w[cu_ind].at(index + 1) - cu_w[cu_ind].at(index)) * (x - (float)index) + cu_w[cu_ind].at(index);
+                sampleSound *= oscGain;
+                buffer.addSample(0, sampleNum, sampleSound);
+                osc.incCurrentAngle();
+                sampleNum++;
+            }
         }
     }
    

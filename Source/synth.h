@@ -12,6 +12,10 @@
 
 
 #include "JuceHeader.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
+#include <math.h>
 
 class Synth : public juce::Synthesiser
 {
@@ -103,11 +107,14 @@ public:
         juce::ADSR                  adsr;
         juce::AudioParameterFloat* gainParameter = nullptr;
         float                       lastGain = 0.0;
+        std::vector<float> cu_w[3];
+        float cu_t[3] = { -1.0, -1.0, -1.0};
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Voice)
 
     public:
         void getSamples(BaseOscillator& osc, juce::dsp::ProcessContextReplacing<float>& pc);
+        void loadcustomwave(const char* file, int i);
     };
 
 private:
