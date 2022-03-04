@@ -83,10 +83,20 @@ public:
             juce::AudioParameterFloat* gain = nullptr;
             juce::AudioParameterFloat* detune = nullptr;
             juce::AudioParameterChoice* wave_form = nullptr;
+            juce::AudioParameterFloat* gainA = nullptr;
+            juce::AudioParameterFloat* detuneA = nullptr;
+            juce::AudioParameterChoice* wave_formA = nullptr;
+            juce::AudioParameterFloat* attackA = nullptr;
+            juce::AudioParameterFloat* decayA = nullptr;
+            juce::AudioParameterFloat* sustainA = nullptr;
+            juce::AudioParameterFloat* releaseA = nullptr;
             float                       angleDelta = 0.0;
+            float                       angleDeltaA = 0.0; //LFO
             float                       currentAngle = 0.0;
+            float                       currentAngleA = 0.0;
+            float                       lastGainASDR = 0.0;
+            float                       releaseGain = 0.0;
             double multiplier = 1.0;
-            void incCurrentAngle();
 
         private:
             JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BaseOscillator)
@@ -107,6 +117,10 @@ public:
         juce::ADSR                  adsr;
         juce::AudioParameterFloat* gainParameter = nullptr;
         float                       lastGain = 0.0;
+        int64_t                     timeG = 0;
+        int64_t                     starttime = 0;
+        int64_t                     starttimeR = 0;
+        bool                        released = false;
         std::vector<float> cu_w[7];
         float cu_t[7] = { -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0 };
 
@@ -115,8 +129,13 @@ public:
     public:
         void getSamples(BaseOscillator& osc, juce::dsp::ProcessContextReplacing<float>& pc);
         void loadcustomwave(const char* file, int i);
+        float getOscASDR(BaseOscillator& osc);
+        float getOsc(float currentAngleR, int wave_form);
     };
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Synth)
 };
+
+
+void incCurrentAngle(float& currentAngleR, float angleDeltaR);
