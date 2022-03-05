@@ -1,2 +1,8 @@
 **/Builds
 **/JuceLibraryCode
+Configs/
+Resources/*
+
+!Resources/layout.xml
+!Resources/png
+!Resources/instruments
