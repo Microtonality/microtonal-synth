@@ -14,6 +14,19 @@
 #include "CustomLookAndFeel.h"
 #include "synth.h"
 
+static const juce::String presetFileExt = ".xml";
+static const juce::String presetWildCard = "*.xml";
+
+
+#if JUCE_WINDOWS
+static const juce::String directorySeparator = "\\";
+
+#elif JUCE_MAC
+static const juce::String directorySeparator = "//";
+
+#endif
+
+
 class PresetListBox;
 //==============================================================================
 /**
@@ -64,12 +77,13 @@ public:
     void savePresetInternal();
     void loadPresetInternal(int index);
     void deletePreset(int toDelete);
-    void loadAllInstruments();
 
     //==============================================================================
     double getTailLengthSeconds() const override;
 
     void initialiseBuilder(foleys::MagicGUIBuilder& builder) override;
+
+    void updateInstrumentList();
 
     void loadMicrotonalPreset(int);
 
@@ -84,11 +98,14 @@ private:
     int activeWindow = Default;
     Synth      synthesiser;
     juce::ValueTree  presetNode, microtonalNode;
+    juce::Array<juce::File> instrumentList;
     std::unique_ptr<juce::FileChooser> chooser;
+    juce::String currentState;
     // GUI MAGIC: define that as last member of your AudioProcessor
     foleys::MagicLevelSource* outputMeter = nullptr;
     foleys::MagicPlotSource* oscilloscope = nullptr;
     foleys::MagicPlotSource* analyser = nullptr;
+    juce::File presetDirectory;
 
     PresetListBox* presetList = nullptr;
 

@@ -30,12 +30,22 @@ void PresetManager::createNewPreset()
     // to their default values, then set currentPresetName to "Untitled" or some init. state
 }
 
-void PresetManager::savePreset(juce::File presetToSave)
+void PresetManager::savePreset(juce::File newInstrument)
 {
     // check if the file passed in actually exists.
     // if it does, delete it. if not, create it
 
+    if (newInstrument.exists())
+    {
+        newInstrument.deleteFile();
+    }
+    else
+    {
+        newInstrument.create();
+    }
+
     // update preset name for GUI display using file name
+    currentPresetName = newInstrument.getFileNameWithoutExtension();
 
     // allocate memory on the stack using MemoryBlock, and fill it with our preset data
     // using get state information
@@ -43,6 +53,30 @@ void PresetManager::savePreset(juce::File presetToSave)
     // write the preset data to the file
 
     // update the preset list
+}
+
+void PresetManager::saveChooser()
+{
+    chooser = std::make_unique<juce::FileChooser>("Save a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
+    auto flags = juce::FileBrowserComponent::saveMode
+        | juce::FileBrowserComponent::canSelectFiles
+        | juce::FileBrowserComponent::warnAboutOverwriting;
+    //juce::String mapping = microtonalMappings[preset].generateValueTree().toXmlString();
+    chooser->launchAsync(flags, [this](const juce::FileChooser& fc) {
+        if (fc.getResult() == juce::File{})
+            return;
+        juce::File myFile = fc.getResult().withFileExtension("xml");
+        juce::String fileName = myFile.getFileName();
+        /* Save file logic goes here*/
+        /*if (!myFile.replaceWithText(mapping)) {
+            juce::AlertWindow::showMessageBoxAsync(
+                juce::AlertWindow::WarningIcon,
+                TRANS("Error whilst saving"),
+                TRANS("Couldn't write to the specified file!")
+            );
+        }*/
+        /* End save file logic*/
+        });
 }
 
 void PresetManager::loadPreset(juce::File presetToLoad)
@@ -53,26 +87,29 @@ void PresetManager::loadPreset(juce::File presetToLoad)
     // with loaded data
 }
 
+/*
+    const juce::String PresetManager::getPresetName(int inPresetIndex)
+    {
+        // return name of preset at given index
+    }
 
-const juce::String PresetManager::getPresetName(int inPresetIndex)
-{
-    // return name of preset at given index
-}
+    const juce::String PresetManager::getCurrentPresetName()
+    {
+        // return name of currently loaded preset
+    }
 
-const juce::String PresetManager::getCurrentPresetName()
-{
-    // return name of currently loaded preset
-}
+    const int PresetManager::getNumberOfPresets()
+    {
+        // return size of preset list
+    }
 
-const int PresetManager::getNumberOfPresets()
-{
-    // return size of preset list
-}
+    const juce::String PresetManager::getCurrentPresetDirectory()
+    {
+        // return path of root preset directory as a juce::String
+    }
 
-const juce::String PresetManager::getCurrentPresetDirectory()
-{
-    // return path of root preset directory as a juce::String
-}
+
+*/
 
 void PresetManager::setCurrentPresetName(juce::String newPresetName)
 {

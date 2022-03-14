@@ -11,6 +11,7 @@
 #pragma once
 
 #include "JuceHeader.h"
+#include "PresetListBox.h"
 
 static const juce::String presetFileExt = ".xml";
 static const juce::String presetWildCard = "*.xml";
@@ -45,6 +46,9 @@ public:
     /**  Takes a user selected file and loads data from it into the APVTS */
     void loadPreset(juce::File presetToLoad);
 
+  
+    void saveChooser();
+
     /** Returns the present name for a given index of the preset directory */
     const juce::String getPresetName(int inPresetIndex);
 
@@ -60,10 +64,15 @@ public:
     /** Returns the number of presets loaded to the local presets array */
     const int getNumberOfPresets();
 
+    void loadAllInstruments();
+
+
 private:
 
     /** Iterates over the preset directory and adds the files to localPresets  */
     void updatePresetList();
+
+    std::unique_ptr<juce::FileChooser> chooser;
 
     juce::File presetDirectory;
     

@@ -225,7 +225,7 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     for (int i = 0; i < 16; ++i)
         synthesiser.addVoice(new Synth::Voice(treeState));
 
-    
+    updateInstrumentList();
 
 }
 
@@ -314,8 +314,8 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
     preset.setProperty("name", "Preset " + juce::String(presetNode.getNumChildren() + 1), nullptr);
     preset.setProperty("name", "Preset", nullptr);
     foleys::ParameterManager manager(*this);
+    
     manager.saveParameterValues(preset);
-
     presetNode.appendChild(preset, nullptr);
     DBG(magicState.getSettings().toXmlString().toStdString());
 
@@ -343,19 +343,7 @@ void MicrotonalSynthAudioProcessorEditor::loadPresetInternal(int index)
     manager.loadParameterValues(preset);
 }
 
-void MicrotonalSynthAudioProcessorEditor::loadAllInstruments()
-{
-    /*setNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
 
-    for (int i = 0; i < presetNode.getNumChildren(); i++)
-    {
-        auto preset = presetNode.getChild(i).getPropertyAsValue("name", nullptr);
-        instruments[i] = preset.getValue();
-        DBG(instruments[i]);
-    }*/
-
-    
-}
 
 void MicrotonalSynthAudioProcessorEditor::deletePreset(int toDelete)
 {
@@ -382,11 +370,6 @@ void MicrotonalSynthAudioProcessorEditor::deletePreset(int toDelete)
     DBG(presetNode.toXmlString());
 
 }
-/*
-void loadAllInstruments() {
-    
-   foleys::MagicProcessorState::
-}*/
 
 
 
@@ -620,3 +603,6 @@ void MicrotonalSynthAudioProcessorEditor::saveMicrotonalPreset(int preset) {
         /* End save file logic*/
     });
 }
+
+
+

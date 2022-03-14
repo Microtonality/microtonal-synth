@@ -19,6 +19,8 @@
       <FILE id="qnUMcy" name="layout.xml" compile="0" resource="1" file="Resources/layout.xml"/>
     </GROUP>
     <GROUP id="{A81970BF-123A-2D09-3768-6FC8B9923387}" name="Source">
+      <FILE id="Dz1Kwm" name="PresetManager.cpp" compile="1" resource="0" file="Source/PresetManager.cpp"/>
+      <FILE id="Ra9AWI" name="PresetManager.h" compile="0" resource="0" file="Source/PresetManager.h"/>
       <FILE id="F55HLJ" name="CustomLookAndFeel.cpp" compile="1" resource="0"
             file="Source/CustomLookAndFeel.cpp"/>
       <FILE id="NdRHNs" name="CustomLookAndFeel.h" compile="0" resource="0"

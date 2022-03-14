@@ -75,9 +75,30 @@ public:
 
     std::function<void(int rowNumber)> onSelectionChanged;
 
+    void updateInstrumentList()
+    {
+        instrumentList.clear();
+
+        // Iterate through the directory and get each file
+        auto iterator = juce::RangedDirectoryIterator(juce::File(presetDirectory), false, presetWildCard, juce::File::TypesOfFileToFind::findFiles);
+
+        for (auto f : iterator)
+        {
+            instrumentList.add(f.getFile());
+        }
+    }
+
 private:
     juce::ValueTree presets;
     foleys::SharedApplicationSettings settings;
+
+    std::unique_ptr<juce::FileChooser> chooser;
+
+    juce::File presetDirectory;
+
+    juce::String currentPresetName{ "Untitled" };
+
+    juce::Array<juce::File> instrumentList;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PresetListBox)
 };
