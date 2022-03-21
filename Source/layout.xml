@@ -118,7 +118,7 @@
         </View>
         <View flex-grow="0.6" id="Selection" flex-direction="column">
           <ListBox/>
-          <TextButton text="Save" max-width="100" max-height="50"/>
+          <TextButton text="Save" max-width="100" max-height="50" onClick="save-preset"/>
           <TextButton text="Load" max-height="50" max-width="100"/>
         </View>
       </View>

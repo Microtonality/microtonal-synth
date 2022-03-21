@@ -14,19 +14,6 @@
 #include "CustomLookAndFeel.h"
 #include "synth.h"
 
-static const juce::String presetFileExt = ".xml";
-static const juce::String presetWildCard = "*.xml";
-
-
-#if JUCE_WINDOWS
-static const juce::String directorySeparator = "\\";
-
-#elif JUCE_MAC
-static const juce::String directorySeparator = "//";
-
-#endif
-
-
 class PresetListBox;
 //==============================================================================
 /**

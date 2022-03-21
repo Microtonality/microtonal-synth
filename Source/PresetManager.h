@@ -11,7 +11,6 @@
 #pragma once
 
 #include "JuceHeader.h"
-#include "PresetListBox.h"
 
 static const juce::String presetFileExt = ".xml";
 static const juce::String presetWildCard = "*.xml";
