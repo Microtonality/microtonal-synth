@@ -160,7 +160,7 @@ juce::ADSR::Parameters Synth::Sound::getADSR()
 
 void Synth::Voice::loadcustomwave(const char* file, int i) {
     juce::String filePath = juce::File::getCurrentWorkingDirectory().getFullPathName();
-    filePath += "\\";
+    filePath += "\\custom_waves\\";
     filePath += file;
     FILE* fp = fopen(filePath.toRawUTF8(), "r");
     if (fp != nullptr) {
