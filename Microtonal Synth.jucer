@@ -19,25 +19,47 @@
       <FILE id="qnUMcy" name="layout.xml" compile="0" resource="1" file="Resources/layout.xml"/>
     </GROUP>
     <GROUP id="{A81970BF-123A-2D09-3768-6FC8B9923387}" name="Source">
-      <FILE id="F55HLJ" name="CustomLookAndFeel.cpp" compile="1" resource="0"
-            file="Source/CustomLookAndFeel.cpp"/>
-      <FILE id="NdRHNs" name="CustomLookAndFeel.h" compile="0" resource="0"
-            file="Source/CustomLookAndFeel.h"/>
-      <FILE id="LKYgaq" name="Microtonal.h" compile="0" resource="0" file="Source/Microtonal.h"/>
-      <FILE id="K8QD5v" name="MicrotonalMapper.cpp" compile="1" resource="0"
-            file="Source/MicrotonalMapper.cpp"/>
-      <FILE id="qG3JN6" name="MicrotonalMapper.h" compile="0" resource="0"
-            file="Source/MicrotonalMapper.h"/>
-      <FILE id="vzG7Z1" name="PresetListBox.h" compile="0" resource="0" file="Source/PresetListBox.h"/>
-      <FILE id="eEgRx4" name="synth.cpp" compile="1" resource="0" file="Source/synth.cpp"/>
-      <FILE id="rjefS7" name="synth.h" compile="0" resource="0" file="Source/synth.h"/>
-      <FILE id="d9lVT1" name="PluginProcessor.cpp" compile="1" resource="0"
-            file="Source/PluginProcessor.cpp"/>
-      <FILE id="ApXsVt" name="PluginProcessor.h" compile="0" resource="0"
-            file="Source/PluginProcessor.h"/>
-      <FILE id="is6eut" name="PluginEditor.cpp" compile="1" resource="0"
-            file="Source/PluginEditor.cpp"/>
-      <FILE id="aa1aKw" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <GROUP id="{05FB1484-8762-465D-9450-8E8C57EAFA39}" name="audioProcessor">
+        <GROUP id="{52DC3BE8-AFA3-A193-3960-0296A195A96B}" name="customwaves_(move_to_working_dir)">
+          <FILE id="wWSErg" name="cu1.txt" compile="0" resource="1" file="Source/audioProcessor/customwaves_(move_to_working_dir)/cu1.txt"/>
+          <FILE id="gwWOxC" name="cu2.txt" compile="0" resource="1" file="Source/audioProcessor/customwaves_(move_to_working_dir)/cu2.txt"/>
+          <FILE id="A6HAgy" name="cu3.txt" compile="0" resource="1" file="Source/audioProcessor/customwaves_(move_to_working_dir)/cu3.txt"/>
+          <FILE id="I4a1Nu" name="cu4.txt" compile="0" resource="1" file="Source/audioProcessor/customwaves_(move_to_working_dir)/cu4.txt"/>
+          <FILE id="jCQcji" name="cu5.txt" compile="0" resource="1" file="Source/audioProcessor/customwaves_(move_to_working_dir)/cu5.txt"/>
+          <FILE id="AOEBvr" name="cu6.txt" compile="0" resource="1" file="Source/audioProcessor/customwaves_(move_to_working_dir)/cu6.txt"/>
+          <FILE id="IMKjgW" name="cu7.txt" compile="0" resource="1" file="Source/audioProcessor/customwaves_(move_to_working_dir)/cu7.txt"/>
+        </GROUP>
+        <FILE id="esT8G4" name="PluginProcessor.cpp" compile="1" resource="0"
+              file="Source/audioProcessor/PluginProcessor.cpp"/>
+        <FILE id="Xi5OXR" name="PluginProcessor.h" compile="0" resource="0"
+              file="Source/audioProcessor/PluginProcessor.h"/>
+        <FILE id="d6tosN" name="synth.cpp" compile="1" resource="0" file="Source/audioProcessor/synth.cpp"/>
+        <FILE id="FonnEs" name="synth.h" compile="0" resource="0" file="Source/audioProcessor/synth.h"/>
+      </GROUP>
+      <GROUP id="{133D4FD6-0BA4-FE27-0391-C614052DE53C}" name="components">
+        <GROUP id="{107648B5-1875-7E40-4AFA-327F68471ED7}" name="instrumentPresets">
+          <FILE id="zARMDq" name="PresetListBox.h" compile="0" resource="0" file="Source/components/instrumentPresets/PresetListBox.h"/>
+          <FILE id="uaTnjL" name="PresetManager.cpp" compile="1" resource="0"
+                file="Source/components/instrumentPresets/PresetManager.cpp"/>
+          <FILE id="rX3Mve" name="PresetManager.h" compile="0" resource="0" file="Source/components/instrumentPresets/PresetManager.h"/>
+        </GROUP>
+        <GROUP id="{055ED4DE-12C7-1449-6055-A9105BA881B1}" name="microtonal">
+          <FILE id="kJMwo6" name="Microtonal.h" compile="0" resource="0" file="Source/components/microtonal/Microtonal.h"/>
+          <FILE id="JKt3pI" name="MicrotonalMapper.cpp" compile="1" resource="0"
+                file="Source/components/microtonal/MicrotonalMapper.cpp"/>
+          <FILE id="GRX8bz" name="MicrotonalMapper.h" compile="0" resource="0"
+                file="Source/components/microtonal/MicrotonalMapper.h"/>
+        </GROUP>
+      </GROUP>
+      <GROUP id="{FE338426-1845-823B-421C-EE642575A7F2}" name="UI">
+        <FILE id="YSPYSM" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+              file="Source/UI/CustomLookAndFeel.cpp"/>
+        <FILE id="wGqUTi" name="CustomLookAndFeel.h" compile="0" resource="0"
+              file="Source/UI/CustomLookAndFeel.h"/>
+        <FILE id="GpcLdV" name="PluginEditor.cpp" compile="1" resource="0"
+              file="Source/UI/PluginEditor.cpp"/>
+        <FILE id="cqzn4m" name="PluginEditor.h" compile="0" resource="0" file="Source/UI/PluginEditor.h"/>
+      </GROUP>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

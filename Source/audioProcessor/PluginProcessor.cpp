@@ -7,7 +7,7 @@
 */
 
 #include "PluginProcessor.h"
-#include "PluginEditor.h"
+#include "../UI/PluginEditor.h"
 
 //class DivisionComponent : public juce::Component
 //{

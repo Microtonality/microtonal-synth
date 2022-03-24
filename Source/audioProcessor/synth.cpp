@@ -9,7 +9,7 @@
 */
 
 #include "synth.h"
-#include "Microtonal.h"
+#include "../components/microtonal/Microtonal.h"
 
 namespace IDs
 {

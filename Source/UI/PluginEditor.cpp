@@ -7,9 +7,9 @@
 */
 #pragma once
 
-#include "PluginProcessor.h"
+#include "../audioProcessor/PluginProcessor.h"
 #include "PluginEditor.h"
-#include "PresetListBox.h"
+#include "../components/instrumentPresets/PresetListBox.h"
 #include "CustomLookAndFeel.h"
 #include <string> 
 #include <cctype> 

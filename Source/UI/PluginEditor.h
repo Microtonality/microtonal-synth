@@ -10,9 +10,9 @@
 
 #include <JuceHeader.h>
 //#include "PluginProcessor.h"
-#include "MicrotonalMapper.h"
+#include "../components/microtonal/MicrotonalMapper.h"
 #include "CustomLookAndFeel.h"
-#include "synth.h"
+#include "../audioProcessor/synth.h"
 
 class PresetListBox;
 //==============================================================================
