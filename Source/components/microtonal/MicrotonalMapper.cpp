@@ -299,7 +299,7 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
 }
 void MainContentComponent::mappingShortcut(string inputString) {
     if (inputString == "") return;
-    if(!regex_match(inputString, regex("\\d\\d?\\s+\\d\\d?\\s+\\d\\d?"))) return;
+    if (!regex_match(inputString, regex("^\\s*\\d\\d?\\s+\\d\\d?\\s+\\d\\d?\\s*$"))) return;
     istringstream iss(inputString);
 
     string word;
@@ -313,6 +313,8 @@ void MainContentComponent::mappingShortcut(string inputString) {
     iss >> word;
     int steps = stoi(word);
     int noteBlock = 0;
+
+    if (start > finish) return;
     genFreqFunc();
     for (int i = 0; i < 12; i++) {
         microtonalMappings[mappingIndex].frequencies[i].index = NULL;
