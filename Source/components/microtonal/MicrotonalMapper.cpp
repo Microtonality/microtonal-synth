@@ -12,6 +12,7 @@
 #include <math.h>
 #include <iostream>
 #include <fstream>
+#include <regex>
 using namespace std;
 MicrotonalConfig microtonalMappings[7];
 int mappingIndex;
@@ -298,6 +299,7 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
 }
 void MainContentComponent::mappingShortcut(string inputString) {
     if (inputString == "") return;
+    if(!regex_match(inputString, regex("\\d\\d?\\s+\\d\\d?\\s+\\d\\d?"))) return;
     istringstream iss(inputString);
 
     string word;
