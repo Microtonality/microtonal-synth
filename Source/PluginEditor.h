@@ -75,6 +75,8 @@ public:
 
     void saveMicrotonalPreset(int);
 
+    void loadHelper();
+
     void openWindow(int index);
 
 

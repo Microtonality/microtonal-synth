@@ -144,17 +144,16 @@
               <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                     border="2">
                 <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                            onClick="load-instrument-preset5"/>
+                            onClick="load-microtonal-preset1"/>
               </View>
               <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                     border="2">
                 <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                            onClick="load-instrument-preset6"/>
+                            onClick="load-microtonal-preset1"/>
               </View>
             </View>
           </View>
           <TextButton text="Save" max-width="100" max-height="50" onClick="save-preset"/>
-          <TextButton text="Load" max-width="100" max-height="50" onClick="load-helper"/>
         </View>
       </View>
     </View>
