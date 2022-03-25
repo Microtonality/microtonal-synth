@@ -88,7 +88,7 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     presetList = magicState.createAndAddObject<PresetListBox>("presets");
     //savePresetInternal();
 
-    magicState.getSettings().getChildWithName("instrument_presets").removeAllChildren(nullptr);
+    //magicState.getSettings().getChildWithName("instrument_presets").removeAllChildren(nullptr);
     //DBG(magicState.getSettings().toXmlString());
     //loadPresetInternal(0);
     
@@ -322,10 +322,14 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
     //presetNode.appendChild(preset, nullptr);
 
     foleys::ParameterManager manager(*this);
-    juce::ValueTree instrument = magicState.getSettings();
+
+    juce::ValueTree instrument = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
+    manager.saveParameterValues(instrument);
+  
     DBG(instrument.toXmlString());
     //magicState.getSettings().getChildWithName("presets").removeAllChildren(nullptr);
-    magicState.getSettings().removeAllChildren(nullptr);
+    /*magicState.getSettings().removeAllChildren(nullptr);
+    magicState.getSettings().getChild(0).toXmlString();*/
 
     chooser = std::make_unique<juce::FileChooser>("Save an instrument preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
     auto flags = juce::FileBrowserComponent::saveMode
@@ -345,13 +349,14 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
                 TRANS("Couldn't write to the specified file!")
             );
         }
+        
         /* End save file logic*/
      });
 
-    manager.saveParameterValues(instrument);
+    /*manager.saveParameterValues(instrument);
 
     DBG("Trying to access presetlist");
-    presetList->updateInstrumentList();
+    presetList->updateInstrumentList();*/
 
 }
 
