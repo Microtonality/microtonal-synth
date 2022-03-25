@@ -385,35 +385,6 @@ void MicrotonalSynthAudioProcessorEditor::loadPresetInternal(int index)
 }
 
 
-
-void MicrotonalSynthAudioProcessorEditor::deletePreset(int toDelete)
-{
-    if (toDelete == 0)
-    {
-        return;
-    }
-
-    juce::ValueTree presetNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
-    auto preset = presetNode.getChild(toDelete);
-    
-    //magicState.getSettings().removeAllChildren(nullptr);
-    presetNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
-
-    //juce::ValueTree preset{ "Preset" };
-    /*preset.setProperty("name", "Preset " + juce::String(presetNode.getNumChildren() + 1), nullptr);
-    preset.setProperty("name", "Preset", nullptr);*/
-   
-    preset.removeAllChildren(nullptr);
-    presetNode.removeChild(toDelete, nullptr);
-    foleys::ParameterManager manager(*this);
-    manager.saveParameterValues(preset);
-
-    //DBG(presetNode.toXmlString());
-
-}
-
-
-
 //==============================================================================
 
 double MicrotonalSynthAudioProcessorEditor::getTailLengthSeconds() const
