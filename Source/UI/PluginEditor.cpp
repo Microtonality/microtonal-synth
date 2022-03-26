@@ -21,11 +21,16 @@ int mappingGroup = Default;
 extern MicrotonalConfig microtonalMappings[7];
 juce::String microtonalPresetNames[7] = { "Default", "1", "2", "3", "4", "5", "6" };
 
+MainContentComponent* createMainContentComponent(int index)
+{
+    return new MainContentComponent(index);
+}
 
 //==============================================================================
 MicrotonalWindow::MicrotonalWindow(juce::String name, int index) : DocumentWindow(name,
     juce::Colours::dimgrey,
     DocumentWindow::closeButton | DocumentWindow::maximiseButton, true)
+
 {
     double ratio = 2; // adjust as desired
     setContentOwned(new MainContentComponent(index), true);
@@ -435,6 +440,9 @@ public:
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::darkgreen);
             } 
             else if (microtonalMappings[i + 1].frequencies[0].frequency != NULL) {
+                DBG(microtonalMappings[i + 1].frequencies[0].frequency);
+                //DBG(mappingGroup);
+                //DBG(i + 1);
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::blue);
             }
             else {
@@ -448,6 +456,7 @@ public:
 
     }
     void buttonClicked(juce::Button* btn) override{
+        DBG(mappingGroup);
         for (int i = 0; i < 6; i++) {
             if (btn == &btns[i]) {
                 mappingGroup = mappingGroup == i + 1 ? Default : i + 1;

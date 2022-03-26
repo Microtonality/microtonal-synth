@@ -13,6 +13,7 @@
 #include "../components/microtonal/MicrotonalMapper.h"
 #include "CustomLookAndFeel.h"
 #include "../audioProcessor/synth.h"
+#include <atomic> 
 
 class PresetListBox;
 //==============================================================================

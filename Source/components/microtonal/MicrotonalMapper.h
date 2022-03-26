@@ -13,12 +13,13 @@
 #include <algorithm>
 #include <string> 
 #include <cctype> 
+#include <atomic>
 #include "Microtonal.h"
 using namespace std;
 
 //==============================================================================
 extern MicrotonalConfig microtonalMappings[7];
-extern int mappingIndex;
+extern atomic<int> mappingIndex;
 //=================================================================================================
 struct SineWaveSound : public juce::SynthesiserSound
 {

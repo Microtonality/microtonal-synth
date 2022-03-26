@@ -2,8 +2,8 @@
 using namespace std;
 class Mapping {
 public:
-    int index;
-    double frequency;
+    int index = NULL;
+    double frequency = NULL;
 };
 class MicrotonalConfig {
 public:
