@@ -117,9 +117,43 @@
           </View>
         </View>
         <View flex-grow="0.6" id="Selection" flex-direction="column">
-          <ListBox/>
+          <View>
+            <InstrumentPresetComponent/>
+            <View id="Mapping Selection" flex-direction="column" background-gradient=""
+                  border="" class="group" display="flexbox">
+              <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
+                    border="2">
+                <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
+                            onClick="load-instrument-preset1"/>
+              </View>
+              <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
+                    border="2">
+                <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
+                            onClick="load-instrument-preset2"/>
+              </View>
+              <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
+                    border="2">
+                <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
+                            onClick="load-instrument-preset3"/>
+              </View>
+              <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
+                    border="2">
+                <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
+                            onClick="load-instrument-preset4"/>
+              </View>
+              <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
+                    border="2">
+                <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
+                            onClick="load-microtonal-preset1"/>
+              </View>
+              <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
+                    border="2">
+                <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
+                            onClick="load-microtonal-preset1"/>
+              </View>
+            </View>
+          </View>
           <TextButton text="Save" max-width="100" max-height="50" onClick="save-preset"/>
-          <TextButton text="Load" max-height="50" max-width="100"/>
         </View>
       </View>
     </View>
@@ -222,3 +256,4 @@
     </Style>
   </Styles>
 </magic>
+ 

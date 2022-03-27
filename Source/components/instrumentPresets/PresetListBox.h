@@ -10,6 +10,19 @@
 
 #pragma once
 #include <JuceHeader.h>
+
+static const juce::String presetFileExt = ".xml";
+static const juce::String presetWildCard = "*.xml";
+
+
+#if JUCE_WINDOWS
+static const juce::String directorySeparator = "\\";
+
+#elif JUCE_MAC
+static const juce::String directorySeparator = "//";
+
+#endif
+
 class PresetListBox : public juce::ListBoxModel,
     public juce::ChangeBroadcaster,
     public juce::ChangeListener
@@ -66,9 +79,41 @@ public:
         g.drawFittedText(presets.getChild(rowNumber).getProperty("name", "foo").toString(), bounds, juce::Justification::centredLeft, 1);
     }
 
+    void updateInstrumentList()
+    {
+        juce::File path = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+        
+        if (path.isDirectory())
+            DBG("Success, is a directory");
+        /*instrumentList.clear();*/
+
+        // Iterate through the directory and get each file
+        //auto iterator = juce::RangedDirectoryIterator(juce::File(path), false, presetWildCard, juce::File::TypesOfFileToFind::findFiles);
+
+        for (juce::DirectoryEntry f : juce::RangedDirectoryIterator(juce::File(path), false, presetWildCard))
+        {
+            juce::File fileToRead = f.getFile();
+            juce::ValueTree convertedFile = juce::ValueTree::fromXml(*juce::XmlDocument(fileToRead).getDocumentElement());
+
+            DBG("Inside of updateInstrumentList");
+            DBG(convertedFile.toXmlString());
+
+            presets.addChild(convertedFile, -1, nullptr);
+            //instrumentList.add(f.getFile());
+            //presets.addChild(f.getFile());
+        }
+    }
+
+    juce::ValueTree getInstrument(int index)
+    {
+        juce::ValueTree vt = presets.getChild(index);
+        return vt;
+    }
+
     void changeListenerCallback(juce::ChangeBroadcaster*) override
     {
         presets = settings->settings.getOrCreateChildWithName("presets", nullptr);
+        
         // forward to ListBox
         sendChangeMessage();
     }
@@ -78,6 +123,13 @@ public:
 private:
     juce::ValueTree presets;
     foleys::SharedApplicationSettings settings;
+
+    std::unique_ptr<juce::FileChooser> chooser;
+
+
+    juce::String currentPresetName{ "Untitled" };
+
+    juce::Array<juce::File> instrumentList;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PresetListBox)
 };
