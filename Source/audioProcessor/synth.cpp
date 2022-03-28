@@ -9,7 +9,7 @@
 */
 
 #include "synth.h"
-#include "Microtonal.h"
+#include "../components/microtonal/Microtonal.h"
 
 namespace IDs
 {
@@ -159,10 +159,10 @@ juce::ADSR::Parameters Synth::Sound::getADSR()
 //==============================================================================
 
 void Synth::Voice::loadcustomwave(const char* file, int i) {
-    //juce::String filePath = juce::File::getCurrentWorkingDirectory().getFullPathName();
-    //filePath += "\\";
-    //filePath += file;
-    FILE* fp = fopen(file, "r");//filePath.toRawUTF8(), "r");
+    juce::String filePath = juce::File::getCurrentWorkingDirectory().getFullPathName();
+    filePath += "\\custom_waves\\";
+    filePath += file;
+    FILE* fp = fopen(filePath.toRawUTF8(), "r");
     if (fp != nullptr) {
         float num;
         while (fscanf(fp, "%f", &num) != EOF) {

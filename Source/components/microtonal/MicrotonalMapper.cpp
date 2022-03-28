@@ -12,9 +12,10 @@
 #include <math.h>
 #include <iostream>
 #include <fstream>
+#include <regex>
 using namespace std;
 MicrotonalConfig microtonalMappings[7];
-int mappingIndex;
+atomic<int> mappingIndex;
 //==============================================================================
 MainContentComponent::MainContentComponent(int index)
     : synthAudioSource(keyboardState),
@@ -125,7 +126,7 @@ MainContentComponent::~MainContentComponent()
 }
 
 void MainContentComponent::resized()
-{       
+{
         // Set Main Window
         divisions = (int)microtonalMappings[mappingIndex].divisions;
         auto area = getLocalBounds();
@@ -188,6 +189,7 @@ void MainContentComponent::resized()
              //frequencyBoxes[i].getBestWidthForHeight(boxHeight);
 
         }
+
         for (int i = 0; i < 12; i++) {
             int boxWidth = (divisionInput.getWidth() *0.7) + 2;
             int X = keyboardComponent.getKeyStartPosition(startKey) + keyboardComponent.getX() + ((keyboardComponent.getKeyWidth() / 5) * 3 * i),
@@ -293,11 +295,13 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
         }
         else if (btn == &shortHandBtn) {
             mappingShortcut(shortHandInput.getText().toStdString());
+            return;
         }
     }
 }
 void MainContentComponent::mappingShortcut(string inputString) {
     if (inputString == "") return;
+    if (!regex_match(inputString, regex("^\\s*\\d\\d?\\s+\\d\\d?\\s+\\d\\d?\\s*$"))) return;
     istringstream iss(inputString);
 
     string word;
@@ -311,19 +315,39 @@ void MainContentComponent::mappingShortcut(string inputString) {
     iss >> word;
     int steps = stoi(word);
     int noteBlock = 0;
+
+    if (start > finish) return;
+    steps = steps == 0 ? 1 : steps;
     genFreqFunc();
+    DBG(mappingIndex);
     for (int i = 0; i < 12; i++) {
         microtonalMappings[mappingIndex].frequencies[i].index = NULL;
         microtonalMappings[mappingIndex].frequencies[i].frequency = NULL;
     }
-    for (int i = start; i <= finish; i += steps, noteBlock++) {
-        if (i >= microtonalMappings[mappingIndex].divisions) break;
-        microtonalMappings[mappingIndex].frequencies[noteBlock].index = noteBlock;
-        microtonalMappings[mappingIndex].frequencies[noteBlock].frequency = frequencies[i];
+    if (steps == 1) {
+        start = 0;
+        finish = 11;
+        for (int i = start; i <= finish; i += steps) {
+           
+            DBG(mappingIndex);
+            if (i >= microtonalMappings[mappingIndex].divisions) break;
+            microtonalMappings[mappingIndex].frequencies[noteBlock].index = noteBlock;
+            microtonalMappings[mappingIndex].frequencies[noteBlock].frequency = frequencies[i];
+            noteBlock++;
+        }
+    }
+    else {
+        for (int i = start; i <= finish; i += steps, noteBlock++) {
+            DBG(mappingIndex);
+            if (i >= microtonalMappings[mappingIndex].divisions) break;
+            microtonalMappings[mappingIndex].frequencies[noteBlock].index = noteBlock;
+            microtonalMappings[mappingIndex].frequencies[noteBlock].frequency = frequencies[i];
+        }
     }
     repaint();
 }
 void MainContentComponent::genFreqFunc() {
+    DBG(mappingIndex);
     microtonalMappings[mappingIndex].divisions = divisionInput.getText().getDoubleValue();
     microtonalMappings[mappingIndex].base_frequency = baseFreqInput.getText().getDoubleValue();
     frequencies = microtonalMappings[mappingIndex].getAllFrequencies();

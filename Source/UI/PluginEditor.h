@@ -10,9 +10,10 @@
 
 #include <JuceHeader.h>
 //#include "PluginProcessor.h"
-#include "MicrotonalMapper.h"
+#include "../components/microtonal/MicrotonalMapper.h"
 #include "CustomLookAndFeel.h"
-#include "synth.h"
+#include "../audioProcessor/synth.h"
+#include <atomic> 
 
 class PresetListBox;
 //==============================================================================
@@ -63,17 +64,19 @@ public:
     //==============================================================================
     void savePresetInternal();
     void loadPresetInternal(int index);
-    void deletePreset(int toDelete);
-    void loadAllInstruments();
 
     //==============================================================================
     double getTailLengthSeconds() const override;
 
     void initialiseBuilder(foleys::MagicGUIBuilder& builder) override;
 
+    void updateInstrumentList();
+
     void loadMicrotonalPreset(int);
 
     void saveMicrotonalPreset(int);
+
+    void loadHelper();
 
     void openWindow(int index);
 
@@ -84,11 +87,14 @@ private:
     int activeWindow = Default;
     Synth      synthesiser;
     juce::ValueTree  presetNode, microtonalNode;
+    //juce::Array<juce::File> instrumentList;
     std::unique_ptr<juce::FileChooser> chooser;
+    juce::String currentState;
     // GUI MAGIC: define that as last member of your AudioProcessor
     foleys::MagicLevelSource* outputMeter = nullptr;
     foleys::MagicPlotSource* oscilloscope = nullptr;
     foleys::MagicPlotSource* analyser = nullptr;
+    juce::File presetDirectory;
 
     PresetListBox* presetList = nullptr;
 
