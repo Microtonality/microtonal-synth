@@ -25,6 +25,7 @@ juce::ValueTree loadedInstruments[7];
 juce::String microtonalPresetNames[7] = { "Default", "1", "2", "3", "4", "5", "6" };
 juce::String instrumentPresetNames[7] = { "Default", "1", "2", "3", "4", "5", "6" };
 
+
 MainContentComponent* createMainContentComponent(int index)
 {
     return new MainContentComponent(index);
@@ -66,12 +67,19 @@ juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 
     return layout;
 }
+
 MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     : foleys::MagicProcessor(juce::AudioProcessor::BusesProperties()
         .withOutput("Output", juce::AudioChannelSet::stereo(), true)),
     treeState(*this, nullptr, ProjectInfo::projectName, createParameterLayout())
 {
     FOLEYS_SET_SOURCE_PATH(__FILE__);
+
+
+
+
+    float factor = 3.0f;
+    float phase = 0.0f;
 
     auto file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
         .getChildFile("Contents")
@@ -101,7 +109,8 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     //magicState.getSettings().getChildWithName("instrument_presets").removeAllChildren(nullptr);
     //DBG(magicState.getSettings().toXmlString());
     //loadPresetInternal(0);
-    
+
+
   //  presetNode.getChildWithName("presets");
     presetList->onSelectionChanged = [&](int number)
     {
@@ -110,10 +119,6 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     magicState.addTrigger("save-preset", [this]
     {
         savePresetInternal();
-    });
-    magicState.addTrigger("load-helper", [this]
-    {
-            loadHelper();
     });
     magicState.addTrigger("load-instrument-preset1", [this]
         {
@@ -138,6 +143,30 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     magicState.addTrigger("load-instrument-preset6", [this]
         {
             loadPresetInternal(6);
+        });
+    magicState.addTrigger("swap-instrument-1", [this]
+        {
+            loadHelper(1);
+        });
+    magicState.addTrigger("swap-instrument-2", [this]
+        {
+            loadHelper(2);
+        });
+    magicState.addTrigger("swap-instrument-3", [this]
+        {
+            loadHelper(3);
+        });
+    magicState.addTrigger("swap-instrument-4", [this]
+        {
+            loadHelper(4);
+        });
+    magicState.addTrigger("swap-instrument-5", [this]
+        {
+            loadHelper(5);
+        });
+    magicState.addTrigger("swap-instrument-6", [this]
+        {
+            loadHelper(6);
         });
     magicState.addTrigger("load-microtonal-preset1", [this]
     {
@@ -254,11 +283,14 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
         mappingGroup = mappingGroup == Group6 ? Default : Group6;
         DBG(mappingGroup);
     });
+    //magicState.getGuiTree().getProperty("testybutton").
     magicState.setApplicationSettingsFile(juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory)
         .getChildFile(ProjectInfo::companyName)
         .getChildFile(ProjectInfo::projectName + juce::String(".settings")));
 
     magicState.setPlayheadUpdateFrequency(30);
+
+    
 
     Synth::Sound::Ptr sound(new Synth::Sound(treeState));
     synthesiser.addSound(sound);
@@ -398,9 +430,13 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
 
 }
 
-void MicrotonalSynthAudioProcessorEditor::loadHelper()
+ void MicrotonalSynthAudioProcessorEditor::loadHelper(int swapTo)
 {
+     if (!loadedInstruments[swapTo].isValid())
+         return;
+
     foleys::ParameterManager manager(*this);
+    currentInstrument = swapTo;
     DBG(loadedInstruments[currentInstrument].toXmlString());
     manager.loadParameterValues(loadedInstruments[currentInstrument]);
 }
@@ -452,10 +488,12 @@ public:
     InstrumentPresetComponent() {
         for (int i = 0; i < 6; i++) {
             addAndMakeVisible(btns[i]);
-            btns[i].setButtonText(instrumentPresetNames[i + 1]);
+            /*btns[i].setTooltip(instrumentPresetNames[i + 1]);*/
             //btns[i].setEnabled(false);
             btns[i].addListener(this);
-            btns[i].setMouseCursor(juce::MouseCursor::PointingHandCursor);
+            btns[i].setMouseCursor(juce::MouseCursor::IBeamCursor);
+            btns[i].setEnabled(false);
+   
         }
         startTimerHz(30);
     };
@@ -473,26 +511,29 @@ public:
     }
     void paint(juce::Graphics& g) override {
         for (int i = 0; i < 6; i++) {
-            if (i + 1 == currentInstrument) {
+            if (i + 1 == currentInstrument && loadedInstruments[currentInstrument].isValid() ) {
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::darkgreen);
             }
             else {
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
             }
             btns[i].setButtonText(instrumentPresetNames[i + 1].contains(".xml") ? instrumentPresetNames[i + 1].substring(0, instrumentPresetNames[i + 1].indexOf(".")) : instrumentPresetNames[i + 1]);
+            btns[i].setTooltip(instrumentPresetNames[i + 1].contains(".xml") ? instrumentPresetNames[i + 1].substring(0, instrumentPresetNames[i + 1].indexOf(".")) : instrumentPresetNames[i + 1]);
 
 
         }
 
     }
     void buttonClicked(juce::Button* btn) override {
-        for (int i = 0; i < 6; i++) {
-            if (btn == &btns[i]) {
-                //mappingGroup = mappingGroup == i + 1 ? Default : i + 1;
-                currentInstrument = currentInstrument == i + 1 ? 0 : i + 1;
-            }
+    //    for (int i = 0; i < 6; i++) {
+    //        if (btn == &btns[i]) {
+    //            //mappingGroup = mappingGroup == i + 1 ? Default : i + 1;
+    //            currentInstrument = currentInstrument == i + 1 ? 0 : i + 1;
+    //            //MicrotonalSynthAudioProcessorEditor::loadHelper();
+    //            //tempMan->loadParameterValues(loadedInstruments[currentInstrument]);
+    //        }
 
-        }
+    //    }
     }
 private:
     juce::TextButton btns[6];
@@ -538,7 +579,7 @@ private:
 };
 
 
-class ActivePresetComponent : public juce::Component, private juce::Timer, public juce::Button::Listener
+class ActivePresetComponent : public juce::Component, private juce::Timer, public juce::Button::Listener, public MicrotonalSynthAudioProcessorEditor
 {
 public:
     //==============================================================================
@@ -590,7 +631,6 @@ public:
         for (int i = 0; i < 6; i++) {
             if (btn == &btns[i]) {
                 mappingGroup = mappingGroup == i + 1 ? Default : i + 1;
-
             }
 
         }

@@ -43,7 +43,7 @@ private:
 
 };
 
-class MicrotonalSynthAudioProcessorEditor  : public foleys::MagicProcessor
+class MicrotonalSynthAudioProcessorEditor : public foleys::MagicProcessor
 {
 public:
     //==============================================================================
@@ -76,7 +76,7 @@ public:
 
     void saveMicrotonalPreset(int);
 
-    void loadHelper();
+    void loadHelper(int swapTo);
 
     void openWindow(int index);
 

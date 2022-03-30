@@ -116,8 +116,17 @@
                     slider-textbox="textbox-below" caption="" caption-size=""/>
           </View>
         </View>
-        <View flex-grow="0.6" id="Selection" flex-direction="column">
+        <View flex-grow="0.6" id="Selection" flex-direction="column" pos-x="72.5594%"
+              pos-y="-2.62467%" pos-width="26.1214%" pos-height="100%">
           <View>
+            <View flex-direction="column" flex-align-self="auto">
+              <TextButton onClick="swap-instrument-1"/>
+              <TextButton onClick="swap-instrument-2"/>
+              <TextButton onClick="swap-instrument-3"/>
+              <TextButton/>
+              <TextButton/>
+              <TextButton/>
+            </View>
             <InstrumentPresetComponent/>
             <View flex-direction="column" scroll-mode="scroll-horizontal">
               <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
@@ -152,8 +161,8 @@
               </View>
             </View>
           </View>
-          <TextButton text="Save" max-width="100" max-height="50" onClick="save-preset"/>
-          <TextButton text="Load" max-height="50" max-width="100" onClick="load-helper"/>
+          <TextButton text="Save" max-width="100" max-height="50" onClick="save-preset"
+                      flex-align-self="stretch"/>
         </View>
       </View>
     </View>
