@@ -514,12 +514,16 @@ public:
             if (i + 1 == currentInstrument && loadedInstruments[currentInstrument].isValid() ) {
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::darkgreen);
             }
+            else if (i + 1 != currentInstrument && loadedInstruments[i + 1].isValid()) {
+                btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::blue);
+            }
             else {
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
             }
-            btns[i].setButtonText(instrumentPresetNames[i + 1].contains(".xml") ? instrumentPresetNames[i + 1].substring(0, instrumentPresetNames[i + 1].indexOf(".")) : instrumentPresetNames[i + 1]);
-            btns[i].setTooltip(instrumentPresetNames[i + 1].contains(".xml") ? instrumentPresetNames[i + 1].substring(0, instrumentPresetNames[i + 1].indexOf(".")) : instrumentPresetNames[i + 1]);
-
+            //btns[i].setButtonText(instrumentPresetNames[i + 1].contains(".xml") ? instrumentPresetNames[i + 1].substring(0, instrumentPresetNames[i + 1].indexOf(".")) : instrumentPresetNames[i + 1]);
+            if (instrumentPresetNames[i + 1].contains(".xml")) {
+                btns[i].setTooltip(instrumentPresetNames[i + 1].substring(0, instrumentPresetNames[i + 1].indexOf(".")));
+            }
 
         }
 
