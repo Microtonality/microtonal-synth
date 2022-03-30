@@ -48,112 +48,122 @@
           <View id="Wave 0" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
                       border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
-                      parameter="wave_form0" caption=""/>
+                      parameter="wave_form0" caption="" tooltip="Wave 1 selector"/>
             <Slider parameter="osc0" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
-                    id="Amplitude" border="2"/>
+                    id="Amplitude" border="2" tooltip="Wave 1 amplitude"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune0"
                     slider-type="rotary" background-color="FF404B56FF404B56" border="2"
-                    slider-textbox="textbox-below" caption="" caption-size=""/>
+                    slider-textbox="textbox-below" caption="" caption-size="" tooltip="Wave 1 frequency multiplier"/>
           </View>
           <View id="Wave 1" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
                       border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
-                      parameter="wave_form1" caption=""/>
+                      parameter="wave_form1" caption="" tooltip="Wave 2 selector"/>
             <Slider parameter="osc1" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
-                    id="Amplitude" border="2"/>
+                    id="Amplitude" border="2" tooltip="Wave 2 amplitude"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune1"
                     slider-type="rotary" background-color="FF404B56FF404B56" border="2"
-                    slider-textbox="textbox-below" caption="" caption-size=""/>
+                    slider-textbox="textbox-below" caption="" caption-size="" tooltip="Wave 2 frequency multiplier"/>
           </View>
           <View id="Wave 2" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
                       border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
-                      parameter="wave_form2" caption=""/>
+                      parameter="wave_form2" caption="" tooltip="Wave 3 selector"/>
             <Slider parameter="osc2" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
-                    id="Amplitude" border="2"/>
+                    id="Amplitude" border="2" tooltip="Wave 3 amplitude"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune2"
                     slider-type="rotary" background-color="FF404B56FF404B56" border="2"
-                    slider-textbox="textbox-below" caption="" caption-size=""/>
+                    slider-textbox="textbox-below" caption="" caption-size="" tooltip="Wave 3 frequency multiplier"/>
           </View>
           <View id="Wave 3" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
                       border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
-                      parameter="wave_form3" caption=""/>
+                      parameter="wave_form3" caption="" tooltip="Wave 4 selector"/>
             <Slider parameter="osc3" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
-                    id="Amplitude" border="2"/>
+                    id="Amplitude" border="2" tooltip="Wave 4 amplitude"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune3"
                     slider-type="rotary" background-color="FF404B56FF404B56" border="2"
-                    slider-textbox="textbox-below" caption="" caption-size=""/>
+                    slider-textbox="textbox-below" caption="" caption-size="" tooltip="Wave 4 frequency multiplier"/>
           </View>
           <View id="Wave 4" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
                       border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
-                      parameter="wave_form4" caption=""/>
+                      parameter="wave_form4" caption="" tooltip="Wave 5 selector"/>
             <Slider parameter="osc4" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
-                    id="Amplitude" border="2"/>
+                    id="Amplitude" border="2" tooltip="Wave 5 amplitude"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune4"
                     slider-type="rotary" background-color="FF404B56FF404B56" border="2"
-                    slider-textbox="textbox-below" caption="" caption-size=""/>
+                    slider-textbox="textbox-below" caption="" caption-size="" tooltip="Wave 5 frequency multiplier"/>
           </View>
           <View id="Wave 5" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
                       border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
-                      parameter="wave_form5" caption=""/>
+                      parameter="wave_form5" caption="" tooltip="Wave 6 selector"/>
             <Slider parameter="osc5" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
-                    id="Amplitude" border="2"/>
+                    id="Amplitude" border="2" tooltip="Wave 6 amplitude"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune5"
                     slider-type="rotary" background-color="FF404B56FF404B56" border="2"
-                    slider-textbox="textbox-below" caption="" caption-size=""/>
+                    slider-textbox="textbox-below" caption="" caption-size="" tooltip="Wave 6 frequency multiplier"/>
           </View>
           <View id="Wave 6" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
                       border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
-                      parameter="wave_form6" caption=""/>
+                      parameter="wave_form6" caption="" tooltip="Wave 7 selector"/>
             <Slider parameter="osc6" lookAndFeel="LookAndFeel_V2" background-color="FF404B56"
-                    id="Amplitude" border="2"/>
+                    id="Amplitude" border="2" tooltip="Wave 7 amplitude"/>
             <Slider lookAndFeel="FoleysFinest" flex-grow="0.4" id="Frequency" parameter="detune6"
                     slider-type="rotary" background-color="FF404B56FF404B56" border="2"
-                    slider-textbox="textbox-below" caption="" caption-size=""/>
+                    slider-textbox="textbox-below" caption="" caption-size="" tooltip="Wave 7 frequency multiplier"/>
           </View>
         </View>
-        <View flex-grow="0.6" id="Selection" flex-direction="column">
+        <View flex-grow="0.6" id="Selection" flex-direction="column" pos-x="72.5594%"
+              pos-y="-2.62467%" pos-width="26.1214%" pos-height="100%">
           <View>
             <InstrumentPresetComponent/>
+            <View flex-direction="column" flex-align-self="auto" padding="5 0 5 0"
+                  margin="5 0 5 0">
+              <TextButton onClick="swap-instrument-1" text="1" tooltip="Activate instrument preset 1"/>
+              <TextButton onClick="swap-instrument-2" text="2" tooltip="Activate instrument preset 2"/>
+              <TextButton onClick="swap-instrument-3" text="3" tooltip="Activate instrument preset 3"/>
+              <TextButton onClick="swap-instrument-4" text="4" tooltip="Activate instrument preset 4"/>
+              <TextButton onClick="swap-instrument-5" text="5" tooltip="Activate instrument preset 5"/>
+              <TextButton onClick="swap-instrument-6" text="6" tooltip="Activate instrument preset 6"/>
+            </View>
             <View flex-direction="column" scroll-mode="scroll-horizontal">
               <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                     border="2">
                 <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                            onClick="load-instrument-preset1"/>
+                            onClick="load-instrument-preset1" tooltip="Load instrument from file"/>
               </View>
               <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                     border="2">
                 <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                            onClick="load-instrument-preset2"/>
+                            onClick="load-instrument-preset2" tooltip="Load instrument from file"/>
               </View>
               <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                     border="2">
                 <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                            onClick="load-instrument-preset3"/>
+                            onClick="load-instrument-preset3" tooltip="Load instrument from file"/>
               </View>
               <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                     border="2">
                 <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                            onClick="load-instrument-preset4"/>
+                            onClick="load-instrument-preset4" tooltip="Load instrument from file"/>
               </View>
               <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                     border="2">
                 <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                            onClick="load-instrument-preset5"/>
+                            onClick="load-instrument-preset5" tooltip="Load instrument from file"/>
               </View>
               <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                     border="2">
                 <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                            onClick="load-instrument-preset6"/>
+                            onClick="load-instrument-preset6" tooltip="Load instrument from file"/>
               </View>
             </View>
           </View>
-          <TextButton text="Save" max-width="100" max-height="50" onClick="save-preset"/>
-          <TextButton text="Load" max-height="50" max-width="100" onClick="load-helper"/>
+          <TextButton text="" max-width="100" max-height="50" onClick="save-preset"
+                      flex-align-self="stretch" lookAndFeel="Save" tooltip="Save current instrument to file"/>
         </View>
       </View>
     </View>
@@ -164,68 +174,73 @@
             border="" class="group">
         <View margin="-7" border="">
           <TextButton lookAndFeel="Settings" flex-grow="1.5" button-color="FFFFFFFF"
-                      button-off-text="" onClick="open-window1" text="" id="Settings"/>
+                      button-off-text="" onClick="open-window1" text="" id="Settings"
+                      tooltip="Microtonal preset 1 settings"/>
           <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                 border="2">
             <TextButton lookAndFeel="Save" margin="-10" id="Save" background-color="FF333333"
-                        onClick="save-microtonal-preset1"/>
+                        onClick="save-microtonal-preset1" tooltip="Save microtonal preset 1 to file"/>
             <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset1"/>
+                        onClick="load-microtonal-preset1" tooltip="Load microtonal preset 1 from file"/>
           </View>
         </View>
         <View margin="-7" border="">
           <TextButton lookAndFeel="Settings" flex-grow="1.5" button-color="FFFFFFFF"
-                      button-off-text="" text="" onClick="open-window2" id="Settings"/>
+                      button-off-text="" text="" onClick="open-window2" id="Settings"
+                      tooltip="Microtonal preset 2 settings"/>
           <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                 border="2">
             <TextButton lookAndFeel="Save" margin="-10" id="Save" background-color="FF333333"
-                        onClick="save-microtonal-preset2"/>
+                        onClick="save-microtonal-preset2" tooltip="Save microtonal preset 2 to file"/>
             <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset2"/>
+                        onClick="load-microtonal-preset2" tooltip="Load microtonal preset 2 from file"/>
           </View>
         </View>
         <View margin="-7" border="">
           <TextButton lookAndFeel="Settings" flex-grow="1.5" button-color="FFFFFFFF"
-                      button-off-text="" text="" onClick="open-window3"/>
+                      button-off-text="" text="" onClick="open-window3" tooltip="Microtonal preset 3 settings"/>
           <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                 border="2">
             <TextButton lookAndFeel="Save" margin="-10" id="Save" background-color="FF333333"
-                        onClick="save-microtonal-preset3"/>
+                        onClick="save-microtonal-preset3" tooltip="Save microtonal preset 3 to file"/>
             <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset3"/>
+                        onClick="load-microtonal-preset3" tooltip="Load microtonal preset 3 from file"/>
           </View>
         </View>
         <View margin="-7" border="">
           <TextButton lookAndFeel="Settings" flex-grow="1.5" button-color="FFFFFFFF"
-                      button-off-text="" text="" onClick="open-window4" id="Settings"/>
+                      button-off-text="" text="" onClick="open-window4" id="Settings"
+                      tooltip="Microtonal preset 4 settings"/>
           <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                 border="2">
             <TextButton lookAndFeel="Save" margin="-10" id="Save" background-color="FF333333"
-                        onClick="save-microtonal-preset4"/>
+                        onClick="save-microtonal-preset4" tooltip="Save microtonal preset 4 to file"/>
             <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset4"/>
+                        onClick="load-microtonal-preset4" tooltip="Load microtonal preset 4 from file"/>
           </View>
         </View>
         <View margin="-7" border="">
           <TextButton lookAndFeel="Settings" flex-grow="1.5" button-color="FFFFFFFF"
-                      button-off-text="" text="" onClick="open-window5" id="Settings"/>
+                      button-off-text="" text="" onClick="open-window5" id="Settings"
+                      tooltip="Microtonal preset 5 settings"/>
           <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                 border="2">
             <TextButton lookAndFeel="Save" margin="-10" id="Save" background-color="FF333333"
-                        onClick="save-microtonal-preset5"/>
+                        onClick="save-microtonal-preset5" tooltip="Save microtonal preset 5 to file"/>
             <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset5"/>
+                        onClick="load-microtonal-preset5" tooltip="Load microtonal preset 5 from file"/>
           </View>
         </View>
         <View margin="-7" border="">
           <TextButton lookAndFeel="Settings" flex-grow="1.5" button-color="FFFFFFFF"
-                      button-off-text="" text="" onClick="open-window6" id="Settings"/>
+                      button-off-text="" text="" onClick="open-window6" id="Settings"
+                      tooltip="Microtonal preset 6 settings"/>
           <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"
                 border="2">
             <TextButton lookAndFeel="Save" margin="-10" id="Save" background-color="FF333333"
-                        onClick="save-microtonal-preset6"/>
+                        onClick="save-microtonal-preset6" tooltip="Save microtonal preset 6 to file"/>
             <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset6"/>
+                        onClick="load-microtonal-preset6" tooltip="Load microtonal preset 6 from file"/>
           </View>
         </View>
       </View>
