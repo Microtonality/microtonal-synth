@@ -80,47 +80,6 @@ void Synth::addOvertoneParameters(juce::AudioProcessorValueTreeState::ParameterL
 
 }
 
-void loadInstruments() {    
-
-    try {
-        
-        juce::File f = juce::File("C:/Users/pdcst/Desktop/microtonal/Configs/instruments.xml");
-
-        if (f.exists())
-        {
-            DBG("The File is here");
-            //juce::XmlDocument doc = juce::XmlDocument(f);
-            //juce::XmlDocument dataDoc(f);
-
-            std::unique_ptr<juce::XmlElement> loadedConfig;
-            loadedConfig = juce::parseXML(f);
-
-            juce::XmlElement* child = loadedConfig->getFirstChildElement();
-
-            while (child != nullptr)
-            {
-                    juce::String instrumentName = child->getAttributeValue(0);
-
-                    for (auto* wave : child->getChildIterator())
-                    {
-                        juce::String shape = wave->getAttributeValue(0);
-                        float amp = wave->getAttributeValue(1).getFloatValue();
-                        float freq = wave->getAttributeValue(2).getFloatValue();
-                    }
-
-                    child = child->getNextElement();
-            }
-
-        }
-    }
-    catch (const std::exception&)
-    {
-        DBG("No selected instruments");
-    }
-
-}
-
-
 
 void Synth::addGainParameters(juce::AudioProcessorValueTreeState::ParameterLayout& layout)
 {
@@ -200,8 +159,7 @@ Synth::Voice::Voice(juce::AudioProcessorValueTreeState& state)
     oscillatorBuffer.setSize(1, internalBufferSize);
     voiceBuffer.setSize(1, internalBufferSize);
 
-    //Comment this out until John figures out the relative pathing part
-    loadInstruments();
+   ;
     
     loadcustomwave("cu1.txt", 0);
     loadcustomwave("cu2.txt", 1);
