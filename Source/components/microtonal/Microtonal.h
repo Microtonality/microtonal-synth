@@ -51,6 +51,12 @@ public:
             return -1;
         }
     }
+    bool isMapped() {
+        for (Mapping m : frequencies) {
+            if (m.frequency != NULL) return true;
+        }
+        return false;
+    }
     vector<double> getAllFrequencies() {
         vector<double> freq;
 		for (int i = 0; i <= divisions; i++) {

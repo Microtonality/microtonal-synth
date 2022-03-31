@@ -614,16 +614,18 @@ public:
             if (i+1 == mappingGroup) {
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::darkgreen);
             } 
-            else if (microtonalMappings[i + 1].frequencies[0].frequency != NULL) {
+            else if (microtonalMappings[i + 1].isMapped()) {
                 DBG(microtonalMappings[i + 1].frequencies[0].frequency);
                 //DBG(mappingGroup);
                 //DBG(i + 1);
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::blue);
+                btns[i].setButtonText(microtonalPresetNames[i + 1].contains(".xml") ? microtonalPresetNames[i + 1].substring(0, microtonalPresetNames[i + 1].indexOf(".")) : microtonalPresetNames[i + 1]);
+
             }
             else {
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
+                btns[i].setButtonText(juce::String(i + 1));
             }
-            btns[i].setButtonText(microtonalPresetNames[i + 1].contains(".xml") ? microtonalPresetNames[i + 1].substring(0, microtonalPresetNames[i + 1].indexOf(".")) : microtonalPresetNames[i + 1]);
 
 
         }
@@ -757,14 +759,17 @@ void MicrotonalSynthAudioProcessorEditor::loadMicrotonalPreset(int preset) {
         juce::XmlElement config = *doc.getDocumentElement();
         juce::ValueTree t;
         t = t.fromXml(config);
-        microtonalMappings[preset].base_frequency = stod(t.getProperty("base_frequency").toString().toStdString());
-        microtonalMappings[preset].divisions = stod(t.getProperty("total_divisions").toString().toStdString());
-        int i = 0;
-        for (juce::ValueTree frequency : t) {
-            microtonalMappings[preset].frequencies[i].index = stoi(frequency.getProperty("index").toString().toStdString());
-            microtonalMappings[preset].frequencies[i].frequency = stod(frequency.getProperty("value").toString().toStdString());
-            i++;
+        if (t.isValid()) {
+            microtonalMappings[preset].base_frequency = stod(t.getProperty("base_frequency").toString().toStdString());
+            microtonalMappings[preset].divisions = stod(t.getProperty("total_divisions").toString().toStdString());
+            int i = 0;
+            for (juce::ValueTree frequency : t) {
+                microtonalMappings[preset].frequencies[i].index = stoi(frequency.getProperty("index").toString().toStdString());
+                microtonalMappings[preset].frequencies[i].frequency = stod(frequency.getProperty("value").toString().toStdString());
+                i++;
+            }
         }
+        
     });
 
     /* Used for reference */
