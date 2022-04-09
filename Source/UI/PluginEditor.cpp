@@ -418,7 +418,7 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
 void MicrotonalSynthAudioProcessorEditor::loadPresetInternal(int index)
 {
     // choose a file
-    chooser = std::make_unique<juce::FileChooser>("Load an instrument", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
+    chooser = std::make_unique<juce::FileChooser>("Load an instrument", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, true);
     auto flags = juce::FileBrowserComponent::openMode
         | juce::FileBrowserComponent::canSelectFiles;
     chooser->launchAsync(flags, [this, index](const juce::FileChooser& fc) {
