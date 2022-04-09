@@ -51,3 +51,13 @@ void customLoad::drawButtonBackground(juce::Graphics& g, juce::Button& button, c
         background = juce::ImageCache::getFromMemory(BinaryData::download_png, BinaryData::download_pngSize);
     g.drawImageWithin(background, 0, 0, button.getWidth(), button.getHeight(), juce::RectanglePlacement());
 }
+
+void customPower::drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
+    bool isHighlighted, bool isButtonDown)
+{
+    button.setMouseCursor(juce::MouseCursor::PointingHandCursor);
+    juce::Image background;
+    background = juce::ImageCache::getFromMemory(BinaryData::power_png, BinaryData::power_pngSize);
+    g.drawImageWithin(background, 0, 0, button.getWidth(), button.getHeight(), juce::RectanglePlacement());
+}
+

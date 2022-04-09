@@ -33,3 +33,11 @@ public:
     void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
         bool isHighlighted, bool isButtonDown) override;
 };
+
+class customPower : public juce::LookAndFeel_V4
+{
+public:
+    customPower() {};
+    void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
+        bool isHighlighted, bool isButtonDown) override;
+};

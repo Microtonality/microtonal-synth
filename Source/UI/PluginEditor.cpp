@@ -104,11 +104,7 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     //magicState.createAndAddObject<vector<juce::String>>("instruments", instrumentNames);
 
     presetList = magicState.createAndAddObject<PresetListBox>("presets");
-    //savePresetInternal();
-
-    //magicState.getSettings().getChildWithName("instrument_presets").removeAllChildren(nullptr);
-    //DBG(magicState.getSettings().toXmlString());
-    //loadPresetInternal(0);
+ 
 
 
   //  presetNode.getChildWithName("presets");
@@ -371,26 +367,6 @@ void MicrotonalSynthAudioProcessorEditor::processBlock(juce::AudioBuffer<float>&
 //==============================================================================
 void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
 {
-    //magicState.getSettings().getOrCreateChildWithName("presets", nullptr) = nullptr;
-    //magicState.getSettings().removeAllChildren(nullptr);
-    /*presetNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
-
-    presetNode = magicState.getSettings().getOrCreateChildWithName("instrument_presets", nullptr);*/
-    //juce::ValueTree preset{ "Preset" };
-    /*microtonalNode = magicState.getSettings().getOrCreateChildWithName("microtonal_presets", nullptr);
-    for (int i = 1; i < 7; i++) {
-        if (microtonalMappings[i].frequencies[0].frequency == NULL) continue;
-        juce::ValueTree microtonal = microtonalMappings[i].generateValueTree();
-        microtonal.setProperty("index", juce::String(i), nullptr);
-        microtonalNode.appendChild(microtonal, nullptr);
-    }
-    preset.setProperty("name", "Preset " + juce::String(presetNode.getNumChildren() + 1), nullptr); */
-    //preset.setProperty("name", "Preset", nullptr);
-
-    
-    //manager.saveParameterValues(preset);
-    //presetNode.appendChild(preset, nullptr);
-
     foleys::ParameterManager manager(*this);
 
     juce::ValueTree instrument = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
@@ -423,21 +399,19 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
         /* End save file logic*/
      });
 
-    /*manager.saveParameterValues(instrument);
-
-    DBG("Trying to access presetlist");
-    presetList->updateInstrumentList();*/
-
 }
 
  void MicrotonalSynthAudioProcessorEditor::loadHelper(int swapTo)
 {
      if (!loadedInstruments[swapTo].isValid())
+     {
+         DBG("INVALID INSTRUMENT");
          return;
+     }
 
     foleys::ParameterManager manager(*this);
     currentInstrument = swapTo;
-    DBG(loadedInstruments[currentInstrument].toXmlString());
+    //DBG(loadedInstruments[currentInstrument].toXmlString());
     manager.loadParameterValues(loadedInstruments[currentInstrument]);
 }
 
@@ -727,6 +701,7 @@ void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuil
     builder.registerLookAndFeel("Settings", make_unique<customSettings>());
     builder.registerLookAndFeel("Save", make_unique<customSave>());
     builder.registerLookAndFeel("Load", make_unique<customLoad>());
+    builder.registerLookAndFeel("Power", make_unique<customPower>());
     builder.registerFactory("ActivePresetComponent", &ActivePresetComponentItem::factory);
     builder.registerFactory("InstrumentPresetComponent", &InstrumentPresetComponentItem::factory);
     //DBG(builder.getGuiRootNode().toXmlString());
