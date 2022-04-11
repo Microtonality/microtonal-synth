@@ -240,6 +240,8 @@ private:
     bool validateFrequencyInput(const juce::String& s);
 
     void timerCallback() override;
+    void saveMicrotonalPreset(int preset);
+    
     int test = 1;
     int divisions; 
     double frequency = 440.0;
@@ -277,7 +279,9 @@ private:
     juce::TextButton generateFrequencies;
     juce::TextButton saveToXMLBtn;
     juce::TextButton shortHandBtn;
-
+    juce::TextButton savePreset;
+    std::unique_ptr<juce::FileChooser> chooser;
+    int index;
 
     int startKey = 72;
     juce::TextButton frequencyBoxes[24];

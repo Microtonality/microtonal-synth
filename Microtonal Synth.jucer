@@ -11,13 +11,13 @@
       <FILE id="CW0vQc" name="cogwheel(2).png" compile="0" resource="1" file="Resources/png/cogwheel(2).png"/>
       <FILE id="UmovDv" name="download-down.png" compile="0" resource="1"
             file="Resources/png/download-down.png"/>
-      <FILE id="JaviiD" name="layout.xml" compile="0" resource="1" file="../../layout.xml"/>
       <FILE id="OnmNHC" name="download-over.png" compile="0" resource="1"
             file="Resources/png/download-over.png"/>
       <FILE id="yPOc7f" name="download.png" compile="0" resource="1" file="Resources/png/download.png"/>
       <FILE id="opaGsM" name="save-down.png" compile="0" resource="1" file="Resources/png/save-down.png"/>
       <FILE id="lzGgG0" name="save-over.png" compile="0" resource="1" file="Resources/png/save-over.png"/>
       <FILE id="mrrfUa" name="saveFile.png" compile="0" resource="1" file="Resources/png/saveFile.png"/>
+      <FILE id="xLsTkz" name="layout.xml" compile="0" resource="1" file="Resources/layout.xml"/>
     </GROUP>
     <GROUP id="{A81970BF-123A-2D09-3768-6FC8B9923387}" name="Source">
       <GROUP id="{05FB1484-8762-465D-9450-8E8C57EAFA39}" name="audioProcessor">
