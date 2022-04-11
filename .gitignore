@@ -4,6 +4,7 @@ Configs/
 Resources/*
 
 !Resources/layout.xml
+!Resources/layout.BACKUP.xml
 !Resources/png
 !Resources/instruments
 

@@ -122,12 +122,18 @@
             <InstrumentPresetComponent/>
             <View flex-direction="column" flex-align-self="auto" padding="5 0 5 0"
                   margin="5 0 5 0">
-              <TextButton onClick="swap-instrument-1" text="1" tooltip="Activate instrument preset 1"/>
-              <TextButton onClick="swap-instrument-2" text="2" tooltip="Activate instrument preset 2"/>
-              <TextButton onClick="swap-instrument-3" text="3" tooltip="Activate instrument preset 3"/>
-              <TextButton onClick="swap-instrument-4" text="4" tooltip="Activate instrument preset 4"/>
-              <TextButton onClick="swap-instrument-5" text="5" tooltip="Activate instrument preset 5"/>
-              <TextButton onClick="swap-instrument-6" text="6" tooltip="Activate instrument preset 6"/>
+              <TextButton onClick="swap-instrument-1" tooltip="Activate instrument preset 1"
+                          lookAndFeel="Power" text=""/>
+              <TextButton onClick="swap-instrument-2" tooltip="Activate instrument preset 2"
+                          text="" lookAndFeel="Power"/>
+              <TextButton onClick="swap-instrument-3" tooltip="Activate instrument preset 3"
+                          lookAndFeel="Power" text=""/>
+              <TextButton onClick="swap-instrument-4" tooltip="Activate instrument preset 4"
+                          lookAndFeel="Power" text=""/>
+              <TextButton onClick="swap-instrument-5" tooltip="Activate instrument preset 5"
+                          text="" lookAndFeel="Power"/>
+              <TextButton onClick="swap-instrument-6" tooltip="Activate instrument preset 6"
+                          lookAndFeel="Power" text=""/>
             </View>
             <View flex-direction="column" scroll-mode="scroll-horizontal">
               <View id="Save/Load" flex-grow="4" flex-direction="row" background-color="FF333333"

@@ -7,6 +7,7 @@
       <FILE id="GtAU0I" name="cogdown.png" compile="0" resource="1" file="Resources/png/cogdown.png"/>
       <FILE id="EaMCDH" name="coghighlight.png" compile="0" resource="1"
             file="Resources/png/coghighlight.png"/>
+      <FILE id="TF3fqQ" name="power.png" compile="0" resource="1" file="Resources/png/power.png"/>
       <FILE id="CW0vQc" name="cogwheel(2).png" compile="0" resource="1" file="Resources/png/cogwheel(2).png"/>
       <FILE id="UmovDv" name="download-down.png" compile="0" resource="1"
             file="Resources/png/download-down.png"/>
@@ -16,7 +17,7 @@
       <FILE id="opaGsM" name="save-down.png" compile="0" resource="1" file="Resources/png/save-down.png"/>
       <FILE id="lzGgG0" name="save-over.png" compile="0" resource="1" file="Resources/png/save-over.png"/>
       <FILE id="mrrfUa" name="saveFile.png" compile="0" resource="1" file="Resources/png/saveFile.png"/>
-      <FILE id="qnUMcy" name="layout.xml" compile="0" resource="1" file="Resources/layout.xml"/>
+      <FILE id="xLsTkz" name="layout.xml" compile="0" resource="1" file="Resources/layout.xml"/>
     </GROUP>
     <GROUP id="{A81970BF-123A-2D09-3768-6FC8B9923387}" name="Source">
       <GROUP id="{05FB1484-8762-465D-9450-8E8C57EAFA39}" name="audioProcessor">

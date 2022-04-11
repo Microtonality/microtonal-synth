@@ -1,0 +1,17 @@
+(juce install folder)/modules/juce_audio_plugin_client/Standalone/juce_StandaloneFilterWindow.h
+	
+	comment out lines 846 - 850
+		//m.addSeparator();
+        	//m.addItem (2, TRANS("Save current state..."));
+        	//m.addItem (3, TRANS("Load a saved state..."));
+        	//m.addSeparator();
+        	//m.addItem (4, TRANS("Reset to default state"));
+
+	change line 709
+		--- : DocumentWindow (title, backgroundColour, DocumentWindow::minimiseButton | DocumentWindow::closeButton),
+		+++ : DocumentWindow (title, backgroundColour, DocumentWindow::allButtons),
+
+	change line 715
+		--- setTitleBarButtonsRequired (DocumentWindow::minimiseButton | DocumentWindow::closeButton, false);
+		+++ setTitleBarButtonsRequired (DocumentWindow::allButtons, false);
+

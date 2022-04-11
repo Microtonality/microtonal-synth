@@ -15,12 +15,14 @@
 #include <regex>
 using namespace std;
 MicrotonalConfig microtonalMappings[7];
+extern juce::String microtonalPresetNames[7];
 atomic<int> mappingIndex;
 //==============================================================================
 MainContentComponent::MainContentComponent(int index)
     : synthAudioSource(keyboardState),
     keyboardComponent(keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard)
 {
+        this->index = index;
         divisions = (int)microtonalMappings[mappingIndex].divisions;
         mappingIndex = index;
         keyboardWindow.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
@@ -118,6 +120,13 @@ MainContentComponent::MainContentComponent(int index)
         shortHandBtn.addListener(this);        
         shortHandBtn.setMouseCursor(juce::MouseCursor::PointingHandCursor);
         addAndMakeVisible(shortHandBtn);
+
+        savePreset.setColour(juce::TextButton::buttonColourId, colours[inputBackgroundColor]);
+        savePreset.setColour(juce::TextButton::textColourOffId, colours[inputOutlineTextColor]);
+        savePreset.setButtonText("Save");
+        savePreset.addListener(this);
+        savePreset.setMouseCursor(juce::MouseCursor::PointingHandCursor);
+        addAndMakeVisible(savePreset);
 }
 
 MainContentComponent::~MainContentComponent()
@@ -169,8 +178,9 @@ void MainContentComponent::resized()
         int boxWidth = boxHeight + 5;
         int maxDivisions = 24;
         generateFrequencies.setBounds(keyboardWindow.getX() + divisionMargin, keyboardWindow.getY() + 2*frequencyHeight + divisionMargin, (3.0/2)*frequencyWidth, frequencyHeight);
-        shortHandBtn.setBounds(((keyboardWindow.getWidth() + 2 * keyboardWindowMargin) + (keyboardComponent.getX() + keyboardComponent.getWidth()))/2 - (3.0 / 4) * frequencyWidth, keyboardWindow.getY() + 2 * frequencyHeight + divisionMargin, (3.0 / 2) * frequencyWidth, frequencyHeight);
-        shortHandInput.setBounds(((keyboardWindow.getWidth() + 2 * keyboardWindowMargin) + (keyboardComponent.getX() + keyboardComponent.getWidth())) / 2 - (3.0 / 4) * frequencyWidth, keyboardWindow.getY() + 2 * frequencyHeight + divisionMargin - frequencyHeight/2, (3.0 / 2) * frequencyWidth, frequencyHeight / 2);
+        shortHandBtn.setBounds(((keyboardWindow.getWidth() + 2 * keyboardWindowMargin) + (keyboardComponent.getX() + keyboardComponent.getWidth()))/2 - (3.0 / 4) * frequencyWidth, keyboardWindow.getY() + 2 * frequencyHeight + divisionMargin + 15, (3.0 / 2) * frequencyWidth, frequencyHeight);
+        shortHandInput.setBounds(((keyboardWindow.getWidth() + 2 * keyboardWindowMargin) + (keyboardComponent.getX() + keyboardComponent.getWidth())) / 2 - (3.0 / 4) * frequencyWidth, keyboardWindow.getY() + 2 * frequencyHeight + divisionMargin - frequencyHeight/2 + 15, (3.0 / 2) * frequencyWidth, frequencyHeight / 2);
+        savePreset.setBounds(((keyboardWindow.getWidth() + 2 * keyboardWindowMargin) + (keyboardComponent.getX() + keyboardComponent.getWidth())) / 2 - (3.0 / 4) * frequencyWidth, keyboardComponent.getY(), (3.0 / 2) * frequencyWidth, frequencyHeight);
         auto iter = 1;
         vector<double>positions;
         positions.push_back(keyboardWindow.getWidth() / 2 + boxWidth / 2 - 10);
@@ -297,6 +307,10 @@ void MainContentComponent::buttonClicked(juce::Button* btn)
             mappingShortcut(shortHandInput.getText().toStdString());
             return;
         }
+        else if (btn == &savePreset) {
+            saveMicrotonalPreset(index);
+            return;
+        }
     }
 }
 void MainContentComponent::mappingShortcut(string inputString) {
@@ -398,6 +412,30 @@ void MainContentComponent::timerCallback()
 {
     keyboardComponent.grabKeyboardFocus();
     stopTimer();
+}
+void MainContentComponent::saveMicrotonalPreset(int preset) {
+    // choose a file
+    chooser = std::make_unique<juce::FileChooser>("Save a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
+    auto flags = juce::FileBrowserComponent::saveMode
+        | juce::FileBrowserComponent::canSelectFiles
+        | juce::FileBrowserComponent::warnAboutOverwriting;
+    juce::String mapping = microtonalMappings[preset].generateValueTree().toXmlString();
+    chooser->launchAsync(flags, [this, mapping, preset](const juce::FileChooser& fc) {
+        if (fc.getResult() == juce::File{})
+            return;
+        juce::File myFile = fc.getResult().withFileExtension("xml");
+        juce::String fileName = myFile.getFileName();
+        microtonalPresetNames[preset] = fileName;
+        /* Save file logic goes here*/
+        if (!myFile.replaceWithText(mapping)) {
+            juce::AlertWindow::showMessageBoxAsync(
+                juce::AlertWindow::WarningIcon,
+                TRANS("Error whilst saving"),
+                TRANS("Couldn't write to the specified file!")
+            );
+        }
+        /* End save file logic*/
+        });
 }
 
 SynthAudioSource::SynthAudioSource(juce::MidiKeyboardState& keyState)
