@@ -168,50 +168,32 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     {
             loadMicrotonalPreset(1);
     });
-    magicState.addTrigger("save-microtonal-preset1", [this]
-    {
-            saveMicrotonalPreset(1);
-    });
+   
     magicState.addTrigger("load-microtonal-preset2", [this]
     {
             loadMicrotonalPreset(2);
     });
-    magicState.addTrigger("save-microtonal-preset2", [this]
-    {
-            saveMicrotonalPreset(2);
-    });
+    
     magicState.addTrigger("load-microtonal-preset3", [this]
     {
             loadMicrotonalPreset(3);
     });
-    magicState.addTrigger("save-microtonal-preset3", [this]
-    {
-            saveMicrotonalPreset(3);
-    });
+    
     magicState.addTrigger("load-microtonal-preset4", [this]
     {
             loadMicrotonalPreset(4);
     });
-    magicState.addTrigger("save-microtonal-preset4", [this]
-    {
-            saveMicrotonalPreset(4);
-    });
+    
     magicState.addTrigger("load-microtonal-preset5", [this]
     {
             loadMicrotonalPreset(5);
     });
-    magicState.addTrigger("save-microtonal-preset5", [this]
-    {
-            saveMicrotonalPreset(5);
-    });
+    
     magicState.addTrigger("load-microtonal-preset6", [this]
     {
             loadMicrotonalPreset(6);
     });
-    magicState.addTrigger("save-microtonal-preset6", [this]
-    {
-            saveMicrotonalPreset(6);
-    });
+    
     magicState.addTrigger("open-window1", [this]
     {
        if (activeWindow != 1)
@@ -377,7 +359,7 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
     /*magicState.getSettings().removeAllChildren(nullptr);
     magicState.getSettings().getChild(0).toXmlString();*/
 
-    chooser = std::make_unique<juce::FileChooser>("Save an instrument preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
+    chooser = std::make_unique<juce::FileChooser>("Save an instrument preset", juce::File::getSpecialLocation(juce::File::hostApplicationPath), "*xml", true, false);
     auto flags = juce::FileBrowserComponent::saveMode
         | juce::FileBrowserComponent::canSelectFiles
         | juce::FileBrowserComponent::warnAboutOverwriting;
@@ -418,7 +400,7 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
 void MicrotonalSynthAudioProcessorEditor::loadPresetInternal(int index)
 {
     // choose a file
-    chooser = std::make_unique<juce::FileChooser>("Load an instrument", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, true);
+    chooser = std::make_unique<juce::FileChooser>("Load an instrument", juce::File::getSpecialLocation(juce::File::hostApplicationPath), "*xml", true, true);
     auto flags = juce::FileBrowserComponent::openMode
         | juce::FileBrowserComponent::canSelectFiles;
     chooser->launchAsync(flags, [this, index](const juce::FileChooser& fc) {
@@ -657,42 +639,6 @@ private:
     ActivePresetComponent activepresetcomponent;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ActivePresetComponentItem)
 };
-//class MainContentComponentItem : public foleys::GuiItem
-//{
-//public:
-//    FOLEYS_DECLARE_GUI_FACTORY(MainContentComponentItem)
-//
-//        MainContentComponentItem(foleys::MagicGUIBuilder& builder, const juce::ValueTree& node) : foleys::GuiItem(builder, node)
-//    {
-//
-//        addAndMakeVisible(maincontentcomponent);
-//    }
-//
-//    std::vector<foleys::SettableProperty> getSettableProperties() const override
-//    {
-//        std::vector<foleys::SettableProperty> newProperties;
-//
-//        newProperties.push_back({ configNode, "factor", foleys::SettableProperty::Number, 1.0f, {} });
-//
-//        return newProperties;
-//    }
-//
-//    // Override update() to set the values to your custom component
-//    void update() override
-//    {
-//        auto factor = getProperty("factor");
-//    }
-//
-//    juce::Component* getWrappedComponent() override
-//    {
-//        return &maincontentcomponent;
-//    }
-//
-//private:
-//    MainContentComponent maincontentcomponent;
-//
-//    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponentItem)
-//};
 
 void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuilder& builder)
 {
@@ -707,18 +653,9 @@ void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuil
     //DBG(builder.getGuiRootNode().toXmlString());
 }
 
-//juce::AudioProcessorEditor* MicrotonalSynthAudioProcessorEditor::createEditor()
-//{
-//    // MAGIC GUI: we create our custom builder instance here, that will be available for all factories we add
-//    auto builder = std::make_unique<foleys::MagicGUIBuilder>(magicState);
-//    builder->registerJUCEFactories();
-//    builder->registerLookAndFeel("Settings", make_unique<customButton>());
-//
-//    return new foleys::MagicPluginEditor(magicState, std::move(builder));
-//}
 void MicrotonalSynthAudioProcessorEditor::loadMicrotonalPreset(int preset) {
     // choose a file
-    chooser = std::make_unique<juce::FileChooser>("Load a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*.xml", true, true);
+    chooser = std::make_unique<juce::FileChooser>("Load a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::hostApplicationPath), "*.xml", true, true);
     auto flags = juce::FileBrowserComponent::openMode
         | juce::FileBrowserComponent::canSelectFiles;
     chooser->launchAsync(flags, [this, preset] (const juce::FileChooser& fc) {
@@ -746,44 +683,4 @@ void MicrotonalSynthAudioProcessorEditor::loadMicrotonalPreset(int preset) {
         }
         
     });
-
-    /* Used for reference */
-    /* 
-        MemoryBlock data;
-		if (fc.getResult().loadFileAsData (data))
-			processor->setStateInformation (data.getData(), (int) data.getSize());
-		else
-			AlertWindow::showMessageBoxAsync (
-				AlertWindow::WarningIcon,
-				TRANS("Error whilst loading"),
-				TRANS("Couldn't read from the specified file!")
-			);
-    */
 }
-void MicrotonalSynthAudioProcessorEditor::saveMicrotonalPreset(int preset) {
-    // choose a file
-    chooser = std::make_unique<juce::FileChooser>("Save a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
-    auto flags = juce::FileBrowserComponent::saveMode
-        | juce::FileBrowserComponent::canSelectFiles
-        | juce::FileBrowserComponent::warnAboutOverwriting;
-    juce::String mapping = microtonalMappings[preset].generateValueTree().toXmlString();
-	chooser->launchAsync(flags, [this, mapping, preset] (const juce::FileChooser& fc) {
-        if (fc.getResult() == juce::File{})
-            return;
-        juce::File myFile = fc.getResult().withFileExtension("xml");
-        juce::String fileName = myFile.getFileName(); 
-        microtonalPresetNames[preset] = fileName;
-        /* Save file logic goes here*/
-        if (!myFile.replaceWithText(mapping)) {
-			juce::AlertWindow::showMessageBoxAsync (
-				juce::AlertWindow::WarningIcon,
-				TRANS("Error whilst saving"),
-				TRANS("Couldn't write to the specified file!")
-			);
-        }
-        /* End save file logic*/
-    });
-}
-
-
-
