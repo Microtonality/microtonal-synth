@@ -119,7 +119,7 @@
               pos-y="-2.62467%" pos-width="26.1214%" pos-height="100%">
           <Label max-height="50" text="Instruments" font-size="20" justification="centred"
                  background-color="" label-background="ff404B56" label-outline="FFD3D3D3"/>
-          <View>
+          <View padding="0" margin="0">
             <InstrumentPresetComponent flex-grow="2"/>
             <View flex-direction="column" flex-align-self="auto" padding="5 0 5 0"
                   margin="5 0 5 0">
@@ -176,69 +176,76 @@
     </View>
     <View id="Keyboard">
       <Slider lookAndFeel="Skeuomorphic" border="2" parameter="gain" slider-text=""
-              caption="Gain" id="Gain" slider-type="rotary" flex-grow="1" background-color="FF646363"/>
+              caption="Gain" id="Gain" slider-type="rotary" flex-grow=".5"
+              background-color="FF646363"/>
       <KeyboardComponent flex-grow="4.1" border="7"/>
-      <ActivePresetComponent flex-grow="1.25"/>
-      <View id="Mapping Selection" flex-direction="column" background-gradient=""
-            border="" class="group">
-        <View margin="-7" border="">
-          <TextButton lookAndFeel="Settings" button-color="FFFFFFFF" button-off-text=""
-                      onClick="open-window1" text="" id="Settings" tooltip="Microtonal preset 1 settings"
-                      flex-grow="1.0"/>
-          <View id="Save/Load" flex-direction="row" background-color="FF333333"
-                border="2" flex-grow="1.0">
-            <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset1" tooltip="Load microtonal preset 1 from file"/>
-          </View>
-        </View>
-        <View margin="-7" border="">
-          <TextButton lookAndFeel="Settings" button-color="FFFFFFFF" button-off-text=""
-                      text="" onClick="open-window2" id="Settings" tooltip="Microtonal preset 2 settings"
-                      flex-grow="1.0"/>
-          <View id="Save/Load" flex-direction="row" background-color="FF333333"
-                border="2" flex-grow="1.0">
-            <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset2" tooltip="Load microtonal preset 2 from file"/>
-          </View>
-        </View>
-        <View margin="-7" border="">
-          <TextButton lookAndFeel="Settings" button-color="FFFFFFFF" button-off-text=""
-                      text="" onClick="open-window3" tooltip="Microtonal preset 3 settings"
-                      flex-grow="1.0"/>
-          <View id="Save/Load" flex-direction="row" background-color="FF333333"
-                border="2" flex-grow="1.0">
-            <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset3" tooltip="Load microtonal preset 3 from file"/>
-          </View>
-        </View>
-        <View margin="-7" border="">
-          <TextButton lookAndFeel="Settings" button-color="FFFFFFFF" button-off-text=""
-                      text="" onClick="open-window4" id="Settings" tooltip="Microtonal preset 4 settings"
-                      flex-grow="1.0"/>
-          <View id="Save/Load" flex-direction="row" background-color="FF333333"
-                border="2" flex-grow="1.0">
-            <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset4" tooltip="Load microtonal preset 4 from file"/>
-          </View>
-        </View>
-        <View margin="-7" border="">
-          <TextButton lookAndFeel="Settings" button-color="FFFFFFFF" button-off-text=""
-                      text="" onClick="open-window5" id="Settings" tooltip="Microtonal preset 5 settings"
-                      flex-grow="1.0"/>
-          <View id="Save/Load" flex-direction="row" background-color="FF333333"
-                border="2" flex-grow="1.0">
-            <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset5" tooltip="Load microtonal preset 5 from file"/>
-          </View>
-        </View>
-        <View margin="-7" border="">
-          <TextButton lookAndFeel="Settings" button-color="FFFFFFFF" button-off-text=""
-                      text="" onClick="open-window6" id="Settings" tooltip="Microtonal preset 6 settings"
-                      flex-grow="1.0"/>
-          <View id="Save/Load" flex-direction="row" background-color="FF333333"
-                border="2" flex-grow="1.0">
-            <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
-                        onClick="load-microtonal-preset6" tooltip="Load microtonal preset 6 from file"/>
+      <View flex-direction="column" flex-grow="2">
+        <Label flex-grow=".4" text="Microtonal Mappings" justification="centred"
+               label-background="ff404B56" label-outline="FFD3D3D3" font-size="15"/>
+        <View flex-grow="2" margin="0" padding="0">
+          <ActivePresetComponent flex-grow="1.25"/>
+          <View id="Mapping Selection" flex-direction="column" background-gradient=""
+                border="" class="group">
+            <View margin="-7" border="">
+              <TextButton lookAndFeel="Settings" button-color="FFFFFFFF" button-off-text=""
+                          onClick="open-window1" text="" id="Settings" tooltip="Microtonal preset 1 settings"
+                          flex-grow="1.0"/>
+              <View id="Save/Load" flex-direction="row" background-color="FF333333"
+                    border="2" flex-grow="1.0">
+                <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
+                            onClick="load-microtonal-preset1" tooltip="Load microtonal preset 1 from file"/>
+              </View>
+            </View>
+            <View margin="-7" border="">
+              <TextButton lookAndFeel="Settings" button-color="FFFFFFFF" button-off-text=""
+                          text="" onClick="open-window2" id="Settings" tooltip="Microtonal preset 2 settings"
+                          flex-grow="1.0"/>
+              <View id="Save/Load" flex-direction="row" background-color="FF333333"
+                    border="2" flex-grow="1.0">
+                <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
+                            onClick="load-microtonal-preset2" tooltip="Load microtonal preset 2 from file"/>
+              </View>
+            </View>
+            <View margin="-7" border="">
+              <TextButton lookAndFeel="Settings" button-color="FFFFFFFF" button-off-text=""
+                          text="" onClick="open-window3" tooltip="Microtonal preset 3 settings"
+                          flex-grow="1.0"/>
+              <View id="Save/Load" flex-direction="row" background-color="FF333333"
+                    border="2" flex-grow="1.0">
+                <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
+                            onClick="load-microtonal-preset3" tooltip="Load microtonal preset 3 from file"/>
+              </View>
+            </View>
+            <View margin="-7" border="">
+              <TextButton lookAndFeel="Settings" button-color="FFFFFFFF" button-off-text=""
+                          text="" onClick="open-window4" id="Settings" tooltip="Microtonal preset 4 settings"
+                          flex-grow="1.0"/>
+              <View id="Save/Load" flex-direction="row" background-color="FF333333"
+                    border="2" flex-grow="1.0">
+                <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
+                            onClick="load-microtonal-preset4" tooltip="Load microtonal preset 4 from file"/>
+              </View>
+            </View>
+            <View margin="-7" border="">
+              <TextButton lookAndFeel="Settings" button-color="FFFFFFFF" button-off-text=""
+                          text="" onClick="open-window5" id="Settings" tooltip="Microtonal preset 5 settings"
+                          flex-grow="1.0"/>
+              <View id="Save/Load" flex-direction="row" background-color="FF333333"
+                    border="2" flex-grow="1.0">
+                <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
+                            onClick="load-microtonal-preset5" tooltip="Load microtonal preset 5 from file"/>
+              </View>
+            </View>
+            <View margin="-7" border="">
+              <TextButton lookAndFeel="Settings" button-color="FFFFFFFF" button-off-text=""
+                          text="" onClick="open-window6" id="Settings" tooltip="Microtonal preset 6 settings"
+                          flex-grow="1.0"/>
+              <View id="Save/Load" flex-direction="row" background-color="FF333333"
+                    border="2" flex-grow="1.0">
+                <TextButton id="Load" margin="-10" lookAndFeel="Load" background-color="FF333333"
+                            onClick="load-microtonal-preset6" tooltip="Load microtonal preset 6 from file"/>
+              </View>
+            </View>
           </View>
         </View>
       </View>
@@ -269,4 +276,3 @@
     </Style>
   </Styles>
 </magic>
- 
