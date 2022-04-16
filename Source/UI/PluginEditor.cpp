@@ -6,7 +6,6 @@
   ==============================================================================
 */
 #pragma once
-
 #include "../audioProcessor/PluginProcessor.h"
 #include "PluginEditor.h"
 #include "../components/instrumentPresets/PresetListBox.h"
@@ -17,30 +16,23 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
-int mappingGroup = Default;
-int currentInstrument = 0;
 
+int mappingGroup = Default, currentInstrument = 0;
 extern MicrotonalConfig microtonalMappings[7];
 juce::ValueTree loadedInstruments[7];
-juce::String microtonalPresetNames[7] = { "Default", "1", "2", "3", "4", "5", "6" };
-juce::String instrumentPresetNames[7] = { "Default", "1", "2", "3", "4", "5", "6" };
-
+juce::String microtonalPresetNames[7] = { "Default", "1", "2", "3", "4", "5", "6" }, instrumentPresetNames[7] = { "Default", "1", "2", "3", "4", "5", "6" };
 
 MainContentComponent* createMainContentComponent(int index)
 {
     return new MainContentComponent(index);
 }
 
-
-//==============================================================================
 MicrotonalWindow::MicrotonalWindow(juce::String name, int index) : DocumentWindow(name,
     juce::Colours::dimgrey,
     DocumentWindow::closeButton | DocumentWindow::maximiseButton, true)
-
 {
     double ratio = 2; // adjust as desired
     setContentOwned(new MainContentComponent(index), true);
-    //centreWithSize(1400, 700/ratio);
     getConstrainer()->setFixedAspectRatio(ratio);
     centreWithSize(1300, 600);
     setResizable(true, true);
@@ -75,12 +67,7 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
 {
     FOLEYS_SET_SOURCE_PATH(__FILE__);
 
-
-
-
-    float factor = 3.0f;
-    float phase = 0.0f;
-
+    float factor = 3.0f, phase = 0.0f;
     auto file = juce::File::getSpecialLocation(juce::File::currentApplicationFile)
         .getChildFile("Contents")
         .getChildFile("Resources")
@@ -96,206 +83,55 @@ MicrotonalSynthAudioProcessorEditor::MicrotonalSynthAudioProcessorEditor()
     oscilloscope = magicState.createAndAddObject<foleys::MagicOscilloscope>("waveform");
     analyser = magicState.createAndAddObject<foleys::MagicAnalyser>("analyser");
     magicState.addBackgroundProcessing(analyser);
-
-    //loadAllInstruments();
-
-    //presetNode = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
-
-    //magicState.createAndAddObject<vector<juce::String>>("instruments", instrumentNames);
-
+    
     presetList = magicState.createAndAddObject<PresetListBox>("presets");
- 
+    presetList->onSelectionChanged = [&](int number){loadPresetInternal(number);};
+    magicState.addTrigger("save-preset", [this]{savePresetInternal();});
 
+    magicState.addTrigger("load-instrument-preset1", [this] {loadPresetInternal(1);});
+    magicState.addTrigger("load-instrument-preset2", [this] {loadPresetInternal(2);});
+    magicState.addTrigger("load-instrument-preset3", [this] {loadPresetInternal(3);});
+    magicState.addTrigger("load-instrument-preset4", [this] {loadPresetInternal(4);});
+    magicState.addTrigger("load-instrument-preset5", [this]{loadPresetInternal(5);});
+    magicState.addTrigger("load-instrument-preset6", [this]{loadPresetInternal(6);});
 
-  //  presetNode.getChildWithName("presets");
-    presetList->onSelectionChanged = [&](int number)
-    {
-        loadPresetInternal(number);
-    };
-    magicState.addTrigger("save-preset", [this]
-    {
-        savePresetInternal();
-    });
-    magicState.addTrigger("load-instrument-preset1", [this]
-        {
-            loadPresetInternal(1);
-        });
-    magicState.addTrigger("load-instrument-preset2", [this]
-        {
-            loadPresetInternal(2);
-        });
-    magicState.addTrigger("load-instrument-preset3", [this]
-        {
-            loadPresetInternal(3);
-        });
-    magicState.addTrigger("load-instrument-preset4", [this]
-        {
-            loadPresetInternal(4);
-        });
-    magicState.addTrigger("load-instrument-preset5", [this]
-        {
-            loadPresetInternal(5);
-        });
-    magicState.addTrigger("load-instrument-preset6", [this]
-        {
-            loadPresetInternal(6);
-        });
-    magicState.addTrigger("swap-instrument-1", [this]
-        {
-            loadHelper(1);
-        });
-    magicState.addTrigger("swap-instrument-2", [this]
-        {
-            loadHelper(2);
-        });
-    magicState.addTrigger("swap-instrument-3", [this]
-        {
-            loadHelper(3);
-        });
-    magicState.addTrigger("swap-instrument-4", [this]
-        {
-            loadHelper(4);
-        });
-    magicState.addTrigger("swap-instrument-5", [this]
-        {
-            loadHelper(5);
-        });
-    magicState.addTrigger("swap-instrument-6", [this]
-        {
-            loadHelper(6);
-        });
-    magicState.addTrigger("load-microtonal-preset1", [this]
-    {
-            loadMicrotonalPreset(1);
-    });
-    magicState.addTrigger("save-microtonal-preset1", [this]
-    {
-            saveMicrotonalPreset(1);
-    });
-    magicState.addTrigger("load-microtonal-preset2", [this]
-    {
-            loadMicrotonalPreset(2);
-    });
-    magicState.addTrigger("save-microtonal-preset2", [this]
-    {
-            saveMicrotonalPreset(2);
-    });
-    magicState.addTrigger("load-microtonal-preset3", [this]
-    {
-            loadMicrotonalPreset(3);
-    });
-    magicState.addTrigger("save-microtonal-preset3", [this]
-    {
-            saveMicrotonalPreset(3);
-    });
-    magicState.addTrigger("load-microtonal-preset4", [this]
-    {
-            loadMicrotonalPreset(4);
-    });
-    magicState.addTrigger("save-microtonal-preset4", [this]
-    {
-            saveMicrotonalPreset(4);
-    });
-    magicState.addTrigger("load-microtonal-preset5", [this]
-    {
-            loadMicrotonalPreset(5);
-    });
-    magicState.addTrigger("save-microtonal-preset5", [this]
-    {
-            saveMicrotonalPreset(5);
-    });
-    magicState.addTrigger("load-microtonal-preset6", [this]
-    {
-            loadMicrotonalPreset(6);
-    });
-    magicState.addTrigger("save-microtonal-preset6", [this]
-    {
-            saveMicrotonalPreset(6);
-    });
-    magicState.addTrigger("open-window1", [this]
-    {
-       if (activeWindow != 1)
-            delete window;
-        openWindow(1);
-    });
-    magicState.addTrigger("open-window2", [this]
-    {
-       if (activeWindow != 2)
-            delete window;
-        openWindow(2);
-    });
-    magicState.addTrigger("open-window3", [this]
-    {
-       if (activeWindow != 3)
-            delete window;
-        openWindow(3);
-    });
-    magicState.addTrigger("open-window4", [this]
-    {
-       if (activeWindow != 4)
-            delete window;
-       openWindow(4);
-    });
-    magicState.addTrigger("open-window5", [this]
-    {
-       if (activeWindow != 5)
-            delete window;
-        openWindow(5);
-    });
-    magicState.addTrigger("open-window6", [this]
-    {
-       if (activeWindow != 6)
-            delete window;
-       openWindow(6);
-    });
-    magicState.addTrigger("set-map1", [this]
-    {
-        mappingGroup = mappingGroup == Group1 ? Default : Group1;
-        DBG(mappingGroup);
-        
-    });
-    magicState.addTrigger("set-map2", [this]
-    {
-        mappingGroup = mappingGroup == Group2 ? Default : Group2;
-        DBG(mappingGroup);
-    });
-    magicState.addTrigger("set-map3", [this]
-    {
-        mappingGroup = mappingGroup == Group3 ? Default : Group3;
-        DBG(mappingGroup);
-    });
-    magicState.addTrigger("set-map4", [this]
-    {
-        mappingGroup = mappingGroup == Group4 ? Default : Group4;
-        DBG(mappingGroup);
-    });
-    magicState.addTrigger("set-map5", [this]
-    {
-        mappingGroup = mappingGroup == Group5 ? Default : Group5;
-        DBG(mappingGroup);
-    });
-    magicState.addTrigger("set-map6", [this]
-    {
-        mappingGroup = mappingGroup == Group6 ? Default : Group6;
-        DBG(mappingGroup);
-    });
-    //magicState.getGuiTree().getProperty("testybutton").
+    magicState.addTrigger("swap-instrument-1", [this] {loadHelper(1);});
+    magicState.addTrigger("swap-instrument-2", [this] {loadHelper(2);});
+    magicState.addTrigger("swap-instrument-3", [this] {loadHelper(3);});
+    magicState.addTrigger("swap-instrument-4", [this] {loadHelper(4);});
+    magicState.addTrigger("swap-instrument-5", [this] {loadHelper(5);});
+    magicState.addTrigger("swap-instrument-6", [this] {loadHelper(6);});
+
+    magicState.addTrigger("load-microtonal-preset1", [this] {loadMicrotonalPreset(1);});
+    magicState.addTrigger("load-microtonal-preset2", [this] {loadMicrotonalPreset(2);});
+    magicState.addTrigger("load-microtonal-preset3", [this] {loadMicrotonalPreset(3);});
+    magicState.addTrigger("load-microtonal-preset4", [this] {loadMicrotonalPreset(4);});
+    magicState.addTrigger("load-microtonal-preset5", [this] {loadMicrotonalPreset(5);});
+    magicState.addTrigger("load-microtonal-preset6", [this] {loadMicrotonalPreset(6);});
+
+    magicState.addTrigger("open-window1", [this] {if (activeWindow != 1) { delete window; } openWindow(1);});
+    magicState.addTrigger("open-window2", [this] {if (activeWindow != 2) { delete window; } openWindow(2);});
+    magicState.addTrigger("open-window3", [this] {if (activeWindow != 3) { delete window; } openWindow(3);});
+    magicState.addTrigger("open-window4", [this] {if (activeWindow != 4) { delete window; } openWindow(4);});
+    magicState.addTrigger("open-window5", [this] {if (activeWindow != 5) { delete window; } openWindow(5);});
+    magicState.addTrigger("open-window6", [this] {if (activeWindow != 6) { delete window; } openWindow(6);});
+
+    magicState.addTrigger("set-map1", [this] { mappingGroup = mappingGroup == Group1 ? Default : Group1;});
+    magicState.addTrigger("set-map2", [this] {mappingGroup = mappingGroup == Group2 ? Default : Group2;});
+    magicState.addTrigger("set-map3", [this] {mappingGroup = mappingGroup == Group3 ? Default : Group3;});
+    magicState.addTrigger("set-map4", [this] {mappingGroup = mappingGroup == Group4 ? Default : Group4;});
+    magicState.addTrigger("set-map5", [this] {mappingGroup = mappingGroup == Group5 ? Default : Group5;});
+    magicState.addTrigger("set-map6", [this]{mappingGroup = mappingGroup == Group6 ? Default : Group6;});
+
     magicState.setApplicationSettingsFile(juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory)
         .getChildFile(ProjectInfo::companyName)
         .getChildFile(ProjectInfo::projectName + juce::String(".settings")));
-
     magicState.setPlayheadUpdateFrequency(30);
-
-    
 
     Synth::Sound::Ptr sound(new Synth::Sound(treeState));
     synthesiser.addSound(sound);
-
     for (int i = 0; i < 16; ++i)
         synthesiser.addVoice(new Synth::Voice(treeState));
-
-    //updateInstrumentList();
-
 }
 
 
@@ -368,16 +204,10 @@ void MicrotonalSynthAudioProcessorEditor::processBlock(juce::AudioBuffer<float>&
 void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
 {
     foleys::ParameterManager manager(*this);
-
     juce::ValueTree instrument = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
     manager.saveParameterValues(instrument);
-  
-    DBG(instrument.toXmlString());
-    //magicState.getSettings().getChildWithName("presets").removeAllChildren(nullptr);
-    /*magicState.getSettings().removeAllChildren(nullptr);
-    magicState.getSettings().getChild(0).toXmlString();*/
 
-    chooser = std::make_unique<juce::FileChooser>("Save an instrument preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
+    chooser = std::make_unique<juce::FileChooser>("Save an instrument preset", juce::File::getSpecialLocation(juce::File::hostApplicationPath), "*xml", true, false);
     auto flags = juce::FileBrowserComponent::saveMode
         | juce::FileBrowserComponent::canSelectFiles
         | juce::FileBrowserComponent::warnAboutOverwriting;
@@ -395,10 +225,7 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
                 TRANS("Couldn't write to the specified file!")
             );
         }
-        
-        /* End save file logic*/
      });
-
 }
 
  void MicrotonalSynthAudioProcessorEditor::loadHelper(int swapTo)
@@ -411,14 +238,13 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
 
     foleys::ParameterManager manager(*this);
     currentInstrument = swapTo;
-    //DBG(loadedInstruments[currentInstrument].toXmlString());
     manager.loadParameterValues(loadedInstruments[currentInstrument]);
 }
 
 void MicrotonalSynthAudioProcessorEditor::loadPresetInternal(int index)
 {
     // choose a file
-    chooser = std::make_unique<juce::FileChooser>("Load an instrument", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, true);
+    chooser = std::make_unique<juce::FileChooser>("Load an instrument", juce::File::getSpecialLocation(juce::File::hostApplicationPath), "*xml", true, true);
     auto flags = juce::FileBrowserComponent::openMode
         | juce::FileBrowserComponent::canSelectFiles;
     chooser->launchAsync(flags, [this, index](const juce::FileChooser& fc) {
@@ -503,15 +329,7 @@ public:
 
     }
     void buttonClicked(juce::Button* btn) override {
-    //    for (int i = 0; i < 6; i++) {
-    //        if (btn == &btns[i]) {
-    //            //mappingGroup = mappingGroup == i + 1 ? Default : i + 1;
-    //            currentInstrument = currentInstrument == i + 1 ? 0 : i + 1;
-    //            //MicrotonalSynthAudioProcessorEditor::loadHelper();
-    //            //tempMan->loadParameterValues(loadedInstruments[currentInstrument]);
-    //        }
 
-    //    }
     }
 private:
     juce::TextButton btns[6];
@@ -657,42 +475,6 @@ private:
     ActivePresetComponent activepresetcomponent;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ActivePresetComponentItem)
 };
-//class MainContentComponentItem : public foleys::GuiItem
-//{
-//public:
-//    FOLEYS_DECLARE_GUI_FACTORY(MainContentComponentItem)
-//
-//        MainContentComponentItem(foleys::MagicGUIBuilder& builder, const juce::ValueTree& node) : foleys::GuiItem(builder, node)
-//    {
-//
-//        addAndMakeVisible(maincontentcomponent);
-//    }
-//
-//    std::vector<foleys::SettableProperty> getSettableProperties() const override
-//    {
-//        std::vector<foleys::SettableProperty> newProperties;
-//
-//        newProperties.push_back({ configNode, "factor", foleys::SettableProperty::Number, 1.0f, {} });
-//
-//        return newProperties;
-//    }
-//
-//    // Override update() to set the values to your custom component
-//    void update() override
-//    {
-//        auto factor = getProperty("factor");
-//    }
-//
-//    juce::Component* getWrappedComponent() override
-//    {
-//        return &maincontentcomponent;
-//    }
-//
-//private:
-//    MainContentComponent maincontentcomponent;
-//
-//    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponentItem)
-//};
 
 void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuilder& builder)
 {
@@ -707,18 +489,9 @@ void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuil
     //DBG(builder.getGuiRootNode().toXmlString());
 }
 
-//juce::AudioProcessorEditor* MicrotonalSynthAudioProcessorEditor::createEditor()
-//{
-//    // MAGIC GUI: we create our custom builder instance here, that will be available for all factories we add
-//    auto builder = std::make_unique<foleys::MagicGUIBuilder>(magicState);
-//    builder->registerJUCEFactories();
-//    builder->registerLookAndFeel("Settings", make_unique<customButton>());
-//
-//    return new foleys::MagicPluginEditor(magicState, std::move(builder));
-//}
 void MicrotonalSynthAudioProcessorEditor::loadMicrotonalPreset(int preset) {
     // choose a file
-    chooser = std::make_unique<juce::FileChooser>("Load a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*.xml", true, true);
+    chooser = std::make_unique<juce::FileChooser>("Load a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::hostApplicationPath), "*.xml", true, true);
     auto flags = juce::FileBrowserComponent::openMode
         | juce::FileBrowserComponent::canSelectFiles;
     chooser->launchAsync(flags, [this, preset] (const juce::FileChooser& fc) {
@@ -746,44 +519,4 @@ void MicrotonalSynthAudioProcessorEditor::loadMicrotonalPreset(int preset) {
         }
         
     });
-
-    /* Used for reference */
-    /* 
-        MemoryBlock data;
-		if (fc.getResult().loadFileAsData (data))
-			processor->setStateInformation (data.getData(), (int) data.getSize());
-		else
-			AlertWindow::showMessageBoxAsync (
-				AlertWindow::WarningIcon,
-				TRANS("Error whilst loading"),
-				TRANS("Couldn't read from the specified file!")
-			);
-    */
 }
-void MicrotonalSynthAudioProcessorEditor::saveMicrotonalPreset(int preset) {
-    // choose a file
-    chooser = std::make_unique<juce::FileChooser>("Save a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
-    auto flags = juce::FileBrowserComponent::saveMode
-        | juce::FileBrowserComponent::canSelectFiles
-        | juce::FileBrowserComponent::warnAboutOverwriting;
-    juce::String mapping = microtonalMappings[preset].generateValueTree().toXmlString();
-	chooser->launchAsync(flags, [this, mapping, preset] (const juce::FileChooser& fc) {
-        if (fc.getResult() == juce::File{})
-            return;
-        juce::File myFile = fc.getResult().withFileExtension("xml");
-        juce::String fileName = myFile.getFileName(); 
-        microtonalPresetNames[preset] = fileName;
-        /* Save file logic goes here*/
-        if (!myFile.replaceWithText(mapping)) {
-			juce::AlertWindow::showMessageBoxAsync (
-				juce::AlertWindow::WarningIcon,
-				TRANS("Error whilst saving"),
-				TRANS("Couldn't write to the specified file!")
-			);
-        }
-        /* End save file logic*/
-    });
-}
-
-
-

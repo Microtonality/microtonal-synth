@@ -123,7 +123,7 @@ MainContentComponent::MainContentComponent(int index)
 
         savePreset.setColour(juce::TextButton::buttonColourId, colours[inputBackgroundColor]);
         savePreset.setColour(juce::TextButton::textColourOffId, colours[inputOutlineTextColor]);
-        savePreset.setButtonText("Save");
+        savePreset.setButtonText("Save Mapping");
         savePreset.addListener(this);
         savePreset.setMouseCursor(juce::MouseCursor::PointingHandCursor);
         addAndMakeVisible(savePreset);
@@ -415,7 +415,7 @@ void MainContentComponent::timerCallback()
 }
 void MainContentComponent::saveMicrotonalPreset(int preset) {
     // choose a file
-    chooser = std::make_unique<juce::FileChooser>("Save a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "*xml", true, false);
+    chooser = std::make_unique<juce::FileChooser>("Save a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::SpecialLocationType::hostApplicationPath), "*xml", true, false);
     auto flags = juce::FileBrowserComponent::saveMode
         | juce::FileBrowserComponent::canSelectFiles
         | juce::FileBrowserComponent::warnAboutOverwriting;
