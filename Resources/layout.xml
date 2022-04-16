@@ -24,7 +24,7 @@
         lookAndFeel="LookAndFeel_V2" background-gradient="linear-gradient(0,0% ff000000,100% ffffffff)"
         width="1920" height="1080">
     <View flex-grow="1.5" id="Main Window">
-      <View id="ADSR and Visualizer" flex-direction="column">
+      <View id="ADSR and Visualizer" flex-direction="column" max-width="400">
         <View id="Visualizer" background-color="FF000000" border="7">
           <Plot source="waveform" background-color="FF000000" plot-inactive-color="FF00EE18"
                 plot-fill-color="FFC90000" plot-color="FF40C400"/>
@@ -39,12 +39,11 @@
                   id="Sustain" parameter="sustain" caption="Sustain" slider-type="rotary"/>
           <Slider background-color="FF404B56" lookAndFeel="Skeuomorphic" border="2"
                   id="Release" parameter="release" caption="Release" slider-type="rotary"/>
-          <Slider lookAndFeel="Skeuomorphic" border="2" parameter="gain" slider-text=""
-                  caption="Gain" id="Gain" slider-type="rotary" flex-grow="1" background-color="FF646363"/>
         </View>
       </View>
       <View flex-grow="2" id="Other Modules">
-        <View id="Oscillators" background-color="FFABABAB" flex-grow="1.7">
+        <View id="Oscillators" background-color="FFABABAB" flex-grow="1.7"
+              max-width="650">
           <View id="Wave 0" flex-direction="column">
             <ComboBox flex-grow="0.2" lookAndFeel="LookAndFeel_V3" background-color="FF000000"
                       border-color="FFF6F6F6" border="2" caption-size="18" background-gradient=""
@@ -118,8 +117,10 @@
         </View>
         <View flex-grow="0.6" id="Selection" flex-direction="column" pos-x="72.5594%"
               pos-y="-2.62467%" pos-width="26.1214%" pos-height="100%">
+          <Label max-height="50" text="Instruments" font-size="20" justification="centred"
+                 background-color="" label-background="ff404B56" label-outline="FFD3D3D3"/>
           <View>
-            <InstrumentPresetComponent/>
+            <InstrumentPresetComponent flex-grow="2"/>
             <View flex-direction="column" flex-align-self="auto" padding="5 0 5 0"
                   margin="5 0 5 0">
               <TextButton onClick="swap-instrument-1" tooltip="Activate instrument preset 1"
@@ -174,6 +175,8 @@
       </View>
     </View>
     <View id="Keyboard">
+      <Slider lookAndFeel="Skeuomorphic" border="2" parameter="gain" slider-text=""
+              caption="Gain" id="Gain" slider-type="rotary" flex-grow="1" background-color="FF646363"/>
       <KeyboardComponent flex-grow="4.1" border="7"/>
       <ActivePresetComponent flex-grow="1.25"/>
       <View id="Mapping Selection" flex-direction="column" background-gradient=""
@@ -266,3 +269,4 @@
     </Style>
   </Styles>
 </magic>
+ 

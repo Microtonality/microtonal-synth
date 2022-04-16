@@ -20,7 +20,7 @@ using namespace std;
 int mappingGroup = Default, currentInstrument = 0;
 extern MicrotonalConfig microtonalMappings[7];
 juce::ValueTree loadedInstruments[7];
-juce::String microtonalPresetNames[7] = { "Default", "1", "2", "3", "4", "5", "6" }, instrumentPresetNames[7] = { "Default", "1", "2", "3", "4", "5", "6" };
+juce::String microtonalPresetNames[7] = { "Default", "1", "2", "3", "4", "5", "6" }, instrumentPresetNames[7] = { "Default", "<Instrument 1>", "<Instrument 2>", "<Instrument 3>", "<Instrument 4>", "<Instrument 5>", "<Instrument 6>" };
 
 MainContentComponent* createMainContentComponent(int index)
 {
@@ -320,7 +320,7 @@ public:
             else {
                 btns[i].setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
             }
-            //btns[i].setButtonText(instrumentPresetNames[i + 1].contains(".xml") ? instrumentPresetNames[i + 1].substring(0, instrumentPresetNames[i + 1].indexOf(".")) : instrumentPresetNames[i + 1]);
+            btns[i].setButtonText(instrumentPresetNames[i + 1].contains(".xml") ? instrumentPresetNames[i + 1].substring(0, instrumentPresetNames[i + 1].indexOf(".")) : instrumentPresetNames[i + 1]);
             if (instrumentPresetNames[i + 1].contains(".xml")) {
                 btns[i].setTooltip(instrumentPresetNames[i + 1].substring(0, instrumentPresetNames[i + 1].indexOf(".")));
             }
