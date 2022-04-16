@@ -538,7 +538,7 @@ void MainContentComponent::timerCallback()
 */
 void MainContentComponent::saveMicrotonalPreset(int preset) {
     // choose a file
-    chooser = std::make_unique<juce::FileChooser>("Save a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::SpecialLocationType::hostApplicationPath), "*xml", true, false);
+    chooser = std::make_unique<juce::FileChooser>("Save a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::SpecialLocationType::hostApplicationPath).getParentDirectory(), "*xml", true, false);
     auto flags = juce::FileBrowserComponent::saveMode
         | juce::FileBrowserComponent::canSelectFiles
         | juce::FileBrowserComponent::warnAboutOverwriting;

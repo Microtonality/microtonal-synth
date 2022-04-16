@@ -208,7 +208,7 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
     juce::ValueTree instrument = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
     manager.saveParameterValues(instrument);
 
-    chooser = std::make_unique<juce::FileChooser>("Save an instrument preset", juce::File::getSpecialLocation(juce::File::hostApplicationPath), "*xml", true, false);
+    chooser = std::make_unique<juce::FileChooser>("Save an instrument preset", juce::File::getSpecialLocation(juce::File::hostApplicationPath).getParentDirectory(), "*xml", true, false);
     auto flags = juce::FileBrowserComponent::saveMode
         | juce::FileBrowserComponent::canSelectFiles
         | juce::FileBrowserComponent::warnAboutOverwriting;
@@ -245,7 +245,7 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
 void MicrotonalSynthAudioProcessorEditor::loadPresetInternal(int index)
 {
     // choose a file
-    chooser = std::make_unique<juce::FileChooser>("Load an instrument", juce::File::getSpecialLocation(juce::File::hostApplicationPath), "*.xml", true, true);
+    chooser = std::make_unique<juce::FileChooser>("Load an instrument", juce::File::getSpecialLocation(juce::File::hostApplicationPath).getParentDirectory(), "*.xml", true, true);
     auto flags = juce::FileBrowserComponent::openMode
         | juce::FileBrowserComponent::canSelectFiles;
     chooser->launchAsync(flags, [this, index](const juce::FileChooser& fc) {
@@ -509,7 +509,7 @@ void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuil
 
 void MicrotonalSynthAudioProcessorEditor::loadMicrotonalPreset(int preset) {
     // choose a file
-    chooser = std::make_unique<juce::FileChooser>("Load a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::hostApplicationPath), "*.xml", true, true);
+    chooser = std::make_unique<juce::FileChooser>("Load a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::hostApplicationPath).getParentDirectory(), "*.xml", true, true);
     auto flags = juce::FileBrowserComponent::openMode
         | juce::FileBrowserComponent::canSelectFiles;
     chooser->launchAsync(flags, [this, preset] (const juce::FileChooser& fc) {
