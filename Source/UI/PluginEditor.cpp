@@ -208,8 +208,7 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
     juce::ValueTree instrument = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
     manager.saveParameterValues(instrument);
 
-    juce::File instrumentDirectory = juce::File::getCurrentWorkingDirectory().getChildFile("../../Resources/instruments");
-    chooser = std::make_unique<juce::FileChooser>("Save an instrument preset", instrumentDirectory, "*xml", true, false);
+    chooser = std::make_unique<juce::FileChooser>("Save an instrument preset", juce::File::getSpecialLocation(juce::File::hostApplicationPath), "*xml", true, false);
     auto flags = juce::FileBrowserComponent::saveMode
         | juce::FileBrowserComponent::canSelectFiles
         | juce::FileBrowserComponent::warnAboutOverwriting;
@@ -246,8 +245,7 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
 void MicrotonalSynthAudioProcessorEditor::loadPresetInternal(int index)
 {
     // choose a file
-    juce::File instrumentDirectory = juce::File::getCurrentWorkingDirectory().getChildFile("../../Resources/instruments");
-    chooser = std::make_unique<juce::FileChooser>("Load an instrument", instrumentDirectory, "*xml", true, true);
+    chooser = std::make_unique<juce::FileChooser>("Load an instrument", juce::File::getSpecialLocation(juce::File::hostApplicationPath), "*xml", true, true);
     auto flags = juce::FileBrowserComponent::openMode
         | juce::FileBrowserComponent::canSelectFiles;
     chooser->launchAsync(flags, [this, index](const juce::FileChooser& fc) {
@@ -511,7 +509,6 @@ void MicrotonalSynthAudioProcessorEditor::initialiseBuilder(foleys::MagicGUIBuil
 
 void MicrotonalSynthAudioProcessorEditor::loadMicrotonalPreset(int preset) {
     // choose a file
-    //juce::File microtonalDirectory = juce::File::getCurrentWorkingDirectory().getChildFile("../../Resources/");
     chooser = std::make_unique<juce::FileChooser>("Load a microtonal mapping preset", juce::File::getSpecialLocation(juce::File::hostApplicationPath), "*.xml", true, true);
     auto flags = juce::FileBrowserComponent::openMode
         | juce::FileBrowserComponent::canSelectFiles;
