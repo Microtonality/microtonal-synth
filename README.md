@@ -3,20 +3,28 @@ A software based modular synthesizer that can recreate microtones.
 ## How to Install
 The latest version can be installed from the <a href="https://github.com/jakedco/microtonal-synth/releases" target="_blank">releases</a> page.
 ## Developer Quick Start
-### Windows
+### All Operating Systems
    1. Download the JUCE Framework from this <a href="https://juce.com/get-juce/download" target="_blank">link</a>.
-   2. Extract the contents and open the Projucer application.
-   3. In the Projucer application:
+   2. Download the Plugin GUI Magic framework from this <a href="https://github.com/ffAudio/foleys_gui_magic/" target="_blank">link</a>.
+      * This folder will have to be renamed from ```foleys_gui_magic-main``` to ```foleys_gui_magic```
+      * Create a new folder in the JUCE folder called ```user_modules``` and move ```foleys_gui_magic``` to this folder
+         * Example using Windows: ```C:\Path\To\Folder\juce-*\user_modules\foleys_gui_magic``` 
+   3. Extract the contents and open the Projucer application.
+   4. In the Projucer application:
        * Go to ```File > Open```, choose the ```MicrotonalKeyboardComponent.jucer``` file from this repo, and click ```Open```
        * Go to ```File > Global Paths...```
-         * Change ```Path to JUCE``` to the JUCE folder you downloaded using the ```...``` button.
-           * Example: ```C:\Path\To\Folder\juce-*```
-
+         * Change ```Path to JUCE``` to the JUCE folder you downloaded using the ```...``` button. 
+           * Example using Windows: ```C:\Path\To\Folder\juce-*```
          * Change ```JUCE Modules``` to the modules folder using the ```...``` button.
-           * Example: ```C:\Path\To\Folder\juce-*\modules```
+           * Example using Windows: ```C:\Path\To\Folder\juce-*\modules```
+         * Change ```User Modules``` to the JUCE folder named ```user_modules``` using the ```...``` button.
+            * This folder will have to be manually created and should be in the JUCE folder 
+            * Example using Windows: ```C:\Path\To\Folder\juce-*\user_modules```         
          * Close the ```Global Paths...``` window.
-       * Choose Visual Studio 2019 (<a href="https://visualstudio.microsoft.com/vs/" target="_blank">download link</a>) as ```Selected exporter``` and click on the logo.  <img src="https://user-images.githubusercontent.com/68195709/139920230-ff2ca47c-8c65-49bf-adfc-e58c5a05546d.png" alt="drawing" width="25"/>
-   5. Once Visual Studio 2019 is open, click <img src="https://user-images.githubusercontent.com/68195709/139921166-bfed9fe9-3452-4e62-b50f-7916a08391a6.png" alt="drawing" width="150"/> and the application will start.
+
+### Windows
+   1. Choose Visual Studio 2019 (<a href="https://visualstudio.microsoft.com/vs/" target="_blank">download link</a>) as ```Selected exporter``` and click on the logo.  <img src="https://user-images.githubusercontent.com/68195709/139920230-ff2ca47c-8c65-49bf-adfc-e58c5a05546d.png" alt="drawing" width="25"/>
+   2. Once Visual Studio 2019 is open, click <img src="https://user-images.githubusercontent.com/68195709/139921166-bfed9fe9-3452-4e62-b50f-7916a08391a6.png" alt="drawing" width="150"/> and the application will start.
 ### macOS
    1. Download and install the Projucer, Xcode, ```foleys_gui_magic``` (and place it anywhere in your filesystem), and this repository.
    2. Double click ```Microtonal Synth.jucer```, and your Mac should know to use the projucer to open the file.
