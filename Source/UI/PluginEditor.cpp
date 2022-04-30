@@ -17,10 +17,17 @@
 #include <algorithm>
 using namespace std;
 
-int mappingGroup = Default, currentInstrument = 0;
 extern MicrotonalConfig microtonalMappings[7];
-juce::ValueTree loadedInstruments[7];
 juce::String microtonalPresetNames[7] = { "Default", "1", "2", "3", "4", "5", "6" }, instrumentPresetNames[7] = { "Default", "<Instrument 1>", "<Instrument 2>", "<Instrument 3>", "<Instrument 4>", "<Instrument 5>", "<Instrument 6>" };
+
+
+/*
+*   Instruments work by saving ValueTree representation of your instrument XML file into this array.
+*   Array holds 7 instrument presets at a time
+*   Whenever you swap between instruments, you change the current instrument variable which functions as an index to access the correct instrument
+*/
+int mappingGroup = Default, currentInstrument = 0;
+juce::ValueTree loadedInstruments[7];
 
 MainContentComponent* createMainContentComponent(int index)
 {
@@ -204,15 +211,20 @@ void MicrotonalSynthAudioProcessorEditor::processBlock(juce::AudioBuffer<float>&
 //==============================================================================
 void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
 {
+    // Creates a reference to FoleyGuiMagic's state manager
     foleys::ParameterManager manager(*this);
+
+    // Saves ALL the settings current set on the synthesizer (does not include microtonal settings) into a ValueTree
     juce::ValueTree instrument = magicState.getSettings().getOrCreateChildWithName("presets", nullptr);
     manager.saveParameterValues(instrument);
 
+    // Creates a pointer to a file chooser and gives it the hostApplicationPath as a default path
     chooser = std::make_unique<juce::FileChooser>("Save an instrument preset", juce::File::getSpecialLocation(juce::File::hostApplicationPath).getParentDirectory(), "*xml", true, false);
     auto flags = juce::FileBrowserComponent::saveMode
         | juce::FileBrowserComponent::canSelectFiles
         | juce::FileBrowserComponent::warnAboutOverwriting;
    
+    // Opens up file window to save all user settings as an XML file
     chooser->launchAsync(flags, [this, instrument](const juce::FileChooser& fc) {
         if (fc.getResult() == juce::File{})
             return;
@@ -237,8 +249,13 @@ void MicrotonalSynthAudioProcessorEditor::savePresetInternal()
          return;
      }
 
+     // Create a reference to FGM's manager
     foleys::ParameterManager manager(*this);
+
+    // Sets the index of the instrumentArray to be the selected instrument
     currentInstrument = swapTo;
+
+    // Load the desired instrument into state
     manager.loadParameterValues(loadedInstruments[currentInstrument]);
 }
 
